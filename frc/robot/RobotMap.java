@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Solenoid;
+
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
  * to a variable name. This provides flexibility changing wiring, makes checking
@@ -23,4 +25,14 @@ public class RobotMap {
   // number and the module. For example you with a rangefinder:
   // public static int rangefinderPort = 1;
   // public static int rangefinderModule = 1;
+
+  /**
+   * Come up with better names for the (fake device) pistons
+   * 
+   */
+  public static Solenoid hatchPiston1 = new Solenoid(0);
+  public static Solenoid hatchPiston2 = new Solenoid(1);
+  public static Solenoid hatchPiston3 = new Solenoid(2);
+
+
 }
