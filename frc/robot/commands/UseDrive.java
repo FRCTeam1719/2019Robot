@@ -12,9 +12,10 @@ public class UseDrive extends Command {
 
     public UseDrive(Drive _drive) {
         super("Drive");
+        drive = _drive;
         requires(drive);
 
-        drive = _drive;
+        
     }
 
     protected void initialize() {
