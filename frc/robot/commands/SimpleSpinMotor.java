@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
+/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
@@ -8,20 +8,22 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.Robot;
+import frc.robot.subsystems.SimpleMotor;
 
-/**
- * An example command.  You can replace me with your own command.
- */
-public class ExampleCommand extends Command {
-  public ExampleCommand() {
+public class SimpleSpinMotor extends Command {
+  SimpleMotor motor;
+
+  public SimpleSpinMotor(SimpleMotor _motor) {
     // Use requires() here to declare subsystem dependencies
-    requires(Robot.m_subsystem);
+    motor = _motor;
+
+    requires(motor);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    motor.spin();
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -38,11 +40,13 @@ public class ExampleCommand extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    motor.stop();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    motor.stop();
   }
 }
