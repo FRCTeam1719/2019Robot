@@ -7,6 +7,11 @@
 
 package frc.robot;
 
+import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.SpeedController;
+
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
  * to a variable name. This provides flexibility changing wiring, makes checking
@@ -23,4 +28,10 @@ public class RobotMap {
   // number and the module. For example you with a rangefinder:
   // public static int rangefinderPort = 1;
   // public static int rangefinderModule = 1;
+
+  public static SpeedController leftFrontMotor = new Spark(0);
+  public static SpeedController rightFrontMotor = new Spark(1);
+  public static SpeedController leftBackMotor = new Spark(2);
+  public static SpeedController rightBackMotor = new Spark(3);
+  public static AHRS navX = new AHRS(I2C.Port.kMXP);
 }
