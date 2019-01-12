@@ -7,10 +7,12 @@
 
 package frc.robot.subsystems;
 
+import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import frc.robot.commands.UseDrive;
+import jdk.jfr.Percentage;
 
 
 /**
@@ -23,16 +25,16 @@ public class Drive extends Subsystem {
   private final int FRONT_RIGHT = 1;
   private final int BACK_LEFT = 2;
   private final int BACK_RIGHT = 3;
-
+  private final AHRS navX;
   private SpeedController[] motors;
 
   private MecanumDrive robotDrive;
 
 
   public Drive(SpeedController leftFrontMotor, SpeedController rightFrontMotor, SpeedController leftBackMotor,
-      SpeedController rightBackMotor) {
+      SpeedController rightBackMotor, AHRS _navX) {
     super();
-
+    navX = _navX;
     // 1D array of the speed controllers passed
     motors = new SpeedController[] { leftFrontMotor, rightFrontMotor, leftBackMotor, rightBackMotor };
     
@@ -54,7 +56,7 @@ public class Drive extends Subsystem {
    * @return an array of motor speeds ([x][y])
    */
   public void mecanum(double x, double y, double rot) {
-    robotDrive.driveCartesian(-x, y, rot);
-
+    robotDrive.driveCartesian(-x, y, rot, (navX.getAngle() % 360)-180);
+    System.out.println("Dr" + navX.getAngle());
   }
 }

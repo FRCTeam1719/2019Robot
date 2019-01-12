@@ -1,7 +1,10 @@
 package frc.robot.commands;
 
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.RobotMap;
 import frc.robot.subsystems.Drive;
 
 /**
@@ -23,9 +26,9 @@ public class UseDrive extends Command {
     }
 
     protected void execute() {
-        double x = Robot.oi.getDriverLeftX();
-        double y = Robot.oi.getDriverLeftY();
-        double rot = Robot.oi.getDriverRightX();
+        double x = -Robot.oi.getDriverLeftX();
+        double y = -Robot.oi.getDriverLeftY();
+        double rot = -Robot.oi.getDriverRightX();
 
         drive.mecanum(x, y, rot);
     }

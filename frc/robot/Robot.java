@@ -33,7 +33,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    drive = new Drive(RobotMap.leftFrontMotor, RobotMap.rightFrontMotor, RobotMap.leftBackMotor, RobotMap.rightBackMotor);
+    drive = new Drive(RobotMap.leftFrontMotor, RobotMap.rightFrontMotor, RobotMap.leftBackMotor, RobotMap.rightBackMotor, RobotMap.navX);
 
     oi = new OI();
   }
@@ -117,6 +117,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
+    System.out.println("Robot " + RobotMap.navX.getAngle());
   }
 
   /**

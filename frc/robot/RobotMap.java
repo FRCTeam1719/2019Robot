@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
 
@@ -31,4 +33,5 @@ public class RobotMap {
   public static SpeedController rightFrontMotor = new Spark(1);
   public static SpeedController leftBackMotor = new Spark(2);
   public static SpeedController rightBackMotor = new Spark(3);
+  public static AHRS navX = new AHRS(I2C.Port.kMXP);
 }
