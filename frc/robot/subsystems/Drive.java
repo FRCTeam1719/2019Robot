@@ -9,12 +9,12 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import frc.robot.commands.UseDrive;
 
 
-
 /**
- * An example subsystem. You can replace me with your own Subsystem.
+ * Drive Subsystem for Mechanom Drive
  */
 public class Drive extends Subsystem {
   // Put methods for controlling this subsystem
@@ -26,12 +26,18 @@ public class Drive extends Subsystem {
 
   private SpeedController[] motors;
 
+  private MecanumDrive robotDrive;
+
+
   public Drive(SpeedController leftFrontMotor, SpeedController rightFrontMotor, SpeedController leftBackMotor,
       SpeedController rightBackMotor) {
     super();
 
-    // 2D array of the speed controllers passed
+    // 1D array of the speed controllers passed
     motors = new SpeedController[] { leftFrontMotor, rightFrontMotor, leftBackMotor, rightBackMotor };
+    
+    // makes a new general robot drive that is a mecanum drive with front and back motors. wpilib's mecanum code. 
+    robotDrive = new MecanumDrive(leftFrontMotor, leftBackMotor, rightFrontMotor, rightBackMotor);
   }
 
   @Override
@@ -48,23 +54,7 @@ public class Drive extends Subsystem {
    * @return an array of motor speeds ([x][y])
    */
   public void mecanum(double x, double y, double rot) {
-    // Iterate over each motor and assign it its respective motor speed
-    motors[FRONT_LEFT].set(y + x + rot);
-    motors[FRONT_RIGHT].set(y - x - rot);
-    motors[BACK_LEFT].set(y - x + rot);
-    motors[BACK_RIGHT].set(y + x - rot);
+    robotDrive.driveCartesian(-x, y, rot);
 
-    // Calculate maximum
-    double max = 0;
-    for (SpeedController motor : motors) {
-      if (Math.abs(motor.get()) > max) {
-        max = Math.abs(motor.get());
-      }
-    }
-
-    // Apply maximum
-    for (SpeedController motor : motors) {
-      motor.set(motor.get() / max);
-    }
   }
 }

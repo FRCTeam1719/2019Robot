@@ -8,7 +8,6 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -55,10 +54,10 @@ public class OI {
   }
 
   public double getDriverRightX() {
-    return driverJoystick.getRawAxis(2);
+    return driverJoystick.getRawAxis(4);
   }
 
   public double getDriverRightY() {
-    return driverJoystick.getRawAxis(3);
+    return driverJoystick.getRawAxis(5);
   }
 }
