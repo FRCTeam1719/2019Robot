@@ -3,9 +3,10 @@ package frc.robot.controllers;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
- * This is a preset for the chinese knock-off playstation controller, and all of its buttons. 
+ * This is a preset for the chinese knock-off playstation controller, and all of
+ * its buttons.
  * 
- */ 
+ */
 public class ChineseController extends DummyController {
 
     public ChineseController(int port) {
@@ -34,18 +35,19 @@ public class ChineseController extends DummyController {
     }
 
     @Override
+    // TODO: find values for the buttons once the wiki is up
     protected JoystickButton getB() {
-        return 0;
+        return new JoystickButton(controller, 1);
     }
 
     @Override
     protected JoystickButton getX() {
-        return 0;
+        return new JoystickButton(controller, 1);
     }
 
     @Override
-    protected int getY() {
-        return 0;
+    protected JoystickButton getY() {
+        return new JoystickButton(controller, 1);
     }
 
     @Override
@@ -60,12 +62,12 @@ public class ChineseController extends DummyController {
 
     @Override
     protected JoystickButton rightBumper() {
-        return 0;
+        return new JoystickButton(controller, 1);
     }
 
     @Override
     protected JoystickButton leftBumper() {
-        return 0;
+        return new JoystickButton(controller, 1);
     }
 
 }
