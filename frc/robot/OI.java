@@ -42,22 +42,21 @@ public class OI {
   // until it is finished as determined by it's isFinished method.
   // button.whenReleased(new ExampleCommand());
 
-  Joystick driverJoystick = new Joystick(0);
-  Joystick operatorJoystick = new Joystick(1);
+  DummyController driverJoystick = new ChineseController(0);
 
   public double getDriverLeftX() {
-    return driverJoystick.getRawAxis(0);
+    return driverJoystick.getLeftX();
   }
 
   public double getDriverLeftY() {
-    return driverJoystick.getRawAxis(1);
+    return driverJoystick.getLeftY();
   }
 
   public double getDriverRightX() {
-    return driverJoystick.getRawAxis(4);
+    return driverJoystick.getRightX();
   }
 
   public double getDriverRightY() {
-    return driverJoystick.getRawAxis(5);
+    return driverJoystick.getRightY();
   }
 }

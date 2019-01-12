@@ -18,7 +18,6 @@ public class UseDrive extends Command {
         drive = _drive;
         requires(drive);
 
-        
     }
 
     protected void initialize() {
@@ -29,6 +28,11 @@ public class UseDrive extends Command {
         double x = -Robot.oi.getDriverLeftX();
         double y = -Robot.oi.getDriverLeftY();
         double rot = -Robot.oi.getDriverRightX();
+
+        /* Smooth curving */
+        x = x * Math.abs(x);
+        y = y * Math.abs(y);
+        rot = rot * Math.abs(rot);
 
         drive.mecanum(x, y, rot);
     }
