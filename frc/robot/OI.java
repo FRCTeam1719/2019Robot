@@ -8,6 +8,8 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import frc.robot.controllers.ChineseController;
+import frc.robot.controllers.DummyController;
 
 /**
  * This class is the glue that binds the controls on the physical operator

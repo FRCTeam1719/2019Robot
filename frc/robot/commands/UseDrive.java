@@ -27,7 +27,7 @@ public class UseDrive extends Command {
     protected void execute() {
         double x = -Robot.oi.getDriverLeftX();
         double y = -Robot.oi.getDriverLeftY();
-        double rot = -Robot.oi.getDriverRightX();
+        double rot = Robot.oi.getDriverRightX();
 
         /* Smooth curving */
         x = x * Math.abs(x);

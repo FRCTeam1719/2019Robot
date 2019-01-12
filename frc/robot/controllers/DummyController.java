@@ -8,34 +8,34 @@ This is an abstract class that models a preset for the controllers.
 */
 public abstract class DummyController {
 
-    protected Joystick controller;
+    public  Joystick controller;
 
     public DummyController(int port) {
         controller = new Joystick(port);
     }
 
-    protected abstract JoystickButton getA();
+    public  abstract JoystickButton getA();
 
-    protected abstract JoystickButton getB();
+    public  abstract JoystickButton getB();
 
-    protected abstract JoystickButton getX();
+    public  abstract JoystickButton getX();
 
-    protected abstract JoystickButton getY();
+    public  abstract JoystickButton getY();
 
-    protected abstract double getLeftX();
+    public  abstract double getLeftX();
 
-    protected abstract double getLeftY();
+    public  abstract double getLeftY();
 
-    protected abstract double getRightY();
+    public  abstract double getRightY();
 
-    protected abstract double getRightX();
+    public  abstract double getRightX();
 
-    protected abstract double rightTrigger();
+    public  abstract double rightTrigger();
 
-    protected abstract double leftTrigger();
+    public  abstract double leftTrigger();
 
-    protected abstract JoystickButton rightBumper();
+    public  abstract JoystickButton rightBumper();
 
-    protected abstract JoystickButton leftBumper();
+    public  abstract JoystickButton leftBumper();
 
 }

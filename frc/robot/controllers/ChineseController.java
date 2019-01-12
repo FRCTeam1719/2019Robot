@@ -17,56 +17,56 @@ public class ChineseController extends DummyController {
         return controller.getRawAxis(0);
     }
 
-    protected double getLeftY() {
+    public  double getLeftY() {
         return controller.getRawAxis(1);
     }
 
-    protected double getRightY() {
-        return controller.getRawAxis(5);
+    public  double getRightY() {
+        return controller.getRawAxis(-4);
     }
 
-    protected double getRightX() {
+    public  double getRightX() {
         return controller.getRawAxis(4);
     }
 
     @Override
-    protected JoystickButton getA() {
+    public  JoystickButton getA() {
         return new JoystickButton(controller, 0);
     }
 
     @Override
     // TODO: find values for the buttons once the wiki is up
-    protected JoystickButton getB() {
+    public  JoystickButton getB() {
         return new JoystickButton(controller, 1);
     }
 
     @Override
-    protected JoystickButton getX() {
+    public  JoystickButton getX() {
         return new JoystickButton(controller, 1);
     }
 
     @Override
-    protected JoystickButton getY() {
+    public  JoystickButton getY() {
         return new JoystickButton(controller, 1);
     }
 
     @Override
-    protected double rightTrigger() {
+    public  double rightTrigger() {
         return 0;
     }
 
     @Override
-    protected double leftTrigger() {
+    public  double leftTrigger() {
         return 0;
     }
 
     @Override
-    protected JoystickButton rightBumper() {
+    public  JoystickButton rightBumper() {
         return new JoystickButton(controller, 1);
     }
 
     @Override
-    protected JoystickButton leftBumper() {
+    public  JoystickButton leftBumper() {
         return new JoystickButton(controller, 1);
     }
 
