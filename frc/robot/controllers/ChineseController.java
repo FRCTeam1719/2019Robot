@@ -2,6 +2,10 @@ package frc.robot.controllers;
 
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
+/**
+ * This is a preset for the chinese knock-off playstation controller, and all of its buttons. 
+ * 
+ */ 
 public class ChineseController extends DummyController {
 
     public ChineseController(int port) {
