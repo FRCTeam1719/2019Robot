@@ -8,6 +8,8 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.AlignOnLine;
 import frc.robot.controllers.ChineseController;
 import frc.robot.controllers.DummyController;
 
@@ -60,5 +62,11 @@ public class OI {
 
   public double getDriverRightY() {
     return driverJoystick.getRightY();
+  }
+
+  public OI() {
+    super();
+
+    driverJoystick.getX().whenPressed(new AlignOnLine(Robot.drive));    
   }
 }

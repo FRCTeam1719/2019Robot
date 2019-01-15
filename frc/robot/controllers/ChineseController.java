@@ -35,19 +35,18 @@ public class ChineseController extends DummyController {
     }
 
     @Override
-    // TODO: find values for the buttons once the wiki is up
     public  JoystickButton getB() {
         return new JoystickButton(controller, 1);
     }
 
     @Override
     public  JoystickButton getX() {
-        return new JoystickButton(controller, 1);
+        return new JoystickButton(controller, 2);
     }
 
     @Override
     public  JoystickButton getY() {
-        return new JoystickButton(controller, 1);
+        return new JoystickButton(controller, 3);
     }
 
     @Override
