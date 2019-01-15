@@ -12,10 +12,12 @@ import frc.robot.subsystems.Vacuum;
 
 public class UseVacuum extends Command {
   private Vacuum vacuum;
+  private double motorSpeed;
 
-  public UseVacuum(Vacuum _vacuum) {
+  public UseVacuum(Vacuum _vacuum, double _motorSpeed) {
     super("Vacuum");
     vacuum = vacuum;
+    motorSpeed = _motorSpeed;
     requires(vacuum);
   }
 
@@ -27,6 +29,7 @@ public class UseVacuum extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    vacuum.set(motorSpeed);
   }
 
   // Make this return true when this Command no longer needs to run execute()
