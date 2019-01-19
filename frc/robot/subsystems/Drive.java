@@ -15,7 +15,7 @@ import frc.robot.commands.UseDrive;
 
 
 /**
- * Drive Subsystem for Mechanom Drive
+ * Drive Subsystem for Mechanum Drive
  */
 public class Drive extends Subsystem {
   // Put methods for controlling this subsystem

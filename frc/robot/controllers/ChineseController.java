@@ -22,11 +22,11 @@ public class ChineseController extends DummyController {
     }
 
     public  double getRightY() {
-        return controller.getRawAxis(-4);
+        return controller.getRawAxis(4);
     }
 
     public  double getRightX() {
-        return controller.getRawAxis(4);
+        return controller.getRawAxis(5);
     }
 
     @Override
@@ -42,32 +42,32 @@ public class ChineseController extends DummyController {
 
     @Override
     public  JoystickButton getX() {
-        return new JoystickButton(controller, 1);
+        return new JoystickButton(controller, 2);
     }
 
     @Override
     public  JoystickButton getY() {
-        return new JoystickButton(controller, 1);
+        return new JoystickButton(controller, 3);
     }
 
     @Override
     public  double rightTrigger() {
-        return 0;
+        return controller.getRawAxis(3);
     }
 
     @Override
     public  double leftTrigger() {
-        return 0;
+        return controller.getRawAxis(2);
     }
 
     @Override
     public  JoystickButton rightBumper() {
-        return new JoystickButton(controller, 1);
+        return new JoystickButton(controller, 4);
     }
 
     @Override
     public  JoystickButton leftBumper() {
-        return new JoystickButton(controller, 1);
+        return new JoystickButton(controller, 5);
     }
 
 }
