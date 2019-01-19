@@ -27,5 +27,5 @@ public class RobotMap {
   // public static int rangefinderPort = 1;
   // public static int rangefinderModule = 1;
 
-  public static SpeedController motor = new Spark(2);
+  public static SpeedController motor = new Spark(4);
 }

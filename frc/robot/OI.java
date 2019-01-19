@@ -68,8 +68,7 @@ public class OI {
 
   public OI() {
     super();
-
     spinMotorButton = new JoystickButton(driverJoystick, 3);
-    spinMotorButton.whenPressed(new SimpleSpinMotor(Robot.simpleMotor));
+    spinMotorButton.whileHeld(new SimpleSpinMotor(Robot.simpleMotor));
   }
 }

@@ -12,23 +12,25 @@ import frc.robot.subsystems.SimpleMotor;
 
 public class SimpleSpinMotor extends Command {
   SimpleMotor motor;
+  float speed;
 
-  public SimpleSpinMotor(SimpleMotor _motor) {
+  public SimpleSpinMotor(SimpleMotor _motor, float _speed) {
     // Use requires() here to declare subsystem dependencies
     motor = _motor;
-
+    speed = _speed;
     requires(motor);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    motor.spin();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    motor.spin(speed);
+
   }
 
   // Make this return true when this Command no longer needs to run execute()

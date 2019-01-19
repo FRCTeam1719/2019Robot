@@ -32,8 +32,8 @@ public class SimpleMotor extends Subsystem {
     setDefaultCommand(new SimpleSpinMotor(this));
   }
 
-  public void spin() {
-    motor.set(0.4F);
+  public void spin(float speed) {
+    motor.set(speed);
   }
 
   public void stop() {
