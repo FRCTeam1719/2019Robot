@@ -9,14 +9,16 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.SimpleMotor;
+import frc.robot.subsystems.Vacuum;
 
-public class SimpleSpinMotor extends Command {
+public class UseVacuum extends Command {
   SimpleMotor motor;
   float speed;
+  Vacuum vacuum;
 
-  public SimpleSpinMotor(SimpleMotor _motor, float _speed) {
+  public UseVacuum(Vacuum _vacuum, float _speed) {
     // Use requires() here to declare subsystem dependencies
-    motor = _motor;
+    vacuum = _vacuum;
     speed = _speed;
     requires(motor);
   }
@@ -29,8 +31,7 @@ public class SimpleSpinMotor extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    motor.spin(-speed);
-
+    vacuum.spin(speed);
   }
 
   // Make this return true when this Command no longer needs to run execute()
