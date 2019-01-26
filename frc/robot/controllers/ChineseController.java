@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  * its buttons.
  * 
  */
-public class ChineseController extends DummyController {
+public class ChineseController extends DummyDriverController {
 
     public ChineseController(int port) {
         super(port);

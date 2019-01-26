@@ -11,6 +11,9 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import frc.robot.commands.UseClimber;
+import frc.robot.commands.UseClimber.ClimberOption;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drive;
 
 /**
@@ -22,6 +25,8 @@ import frc.robot.subsystems.Drive;
  */
 public class Robot extends TimedRobot {
   public static Drive drive;
+  public static Climber climber;
+
   public static OI oi;
 
   Command autonomousCommand;
@@ -48,6 +53,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    if (oi.operatorJoystick.getClimb()) {
+      Scheduler.getInstance().add(new UseClimber(climber, ClimberOption.LOWER_BOTH));
+    }
   }
 
   /**

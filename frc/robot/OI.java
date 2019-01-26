@@ -12,8 +12,12 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.BreakMode;
+import frc.robot.commands.UseClimber;
+import frc.robot.commands.UseClimber.ClimberOption;
+import frc.robot.controllers.Attack3Controller;
 import frc.robot.controllers.ChineseController;
-import frc.robot.controllers.DummyController;
+import frc.robot.controllers.DummyDriverController;
+import frc.robot.controllers.DummyOperatorController;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -48,7 +52,8 @@ public class OI {
   // until it is finished as determined by it's isFinished method.
   // button.whenReleased(new ExampleCommand());
 
-  DummyController driverJoystick = new ChineseController(0);
+  DummyDriverController driverJoystick = new ChineseController(0);
+  DummyOperatorController operatorJoystick = new Attack3Controller(1);
 
   public double getDriverLeftX() {
     return driverJoystick.getLeftX();
@@ -69,10 +74,13 @@ public class OI {
   public JoystickButton breakButton;
   public JoystickButton coastButton;
 
-  public OI(){
-  breakButton = driverJoystick.leftBumper();
-  coastButton = driverJoystick.rightBumper();
-  breakButton.whenPressed(new BreakMode(Robot.drive, IdleMode.kBrake));
-  coastButton.whenPressed(new BreakMode(Robot.drive, IdleMode.kCoast));
+  public OI() {
+    breakButton = driverJoystick.leftBumper();
+    coastButton = driverJoystick.rightBumper();
+    breakButton.whenPressed(new BreakMode(Robot.drive, IdleMode.kBrake));
+    coastButton.whenPressed(new BreakMode(Robot.drive, IdleMode.kCoast));
+
+    operatorJoystick.raiseBack().whenPressed(new UseClimber(Robot.climber, ClimberOption.RAISE_BACK));
+    operatorJoystick.raiseFront().whenPressed(new UseClimber(Robot.climber, ClimberOption.RAISE_FRONT));
   }
 }
