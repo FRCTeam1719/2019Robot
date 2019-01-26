@@ -21,7 +21,7 @@ import frc.robot.subsystems.Drive;
  * project.
  */
 public class Robot extends TimedRobot {
-  Drive drive;
+  public static Drive drive;
   public static OI oi;
 
   Command autonomousCommand;

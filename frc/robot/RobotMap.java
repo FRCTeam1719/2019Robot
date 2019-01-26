@@ -8,6 +8,9 @@
 package frc.robot;
 
 import com.kauailabs.navx.frc.AHRS;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -29,9 +32,10 @@ public class RobotMap {
   // public static int rangefinderPort = 1;
   // public static int rangefinderModule = 1;
 
-  public static SpeedController leftFrontMotor = new Spark(0);
-  public static SpeedController rightFrontMotor = new Spark(1);
-  public static SpeedController leftBackMotor = new Spark(2);
-  public static SpeedController rightBackMotor = new Spark(3);
+  public static CANSparkMax leftFrontMotor = new CANSparkMax(0, MotorType.kBrushless);
+  public static CANSparkMax rightFrontMotor = new CANSparkMax(2, MotorType.kBrushless);
+  public static CANSparkMax leftBackMotor = new CANSparkMax(1, MotorType.kBrushless);
+  public static CANSparkMax rightBackMotor = new CANSparkMax(3, MotorType.kBrushless);
   public static AHRS navX = new AHRS(I2C.Port.kMXP);
+
 }

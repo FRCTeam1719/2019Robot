@@ -7,7 +7,11 @@
 
 package frc.robot;
 
+import com.revrobotics.CANSparkMax.IdleMode;
+
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.BreakMode;
 import frc.robot.controllers.ChineseController;
 import frc.robot.controllers.DummyController;
 
@@ -60,5 +64,15 @@ public class OI {
 
   public double getDriverRightY() {
     return driverJoystick.getRightY();
+  }
+
+  public JoystickButton breakButton;
+  public JoystickButton coastButton;
+
+  public OI(){
+  breakButton = driverJoystick.leftBumper();
+  coastButton = driverJoystick.rightBumper();
+  breakButton.whenPressed(new BreakMode(Robot.drive, IdleMode.kBrake));
+  coastButton.whenPressed(new BreakMode(Robot.drive, IdleMode.kCoast));
   }
 }

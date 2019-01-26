@@ -8,11 +8,12 @@
 package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import frc.robot.commands.UseDrive;
 import jdk.jfr.Percentage;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 
 /**
@@ -26,17 +27,17 @@ public class Drive extends Subsystem {
   private final int BACK_LEFT = 2;
   private final int BACK_RIGHT = 3;
   private final AHRS navX;
-  private SpeedController[] motors;
+  public CANSparkMax[] motors;
 
   private MecanumDrive robotDrive;
 
 
-  public Drive(SpeedController leftFrontMotor, SpeedController rightFrontMotor, SpeedController leftBackMotor,
-      SpeedController rightBackMotor, AHRS _navX) {
+  public Drive(CANSparkMax leftFrontMotor, CANSparkMax rightFrontMotor, CANSparkMax leftBackMotor,
+      CANSparkMax rightBackMotor, AHRS _navX) { // callan is rly dum
     super();
     navX = _navX;
     // 1D array of the speed controllers passed
-    motors = new SpeedController[] { leftFrontMotor, rightFrontMotor, leftBackMotor, rightBackMotor };
+    motors = new CANSparkMax[] { leftFrontMotor, rightFrontMotor, leftBackMotor, rightBackMotor };
     
     // makes a new general robot drive that is a mecanum drive with front and back motors. wpilib's mecanum code. 
     robotDrive = new MecanumDrive(leftFrontMotor, leftBackMotor, rightFrontMotor, rightBackMotor);
@@ -46,7 +47,8 @@ public class Drive extends Subsystem {
   public void initDefaultCommand() {
     setDefaultCommand(new UseDrive(this));
   }
-
+  public void SetBreak(){
+  }
   /**
    * Returns the motor speeds for a given mecanum-style input
    * 
