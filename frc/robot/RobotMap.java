@@ -11,6 +11,7 @@ import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Spark;
@@ -44,4 +45,9 @@ public class RobotMap {
 
   public static Solenoid frontPiston = new Solenoid(0);
   public static Solenoid backPiston = new Solenoid(1);
+
+  
+  public static DigitalInput leftSensor = new DigitalInput(0);
+  public static DigitalInput centerSensor = new DigitalInput(1);
+  public static DigitalInput rightSensor = new DigitalInput(2);
 }

@@ -8,12 +8,15 @@
 package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import frc.robot.commands.UseDrive;
 import jdk.jfr.Percentage;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 
 
 /**
@@ -29,11 +32,15 @@ public class Drive extends Subsystem {
   private final AHRS navX;
   public CANSparkMax[] motors;
 
+  DigitalInput leftSensor;
+  DigitalInput centerSensor;
+  DigitalInput rightSensor;
+
   private MecanumDrive robotDrive;
 
 
   public Drive(CANSparkMax leftFrontMotor, CANSparkMax rightFrontMotor, CANSparkMax leftBackMotor,
-      CANSparkMax rightBackMotor, AHRS _navX) { // callan is rly dum
+      CANSparkMax rightBackMotor, AHRS _navX, DigitalInput _leftSensor, DigitalInput _centerSensor, DigitalInput _rightSensor) {
     super();
     navX = _navX;
     // 1D array of the speed controllers passed
@@ -41,6 +48,10 @@ public class Drive extends Subsystem {
     
     // makes a new general robot drive that is a mecanum drive with front and back motors. wpilib's mecanum code. 
     robotDrive = new MecanumDrive(leftFrontMotor, leftBackMotor, rightFrontMotor, rightBackMotor);
+
+    leftSensor = _leftSensor;
+    centerSensor = _centerSensor;
+    rightSensor = _rightSensor;
   }
 
   @Override
@@ -60,5 +71,16 @@ public class Drive extends Subsystem {
   public void mecanum(double x, double y, double rot) {
     robotDrive.driveCartesian(-x, y, rot, (navX.getAngle() % 360)-180);
     System.out.println("Dr" + navX.getAngle());
+  }
+  public boolean getLeftSensor() {
+    return leftSensor.get();
+  }
+
+  public boolean getCenterSensor() {
+    return centerSensor.get();
+  }
+
+  public boolean getRightSensor() {
+    return rightSensor.get();
   }
 }
