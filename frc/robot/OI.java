@@ -1,3 +1,4 @@
+
 /*----------------------------------------------------------------------------*/
 /* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
@@ -7,10 +8,17 @@
 
 package frc.robot;
 
+import com.revrobotics.CANSparkMax.IdleMode;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.robot.commands.SimpleSpinMotor;
+import frc.robot.commands.BreakMode;
+import frc.robot.commands.UseClimber;
+import frc.robot.commands.UseVacuum;
+import frc.robot.commands.UseClimber.ClimberOption;
+import frc.robot.controllers.Attack3Controller;
+import frc.robot.controllers.ChineseController;
+import frc.robot.controllers.DummyDriverController;
+import frc.robot.controllers.DummyOperatorController;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -45,30 +53,43 @@ public class OI {
   // until it is finished as determined by it's isFinished method.
   // button.whenReleased(new ExampleCommand());
 
-  Joystick driverJoystick = new Joystick(0);
-  Joystick operatorJoystick = new Joystick(1);
+  DummyDriverController driverJoystick = new ChineseController(0);
+  DummyOperatorController operatorJoystick = new Attack3Controller(1);
 
   public double getDriverLeftX() {
-    return driverJoystick.getRawAxis(0);
+    return driverJoystick.getLeftX();
   }
 
   public double getDriverLeftY() {
-    return driverJoystick.getRawAxis(1);
+    return driverJoystick.getLeftY();
   }
 
   public double getDriverRightX() {
-    return driverJoystick.getRawAxis(2);
+    return driverJoystick.getRightX();
   }
 
   public double getDriverRightY() {
-    return driverJoystick.getRawAxis(3);
+    return driverJoystick.getRightY();
   }
 
-  JoystickButton spinMotorButton;
+  public JoystickButton breakButton;
+  public JoystickButton coastButton;
+
+  public JoystickButton releaseButton;
+
 
   public OI() {
-    super();
-    spinMotorButton = new JoystickButton(driverJoystick, 3);
-    spinMotorButton.whileHeld(new SimpleSpinMotor(Robot.simpleMotor, .6F));
+    breakButton = driverJoystick.leftBumper();
+    coastButton = driverJoystick.rightBumper();
+    breakButton.whenPressed(new BreakMode(Robot.drive, IdleMode.kBrake));
+    coastButton.whenPressed(new BreakMode(Robot.drive, IdleMode.kCoast));
+
+    releaseButton = operatorJoystick.releaseButton();
+    releaseButton.whenPressed(new UseVacuum(Robot.vacuum, 0));
+    releaseButton.whenReleased(new UseVacuum(Robot.vacuum, .9F));
+
+
+    operatorJoystick.raiseBack().whenPressed(new UseClimber(Robot.climber, ClimberOption.RAISE_BACK));
+    operatorJoystick.raiseFront().whenPressed(new UseClimber(Robot.climber, ClimberOption.RAISE_FRONT));
   }
 }
