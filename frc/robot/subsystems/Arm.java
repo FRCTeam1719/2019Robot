@@ -10,14 +10,16 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 
 /**
  * Arm subsystem. The arm can hold balls and hatches, and has the ability to
  * extend the arm upwards using a motor and move the entire mechanism up using a
  * piston
  */
-public class Arm extends Subsystem {
+public class Arm extends PIDSubsystem {
 
   private SpeedController motor;
 
@@ -27,17 +29,16 @@ public class Arm extends Subsystem {
 
   DigitalInput lowerLimitSwitch;
 
+  Potentiometer pot;
+
   // TODO: ADD ENCODER
 
   public Arm(SpeedController _motor, Solenoid _piston) {
+    super("Arm", 2.0, 0, 0);
+    setAbsoluteTolerance(0.05);
+    getPIDController().setContinuous(false);
     motor = _motor;
     piston = _piston;
-  }
-
-  @Override
-  public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
   }
 
   public void setMotor(double speed) {
@@ -67,5 +68,20 @@ public class Arm extends Subsystem {
 
   public boolean getState() {
     return piston.get();
+  }
+
+  @Override
+  protected double returnPIDInput() {
+    return pot.get();
+  }
+
+  @Override
+  protected void usePIDOutput(double output) {
+    motor.pidWrite(output);
+  }
+
+  @Override
+  protected void initDefaultCommand() {
+
   }
 }

@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 import frc.robot.subsystems.Arm;
 
 /**
@@ -16,10 +17,27 @@ import frc.robot.subsystems.Arm;
 public class SetArm extends Command {
   Arm arm;
   String location;
+  int P, I, D = 1;
+  double error, rcw, derivative;
+  int integral, previous_error, setpoint = 0;
+  Potentiometer pot;
 
-  public SetArm(Arm _arm, String _location) {
+  public SetArm(Arm _arm, String _location, Potentiometer _pot) {
     arm = _arm;
+    pot = _pot;
     location = _location;
+  }
+
+  public void setSetpoint(int setpoint) {
+    this.setpoint = setpoint;
+  }
+
+  public void PID() {
+    error = setpoint - pot.get(); // Error = Target - Actual
+    this.integral += (error * .02); // Integral is increased by the error*time (which is .02 seconds using normal
+                                    // IterativeRobot)
+    derivative = (error - this.previous_error) / .02;
+    this.rcw = P * error + I * this.integral + D * derivative;
   }
 
   // Called just before this Command runs the first time
@@ -30,6 +48,8 @@ public class SetArm extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    PID();
+    arm.setMotor(rcw);
   }
 
   // Make this return true when this Command no longer needs to run execute()
