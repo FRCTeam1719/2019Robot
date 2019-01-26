@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -21,6 +22,12 @@ public class Arm extends Subsystem {
   private SpeedController motor;
 
   private Solenoid piston;
+
+  DigitalInput upperLimitSwitch;
+
+  DigitalInput lowerLimitSwitch;
+
+  // TODO: ADD ENCODER
 
   public Arm(SpeedController _motor, Solenoid _piston) {
     motor = _motor;
