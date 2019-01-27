@@ -31,6 +31,11 @@ public class Robot extends TimedRobot {
 
   public static OI oi;
 
+  public enum RobotMode {
+    DRIVING, CLIMBING
+  }
+  public boolean lastClimb;
+  public RobotMode state;
   Command autonomousCommand;
   SendableChooser<Command> chooser = new SendableChooser<>();
 
@@ -41,8 +46,10 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     drive = new Drive(RobotMap.leftFrontMotor, RobotMap.rightFrontMotor, RobotMap.leftBackMotor, RobotMap.rightBackMotor, RobotMap.navX, RobotMap.leftSensor, RobotMap.centerSensor, RobotMap.rightSensor);
-
     oi = new OI();
+    climber = new Climber(RobotMap.frontPiston, RobotMap.backPiston);
+    state = RobotMode.DRIVING;
+    lastClimb = false;
   }
 
   /**
@@ -55,9 +62,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    if (oi.operatorJoystick.getClimb()) {
-      Scheduler.getInstance().add(new UseClimber(climber, ClimberOption.LOWER_BOTH));
-    }
+
   }
 
   /**
@@ -128,6 +133,10 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
     System.out.println("Robot " + RobotMap.navX.getAngle());
+    if (oi.operatorJoystick.getClimb() && !lastClimb) {
+      climber.lowerBoth();
+    }
+    lastClimb = oi.operatorJoystick.getClimb();
   }
 
   /**

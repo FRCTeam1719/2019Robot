@@ -87,8 +87,9 @@ public class OI {
     releaseButton.whenPressed(new UseVacuum(Robot.vacuum, 0));
     releaseButton.whenReleased(new UseVacuum(Robot.vacuum, .9F));
 
-
-    operatorJoystick.raiseBack().whenPressed(new UseClimber(Robot.climber, ClimberOption.RAISE_BACK));
-    operatorJoystick.raiseFront().whenPressed(new UseClimber(Robot.climber, ClimberOption.RAISE_FRONT));
+    if(operatorJoystick.getClimb()){
+      operatorJoystick.raiseBack().whenPressed(new UseClimber(Robot.climber, ClimberOption.RAISE_BACK));
+      operatorJoystick.raiseFront().whenPressed(new UseClimber(Robot.climber, ClimberOption.RAISE_FRONT));
+    }
   }
 }

@@ -20,6 +20,7 @@ public class UseClimber extends Command {
   ClimberOption option;
 
   public UseClimber(Climber _climber, ClimberOption _option) {
+    super("Climber");
     requires(_climber);
     climber = _climber;
     option = _option;
