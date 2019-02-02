@@ -17,8 +17,6 @@ import jdk.jfr.Percentage;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-
-
 /**
  * Drive Subsystem for Mechanom Drive
  */
@@ -38,15 +36,20 @@ public class Drive extends Subsystem {
 
   private MecanumDrive robotDrive;
 
+  // PID things
+  float P, I, D = 1;
+  float integral, previous_error, setpoint, error, derivative, rcw = 0;
 
   public Drive(CANSparkMax leftFrontMotor, CANSparkMax rightFrontMotor, CANSparkMax leftBackMotor,
-      CANSparkMax rightBackMotor, AHRS _navX, DigitalInput _leftSensor, DigitalInput _centerSensor, DigitalInput _rightSensor) {
+      CANSparkMax rightBackMotor, AHRS _navX, DigitalInput _leftSensor, DigitalInput _centerSensor,
+      DigitalInput _rightSensor) {
     super();
     navX = _navX;
     // 1D array of the speed controllers passed
     motors = new CANSparkMax[] { leftFrontMotor, rightFrontMotor, leftBackMotor, rightBackMotor };
-    
-    // makes a new general robot drive that is a mecanum drive with front and back motors. wpilib's mecanum code. 
+
+    // makes a new general robot drive that is a mecanum drive with front and back
+    // motors. wpilib's mecanum code.
     robotDrive = new MecanumDrive(leftFrontMotor, leftBackMotor, rightFrontMotor, rightBackMotor);
 
     leftSensor = _leftSensor;
@@ -58,8 +61,7 @@ public class Drive extends Subsystem {
   public void initDefaultCommand() {
     setDefaultCommand(new UseDrive(this));
   }
-  public void SetBreak(){
-  }
+
   /**
    * Returns the motor speeds for a given mecanum-style input
    * 
@@ -69,9 +71,25 @@ public class Drive extends Subsystem {
    * @return an array of motor speeds ([x][y])
    */
   public void mecanum(double x, double y, double rot) {
-    robotDrive.driveCartesian(-x, y, rot, (navX.getAngle() % 360)-180);
+    robotDrive.driveCartesian(-x, y, rot, (navX.getAngle() % 360) - 180);
     System.out.println("Dr" + navX.getAngle());
   }
+
+  public void setAngleSetpoint(float angle) {
+    this.setpoint = angle;
+  }
+
+  public float getAngleError() {
+    return error;
+  }
+
+  public void doPID() {
+    error = setpoint - (float) navX.getAngle();
+    integral += (error * 0.2);
+    derivative = (error - previous_error) / .02F;
+    rcw = P * error + I * integral + D * derivative;
+  }
+
   public boolean getLeftSensor() {
     return leftSensor.get();
   }
