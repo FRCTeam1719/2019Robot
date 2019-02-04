@@ -55,6 +55,8 @@ public class OI {
   DummyDriverController driverJoystick = new ChineseController(0);
   DummyOperatorController operatorJoystick = new Attack3Controller(1);
 
+  private int dpad;
+
   public double getDriverLeftX() {
     return driverJoystick.getLeftX();
   }
@@ -76,7 +78,6 @@ public class OI {
 
   public JoystickButton releaseButton;
 
-
   public OI() {
     breakButton = driverJoystick.leftBumper();
     coastButton = driverJoystick.rightBumper();
@@ -87,9 +88,15 @@ public class OI {
     releaseButton.whenPressed(new UseVacuum(Robot.vacuum, 0));
     releaseButton.whenReleased(new UseVacuum(Robot.vacuum, .9F));
 
-    if(operatorJoystick.getClimb()){
+    if (operatorJoystick.getClimb()) {
       operatorJoystick.raiseBack().whenPressed(new UseClimber(Robot.climber, ClimberOption.RAISE_BACK));
       operatorJoystick.raiseFront().whenPressed(new UseClimber(Robot.climber, ClimberOption.RAISE_FRONT));
     }
+
+    // Turn to angle
+    dpad = driverJoystick.getDPAD();
+    double angleUnit = 45; // 360/8
+    double angleToTurn = angleUnit * dpad;
+
   }
 }
