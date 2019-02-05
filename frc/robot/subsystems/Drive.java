@@ -27,7 +27,7 @@ public class Drive extends Subsystem {
   private final int FRONT_RIGHT = 1;
   private final int BACK_LEFT = 2;
   private final int BACK_RIGHT = 3;
-  private final AHRS navX;
+  public final AHRS navX;
   public CANSparkMax[] motors;
 
   DigitalInput leftSensor;
