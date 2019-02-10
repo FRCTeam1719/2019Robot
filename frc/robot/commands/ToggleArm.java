@@ -7,45 +7,27 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Arm;
 
-public class UseClimber extends Command {
-  public enum ClimberOption {
-    LOWER_BOTH, RAISE_BOTH, RAISE_FRONT, RAISE_BACK
-  }
+public class ToggleArm extends Command {
+  Arm arm;
 
-  Climber climber;
-  ClimberOption option;
-
-  public UseClimber(Climber _climber, ClimberOption _option) {
-    super("Climber");
-    requires(_climber);
-    climber = _climber;
-    option = _option;
+  public ToggleArm(Arm _arm) {
+    // Use requires() here to declare subsystem dependencies
+    arm = _arm;
+    requires(arm);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    arm.toggle();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (option == ClimberOption.LOWER_BOTH) {
-      System.out.println("Lower both?");
-      climber.lowerBoth();
-    } else if (option == ClimberOption.RAISE_BACK) {
-      climber.raiseBack();
-    } else if (option == ClimberOption.RAISE_FRONT) {
-      climber.raiseFront();
-    } else if (option == ClimberOption.RAISE_BOTH) {
-      climber.raiseBoth();
-    } else {
-      System.out.print("Oh no");
-    }
   }
 
   // Make this return true when this Command no longer needs to run execute()

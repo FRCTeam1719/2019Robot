@@ -12,7 +12,6 @@ import frc.robot.subsystems.SimpleMotor;
 import frc.robot.subsystems.Vacuum;
 
 public class UseVacuum extends Command {
-  SimpleMotor motor;
   float speed;
   Vacuum vacuum;
 
@@ -20,7 +19,7 @@ public class UseVacuum extends Command {
     // Use requires() here to declare subsystem dependencies
     vacuum = _vacuum;
     speed = _speed;
-    requires(motor);
+    requires(vacuum);
   }
 
   // Called just before this Command runs the first time
@@ -43,13 +42,13 @@ public class UseVacuum extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    motor.stop();
+    vacuum.stop();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    motor.stop();
+    vacuum.stop();
   }
 }

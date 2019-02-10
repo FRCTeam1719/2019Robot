@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.commands.UseClimber;
 import frc.robot.commands.UseClimber.ClimberOption;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Vacuum;
@@ -28,6 +29,7 @@ public class Robot extends TimedRobot {
   public static Drive drive;
   public static Climber climber;
   public static Vacuum vacuum;
+  public static Arm arm;
 
   public static OI oi;
 
@@ -47,10 +49,14 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     drive = new Drive(RobotMap.leftFrontMotor, RobotMap.rightFrontMotor, RobotMap.leftBackMotor,
-        RobotMap.rightBackMotor, RobotMap.navX, RobotMap.leftSensor, RobotMap.centerSensor, RobotMap.rightSensor);
-    oi = new OI();
+        RobotMap.rightBackMotor, RobotMap.navX, RobotMap.leftSensor, RobotMap.centerSensor, RobotMap.rightSensor, RobotMap.gyro);
     climber = new Climber(RobotMap.frontPiston, RobotMap.backPiston);
     state = RobotMode.DRIVING;
+    vacuum = new Vacuum(RobotMap.vacuum);
+    arm = new Arm(RobotMap.arm, RobotMap.armSolenoid, RobotMap.lowerArmLimit, RobotMap.upperArmLimit);
+
+    oi = new OI();
+
     lastClimb = false;
   }
 
@@ -75,6 +81,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
+    climber.kill();
   }
 
   @Override
@@ -128,6 +135,12 @@ public class Robot extends TimedRobot {
     if (autonomousCommand != null) {
       autonomousCommand.cancel();
     }
+
+    Scheduler.getInstance().add(
+      new UseClimber(climber, ClimberOption.RAISE_BOTH)
+    );
+
+    RobotMap.compressor.setClosedLoopControl(true);
   }
 
   /**
@@ -136,11 +149,15 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    System.out.println("Robot " + RobotMap.navX.getAngle());
-    if (oi.operatorJoystick.getClimb() && !lastClimb) {
-      climber.lowerBoth();
-    }
-    lastClimb = oi.operatorJoystick.getClimb();
+    System.out.println(RobotMap.leftSensor.get());
+    System.out.println(RobotMap.rightSensor.get());
+    System.out.println(RobotMap.centerSensor.get());
+
+    // System.out.println("Robot " + RobotMap.navX.getAngle());
+    // if (oi.operatorJoystick.getClimb() && !lastClimb) {
+    //   climber.lowerBoth();
+    // }
+    // lastClimb = oi.operatorJoystick.getClimb();
 
     System.out.println("DPAD: " + oi.driverJoystick.getDPAD());
   }

@@ -7,7 +7,9 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -17,9 +19,9 @@ public class Climber extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  Solenoid frontSolenoid, backSolenoid;
+  DoubleSolenoid frontSolenoid, backSolenoid;
 
-  public Climber(Solenoid _frontSolenoid, Solenoid _backSolenoid) {
+  public Climber(DoubleSolenoid _frontSolenoid, DoubleSolenoid _backSolenoid) {
     frontSolenoid = _frontSolenoid;
     backSolenoid = _backSolenoid;
 
@@ -31,16 +33,27 @@ public class Climber extends Subsystem {
     // setDefaultCommand(new MySpecialCommand());
   }
 
+  public void raiseBoth() {
+    frontSolenoid.set(Value.kReverse);
+    backSolenoid.set(Value.kReverse);
+  }
+
   public void lowerBoth() {
-    frontSolenoid.set(true);
-    backSolenoid.set(true);
+    System.out.println("Lowering both. Oh no");
+    frontSolenoid.set(Value.kForward);
+    backSolenoid.set(Value.kForward);
   }
 
   public void raiseFront() {
-    frontSolenoid.set(false);
+    frontSolenoid.set(Value.kReverse);
   }
 
   public void raiseBack() {
-    backSolenoid.set(false);
+    backSolenoid.set(Value.kReverse);
+  }
+
+  public void kill() {
+    frontSolenoid.set(Value.kOff);
+    backSolenoid.set(Value.kOff);
   }
 }

@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
@@ -28,6 +29,7 @@ public class Drive extends Subsystem {
   private final int BACK_LEFT = 2;
   private final int BACK_RIGHT = 3;
   public final AHRS navX;
+  public final AnalogGyro gyro;
   public CANSparkMax[] motors;
 
   DigitalInput leftSensor;
@@ -42,7 +44,7 @@ public class Drive extends Subsystem {
 
   public Drive(CANSparkMax leftFrontMotor, CANSparkMax rightFrontMotor, CANSparkMax leftBackMotor,
       CANSparkMax rightBackMotor, AHRS _navX, DigitalInput _leftSensor, DigitalInput _centerSensor,
-      DigitalInput _rightSensor) {
+      DigitalInput _rightSensor, AnalogGyro _gyro) {
     super();
     navX = _navX;
     // 1D array of the speed controllers passed
@@ -55,6 +57,8 @@ public class Drive extends Subsystem {
     leftSensor = _leftSensor;
     centerSensor = _centerSensor;
     rightSensor = _rightSensor;
+
+    gyro = _gyro;
   }
 
   @Override
@@ -71,8 +75,8 @@ public class Drive extends Subsystem {
    * @return an array of motor speeds ([x][y])
    */
   public void mecanum(double x, double y, double rot) {
-    robotDrive.driveCartesian(-x, y, rot, (navX.getAngle() % 360) - 180);
-    System.out.println("Dr" + navX.getAngle());
+    robotDrive.driveCartesian(-x, y, rot, (gyro.getAngle() % 360) - 180);
+    System.out.println("Dr" + gyro.getAngle());
   }
 
   public void setAngleSetpoint(float angle) {

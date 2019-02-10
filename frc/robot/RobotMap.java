@@ -11,7 +11,10 @@ import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.AnalogGyro;
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Spark;
@@ -34,20 +37,28 @@ public class RobotMap {
   // public static int rangefinderPort = 1;
   // public static int rangefinderModule = 1;
 
-  public static CANSparkMax leftFrontMotor = new CANSparkMax(0, MotorType.kBrushless);
-  public static CANSparkMax rightFrontMotor = new CANSparkMax(2, MotorType.kBrushless);
-  public static CANSparkMax leftBackMotor = new CANSparkMax(1, MotorType.kBrushless);
-  public static CANSparkMax rightBackMotor = new CANSparkMax(3, MotorType.kBrushless);
+  public static CANSparkMax leftFrontMotor = new CANSparkMax(2, MotorType.kBrushless);
+  public static CANSparkMax rightFrontMotor = new CANSparkMax(1, MotorType.kBrushless);
+  public static CANSparkMax leftBackMotor = new CANSparkMax(3, MotorType.kBrushless);
+  public static CANSparkMax rightBackMotor = new CANSparkMax(4, MotorType.kBrushless);
+  
+  public static SpeedController vacuum = new Spark(3);
 
-  public static SpeedController vacuum = new Spark(4);
+  public static SpeedController arm = new CANSparkMax(5, MotorType.kBrushless);
+  public static DoubleSolenoid armSolenoid = new DoubleSolenoid(0, 1);
 
   public static AHRS navX = new AHRS(I2C.Port.kMXP);
+  public static AnalogGyro gyro = new AnalogGyro(0);
 
-  public static Solenoid frontPiston = new Solenoid(0);
-  public static Solenoid backPiston = new Solenoid(1);
+  public static DoubleSolenoid frontPiston = new DoubleSolenoid(2, 3);
+  public static DoubleSolenoid backPiston = new DoubleSolenoid(4, 5);
 
-  
-  public static DigitalInput leftSensor = new DigitalInput(0);
-  public static DigitalInput centerSensor = new DigitalInput(1);
-  public static DigitalInput rightSensor = new DigitalInput(2);
-}
+  public static Compressor compressor = new Compressor(0);
+
+  public static DigitalInput leftSensor = new DigitalInput(2);
+  public static DigitalInput centerSensor = new DigitalInput(3);
+  public static DigitalInput rightSensor = new DigitalInput(4);
+
+  public static DigitalInput upperArmLimit = new DigitalInput(6);
+  public static DigitalInput lowerArmLimit = new DigitalInput(5);
+} 

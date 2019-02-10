@@ -25,4 +25,14 @@ public class Attack3Controller extends DummyOperatorController {
     public JoystickButton releaseButton() {
         return new JoystickButton(controller, 2);
     }
+
+    @Override
+    public JoystickButton toggleArm() {
+        return new JoystickButton(controller, 1);
+    }
+    
+    @Override
+    public JoystickButton lowerButton() {
+        return new JoystickButton(controller, 9);
+    }
 }

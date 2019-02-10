@@ -8,15 +8,14 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.Robot;
 import frc.robot.subsystems.Arm;
 
 public class UseArm extends Command {
   Arm arm;
-  private double motorSpeed;
 
-  public UseArm(Arm _arm, double _motorSpeed) {
+  public UseArm(Arm _arm) {
     arm = _arm;
-    motorSpeed = _motorSpeed;
     requires(arm);
   }
 
@@ -28,13 +27,13 @@ public class UseArm extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    arm.setMotor(motorSpeed);
+    arm.setMotor(Robot.oi.getOperatorY() / 7.5);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return true;
+    return false;
   }
 
   // Called once after isFinished returns true

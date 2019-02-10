@@ -21,4 +21,8 @@ public abstract class DummyOperatorController {
     public abstract JoystickButton raiseBack();
 
     public abstract JoystickButton releaseButton();
+
+    public abstract JoystickButton toggleArm();
+
+    public abstract JoystickButton lowerButton();
 }

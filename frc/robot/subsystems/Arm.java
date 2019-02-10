@@ -8,11 +8,15 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.interfaces.Potentiometer;
+import frc.robot.RobotMap;
+import frc.robot.commands.UseArm;
 
 /**
  * Arm subsystem. The arm can hold balls and hatches, and has the ability to
@@ -22,26 +26,37 @@ import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 public class Arm extends PIDSubsystem {
 
   private SpeedController motor;
-
-  private Solenoid piston;
+  private DoubleSolenoid piston;
 
   DigitalInput upperLimitSwitch;
-
   DigitalInput lowerLimitSwitch;
-
+  
   Potentiometer pot;
 
-  // TODO: ADD ENCODER
-
-  public Arm(SpeedController _motor, Solenoid _piston) {
+  public Arm(SpeedController _motor, DoubleSolenoid _piston, DigitalInput _upperLimitSwitch, DigitalInput _lowerLimitSwitch) {
     super("Arm", 2.0, 0, 0);
     setAbsoluteTolerance(0.05);
     getPIDController().setContinuous(false);
     motor = _motor;
     piston = _piston;
+    upperLimitSwitch = _upperLimitSwitch;
+    lowerLimitSwitch = _lowerLimitSwitch;
+
+    setDefaultCommand(new UseArm(this));
   }
 
   public void setMotor(double speed) {
+    System.out.println(upperLimitSwitch.get());
+    System.out.println(lowerLimitSwitch.get());
+    System.out.println("Speed A: " + speed);
+
+    if (upperLimitSwitch.get())
+      speed = Math.max(speed, 0);
+    else if (lowerLimitSwitch.get())
+      speed = Math.min(speed, 0);
+
+    System.out.println("Speed B: " + speed);
+
     motor.set(speed);
   }
 
@@ -49,24 +64,25 @@ public class Arm extends PIDSubsystem {
    * Put the arm up to reach the higher levels
    */
   public void putUp() {
-    piston.set(true);
+    piston.set(Value.kForward);
   }
 
   /**
    * Put the arm back down to reach lower levels
    */
   public void putDown() {
-    piston.set(false);
+    piston.set(Value.kReverse);
   }
 
-  /**
-   * toggles the piston
-   */
   public void toggle() {
-    piston.set(!getState());
+    if (piston.get() == Value.kReverse) {
+      putUp();
+    } else if (piston.get() == Value.kForward) {
+      putDown();
+    }
   }
 
-  public boolean getState() {
+  public Value getState() {
     return piston.get();
   }
 
@@ -82,6 +98,6 @@ public class Arm extends PIDSubsystem {
 
   @Override
   protected void initDefaultCommand() {
-
+    
   }
 }
