@@ -11,6 +11,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.BreakMode;
+import frc.robot.commands.ClimberDrive;
 import frc.robot.commands.ToggleArm;
 import frc.robot.commands.UseClimber;
 import frc.robot.commands.UseVacuum;
@@ -93,11 +94,20 @@ public class OI {
     releaseButton.whenPressed(new UseVacuum(Robot.vacuum, 0));
     releaseButton.whenReleased(new UseVacuum(Robot.vacuum, .9F));
 
-    JoystickButton lowerButton = operatorJoystick.lowerButton();
-    lowerButton.whenPressed(new UseClimber(Robot.climber, ClimberOption.LOWER_BOTH));
+    JoystickButton lower1Button = operatorJoystick.lower1Button();
+    lower1Button.whenPressed(new UseClimber(Robot.climber, ClimberOption.LOWER_FRONT));
+    lower1Button.whenReleased(new UseClimber(Robot.climber, ClimberOption.OFF_FRONT));
+
+    JoystickButton lower2Button = operatorJoystick.lower2Button();
+    lower2Button.whenPressed(new UseClimber(Robot.climber, ClimberOption.LOWER_BACK));
+    lower2Button.whenReleased(new UseClimber(Robot.climber, ClimberOption.OFF_BACK));
 
     JoystickButton toggleArmButton = operatorJoystick.toggleArm();
     toggleArmButton.whenPressed(new ToggleArm(Robot.arm));
+
+    JoystickButton climbDrive = operatorJoystick.climberDriveButton();
+    climbDrive.whenPressed(new ClimberDrive(Robot.climber, true));
+    climbDrive.whenReleased(new ClimberDrive(Robot.climber, false));
 
     // Turn to angle
     dpad = driverJoystick.getDPAD();

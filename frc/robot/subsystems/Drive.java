@@ -75,8 +75,12 @@ public class Drive extends Subsystem {
    * @return an array of motor speeds ([x][y])
    */
   public void mecanum(double x, double y, double rot) {
-    robotDrive.driveCartesian(-x, y, rot, (gyro.getAngle() % 360) - 180);
-    System.out.println("Dr" + gyro.getAngle());
+    robotDrive.driveCartesian(-x, y, rot, gyro.getAngle());
+    //System.out.println("Dr" + gyro.getAngle());
+
+    for (CANSparkMax motor : motors) {
+      System.out.println(motor.get());
+    }
   }
 
   public void setAngleSetpoint(float angle) {

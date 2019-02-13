@@ -52,6 +52,7 @@ public class RobotMap {
 
   public static DoubleSolenoid frontPiston = new DoubleSolenoid(2, 3);
   public static DoubleSolenoid backPiston = new DoubleSolenoid(4, 5);
+  public static SpeedController climbDrive = new Spark(2);
 
   public static Compressor compressor = new Compressor(0);
 

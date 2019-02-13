@@ -46,16 +46,10 @@ public class Arm extends PIDSubsystem {
   }
 
   public void setMotor(double speed) {
-    System.out.println(upperLimitSwitch.get());
-    System.out.println(lowerLimitSwitch.get());
-    System.out.println("Speed A: " + speed);
-
     if (upperLimitSwitch.get())
       speed = Math.max(speed, 0);
-    else if (lowerLimitSwitch.get())
-      speed = Math.min(speed, 0);
-
-    System.out.println("Speed B: " + speed);
+    // else if (lowerLimitSwitch.get())
+    //   speed = Math.min(speed, 0);
 
     motor.set(speed);
   }

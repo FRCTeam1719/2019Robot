@@ -32,7 +32,17 @@ public class Attack3Controller extends DummyOperatorController {
     }
     
     @Override
-    public JoystickButton lowerButton() {
+    public JoystickButton lower1Button() {
+        return new JoystickButton(controller, 10);
+    }
+
+    @Override
+    public JoystickButton lower2Button() {
         return new JoystickButton(controller, 9);
+    }
+
+    @Override
+    public JoystickButton climberDriveButton() {
+        return new JoystickButton(controller, 7);
     }
 }

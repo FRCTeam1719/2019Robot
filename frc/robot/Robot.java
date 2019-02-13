@@ -50,7 +50,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     drive = new Drive(RobotMap.leftFrontMotor, RobotMap.rightFrontMotor, RobotMap.leftBackMotor,
         RobotMap.rightBackMotor, RobotMap.navX, RobotMap.leftSensor, RobotMap.centerSensor, RobotMap.rightSensor, RobotMap.gyro);
-    climber = new Climber(RobotMap.frontPiston, RobotMap.backPiston);
+    climber = new Climber(RobotMap.frontPiston, RobotMap.backPiston, RobotMap.climbDrive);
     state = RobotMode.DRIVING;
     vacuum = new Vacuum(RobotMap.vacuum);
     arm = new Arm(RobotMap.arm, RobotMap.armSolenoid, RobotMap.lowerArmLimit, RobotMap.upperArmLimit);
@@ -136,9 +136,9 @@ public class Robot extends TimedRobot {
       autonomousCommand.cancel();
     }
 
-    Scheduler.getInstance().add(
-      new UseClimber(climber, ClimberOption.RAISE_BOTH)
-    );
+    // Scheduler.getInstance().add(
+    //   new UseClimber(climber, ClimberOption.RAISE_BOTH)
+    // );
 
     RobotMap.compressor.setClosedLoopControl(true);
   }
@@ -149,9 +149,6 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    System.out.println(RobotMap.leftSensor.get());
-    System.out.println(RobotMap.rightSensor.get());
-    System.out.println(RobotMap.centerSensor.get());
 
     // System.out.println("Robot " + RobotMap.navX.getAngle());
     // if (oi.operatorJoystick.getClimb() && !lastClimb) {
@@ -159,7 +156,7 @@ public class Robot extends TimedRobot {
     // }
     // lastClimb = oi.operatorJoystick.getClimb();
 
-    System.out.println("DPAD: " + oi.driverJoystick.getDPAD());
+    //System.out.println("DPAD: " + oi.driverJoystick.getDPAD());
   }
 
   /**

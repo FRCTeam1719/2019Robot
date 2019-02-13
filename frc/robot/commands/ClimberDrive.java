@@ -7,50 +7,32 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Climber;
 
-public class UseClimber extends Command {
-  public enum ClimberOption {
-    LOWER_BOTH, LOWER_FRONT, LOWER_BACK, RAISE_BOTH, RAISE_FRONT, RAISE_BACK, OFF_FRONT, OFF_BACK
-  }
-
+public class ClimberDrive extends Command {
   Climber climber;
-  ClimberOption option;
+  boolean drive;
 
-  public UseClimber(Climber _climber, ClimberOption _option) {
-    super("Climber");
+  public ClimberDrive(Climber _climber, boolean _drive) {
+    // Use requires() here to declare subsystem dependencies
     requires(_climber);
     climber = _climber;
-    option = _option;
+    drive = _drive;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    if (drive)
+      climber.drive();
+    else
+      climber.stopDriving();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (option == ClimberOption.LOWER_BOTH) {
-      climber.lowerBoth();
-    } else if (option == ClimberOption.LOWER_BACK) {
-      climber.lowerBack();
-    } else if (option == ClimberOption.LOWER_FRONT) {
-      climber.lowerFront();
-    } else if (option == ClimberOption.RAISE_BOTH) {
-      climber.raiseBoth();
-    } else if (option == ClimberOption.RAISE_BACK) {
-      climber.raiseBack();
-    } else if (option == ClimberOption.RAISE_FRONT) {
-      climber.raiseFront();
-    } else if (option == ClimberOption.OFF_FRONT) {
-      climber.offFront();
-    } else if (option == ClimberOption.OFF_BACK) {
-      climber.offBack();
-    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
