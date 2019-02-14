@@ -44,7 +44,7 @@ public class RobotMap {
   
   public static SpeedController vacuum = new Spark(3);
 
-  public static SpeedController arm = new CANSparkMax(5, MotorType.kBrushless);
+  public static CANSparkMax arm = new CANSparkMax(5, MotorType.kBrushless);
   public static DoubleSolenoid armSolenoid = new DoubleSolenoid(0, 1);
 
   public static AHRS navX = new AHRS(I2C.Port.kMXP);

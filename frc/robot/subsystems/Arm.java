@@ -7,6 +7,10 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANPIDController;
+import com.revrobotics.CANSparkMax;
+
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -23,9 +27,9 @@ import frc.robot.commands.UseArm;
  * extend the arm upwards using a motor and move the entire mechanism up using a
  * piston
  */
-public class Arm extends PIDSubsystem {
+public class Arm extends Subsystem {
 
-  private SpeedController motor;
+  private CANSparkMax motor;
   private DoubleSolenoid piston;
 
   DigitalInput upperLimitSwitch;
@@ -33,15 +37,16 @@ public class Arm extends PIDSubsystem {
   
   Potentiometer pot;
 
-  public Arm(SpeedController _motor, DoubleSolenoid _piston, DigitalInput _upperLimitSwitch, DigitalInput _lowerLimitSwitch) {
-    super("Arm", 2.0, 0, 0);
-    setAbsoluteTolerance(0.05);
-    getPIDController().setContinuous(false);
+  double targetPos;
+  double currentPos;
+  double zero;
+  public Arm(CANSparkMax _motor, DoubleSolenoid _piston, DigitalInput _upperLimitSwitch, DigitalInput _lowerLimitSwitch) {
+    super("Arm");
     motor = _motor;
     piston = _piston;
     upperLimitSwitch = _upperLimitSwitch;
     lowerLimitSwitch = _lowerLimitSwitch;
-
+    targetPos = pot.get();
     setDefaultCommand(new UseArm(this));
   }
 
@@ -53,14 +58,15 @@ public class Arm extends PIDSubsystem {
 
     motor.set(speed);
   }
-
+  public CANPIDController getPIDController(){
+    return motor.getPIDController();
+  }
   /**
    * Put the arm up to reach the higher levels
    */
   public void putUp() {
     piston.set(Value.kForward);
   }
-
   /**
    * Put the arm back down to reach lower levels
    */
@@ -79,19 +85,29 @@ public class Arm extends PIDSubsystem {
   public Value getState() {
     return piston.get();
   }
-
-  @Override
-  protected double returnPIDInput() {
-    return pot.get();
+  public double getArmAngle(){
+    return motor.getEncoder().getPosition() - zero;
   }
-
-  @Override
-  protected void usePIDOutput(double output) {
-    motor.pidWrite(output);
+  public double getTargetPos(){
+    return targetPos;
   }
-
+  /*
+   * @param targetPos the targetPos to set
+   */
+  public void setTargetPos(double targetPos) {
+    this.targetPos = targetPos;
+  }
   @Override
   protected void initDefaultCommand() {
     
+  }
+  public boolean GetUpperLimit(){
+    return upperLimitSwitch.get();
+  }
+    public boolean GetLowerLimit(){
+    return lowerLimitSwitch.get();
+  }
+  public void SetZero(){
+    zero = motor.getEncoder().getPosition();
   }
 }
