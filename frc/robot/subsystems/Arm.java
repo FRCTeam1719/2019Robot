@@ -35,32 +35,44 @@ public class Arm extends Subsystem {
   DigitalInput upperLimitSwitch;
   DigitalInput lowerLimitSwitch;
   
-  Potentiometer pot;
+  Solenoid releaseValve;
 
   double targetPos;
   double currentPos;
   double zero;
-  public Arm(CANSparkMax _motor, DoubleSolenoid _piston, DigitalInput _upperLimitSwitch, DigitalInput _lowerLimitSwitch) {
+  public Arm(CANSparkMax _motor, DoubleSolenoid _piston, DigitalInput _upperLimitSwitch, DigitalInput _lowerLimitSwitch, Solenoid _releaseValve) {
     super("Arm");
+
     motor = _motor;
     piston = _piston;
     upperLimitSwitch = _upperLimitSwitch;
     lowerLimitSwitch = _lowerLimitSwitch;
-    targetPos = pot.get();
+    releaseValve = _releaseValve;
     setDefaultCommand(new UseArm(this));
   }
 
   public void setMotor(double speed) {
     if (upperLimitSwitch.get())
       speed = Math.max(speed, 0);
-    // else if (lowerLimitSwitch.get())
-    //   speed = Math.min(speed, 0);
+    else if (lowerLimitSwitch.get())
+      speed = Math.min(speed, 0);
 
     motor.set(speed);
   }
+  
   public CANPIDController getPIDController(){
     return motor.getPIDController();
   }
+
+
+  public void release() {
+    releaseValve.set(true);
+  }
+
+  public void suck() {
+    releaseValve.set(false);
+  }
+
   /**
    * Put the arm up to reach the higher levels
    */

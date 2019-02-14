@@ -45,4 +45,9 @@ public class Attack3Controller extends DummyOperatorController {
     public JoystickButton climberDriveButton() {
         return new JoystickButton(controller, 7);
     }
+
+    @Override
+    public JoystickButton autoClimbButton() {
+        return new JoystickButton(controller, 11);
+    }
 }

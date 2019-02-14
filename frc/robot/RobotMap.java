@@ -62,4 +62,8 @@ public class RobotMap {
 
   public static DigitalInput upperArmLimit = new DigitalInput(6);
   public static DigitalInput lowerArmLimit = new DigitalInput(5);
+  public static Solenoid releaseValve = new Solenoid(6);
+
+  public static DigitalInput frontTilt = new DigitalInput(0);
+  public static DigitalInput backTilt = new DigitalInput(1);
 } 

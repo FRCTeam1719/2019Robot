@@ -50,10 +50,10 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     drive = new Drive(RobotMap.leftFrontMotor, RobotMap.rightFrontMotor, RobotMap.leftBackMotor,
         RobotMap.rightBackMotor, RobotMap.navX, RobotMap.leftSensor, RobotMap.centerSensor, RobotMap.rightSensor, RobotMap.gyro);
-    climber = new Climber(RobotMap.frontPiston, RobotMap.backPiston, RobotMap.climbDrive);
+    climber = new Climber(RobotMap.frontPiston, RobotMap.backPiston, RobotMap.climbDrive, RobotMap.frontTilt, RobotMap.backTilt);
     state = RobotMode.DRIVING;
     vacuum = new Vacuum(RobotMap.vacuum);
-    arm = new Arm(RobotMap.arm, RobotMap.armSolenoid, RobotMap.lowerArmLimit, RobotMap.upperArmLimit);
+    arm = new Arm(RobotMap.arm, RobotMap.armSolenoid, RobotMap.lowerArmLimit, RobotMap.upperArmLimit, RobotMap.releaseValve);
 
     oi = new OI();
 
