@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -22,17 +23,28 @@ public class Climber extends Subsystem {
 
   DoubleSolenoid frontSolenoid, backSolenoid;
   SpeedController climbDrive;
+  DigitalInput frontTilt, backTilt;
 
-  public Climber(DoubleSolenoid _frontSolenoid, DoubleSolenoid _backSolenoid, SpeedController _climbDrive) {
+  public Climber(DoubleSolenoid _frontSolenoid, DoubleSolenoid _backSolenoid, SpeedController _climbDrive, DigitalInput _backTilt, DigitalInput _frontTilt) {
     frontSolenoid = _frontSolenoid;
     backSolenoid = _backSolenoid;
     climbDrive = _climbDrive;
+    frontTilt = _frontTilt;
+    backTilt = _backTilt;
   }
 
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
+  }
+
+  public boolean frontTilt() {
+    return frontTilt.get();
+  }
+
+  public boolean backTilt() {
+    return backTilt.get();
   }
 
   public void drive() {
@@ -44,17 +56,17 @@ public class Climber extends Subsystem {
   }
 
   public void raiseBoth() {
-    frontSolenoid.set(Value.kReverse);
+    // frontSolenoid.set(Value.kReverse);
     backSolenoid.set(Value.kReverse);
   }
 
   public void lowerBoth() {
-    frontSolenoid.set(Value.kForward);
+    // frontSolenoid.set(Value.kForward);
     backSolenoid.set(Value.kForward);
   }
 
   public void raiseFront() {
-    frontSolenoid.set(Value.kReverse);
+    // frontSolenoid.set(Value.kReverse);
   }
 
   public void raiseBack() {
@@ -62,12 +74,12 @@ public class Climber extends Subsystem {
   }
 
   public void kill() {
-    frontSolenoid.set(Value.kOff);
+    // frontSolenoid.set(Value.kOff);
     backSolenoid.set(Value.kOff);
   }
 
   public void offFront() {
-    frontSolenoid.set(Value.kOff);
+    // frontSolenoid.set(Value.kOff);
   }
 
   public void offBack() {
@@ -79,6 +91,6 @@ public void lowerBack() {
 }
 
 public void lowerFront() {
-  frontSolenoid.set(Value.kForward);
+  // frontSolenoid.set(Value.kForward);
 }
 }

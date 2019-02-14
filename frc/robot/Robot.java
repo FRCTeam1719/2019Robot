@@ -53,7 +53,7 @@ public class Robot extends TimedRobot {
     climber = new Climber(RobotMap.frontPiston, RobotMap.backPiston, RobotMap.climbDrive);
     state = RobotMode.DRIVING;
     vacuum = new Vacuum(RobotMap.vacuum);
-    arm = new Arm(RobotMap.arm, RobotMap.armSolenoid, RobotMap.lowerArmLimit, RobotMap.upperArmLimit);
+    arm = new Arm(RobotMap.arm, RobotMap.armSolenoid, RobotMap.lowerArmLimit, RobotMap.upperArmLimit, RobotMap.releaseValve);
 
     oi = new OI();
 

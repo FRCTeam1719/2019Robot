@@ -12,8 +12,10 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.BreakMode;
 import frc.robot.commands.ClimberDrive;
+import frc.robot.commands.DoAutoClimb;
 import frc.robot.commands.ToggleArm;
 import frc.robot.commands.UseClimber;
+import frc.robot.commands.UseReleaseValve;
 import frc.robot.commands.UseVacuum;
 import frc.robot.commands.UseClimber.ClimberOption;
 import frc.robot.controllers.Attack3Controller;
@@ -92,15 +94,20 @@ public class OI {
 
     releaseButton = operatorJoystick.releaseButton();
     releaseButton.whenPressed(new UseVacuum(Robot.vacuum, 0));
+    releaseButton.whenPressed(new UseReleaseValve(Robot.arm, true));
     releaseButton.whenReleased(new UseVacuum(Robot.vacuum, .9F));
+    releaseButton.whenReleased(new UseReleaseValve(Robot.arm, false));
 
-    JoystickButton lower1Button = operatorJoystick.lower1Button();
-    lower1Button.whenPressed(new UseClimber(Robot.climber, ClimberOption.LOWER_FRONT));
-    lower1Button.whenReleased(new UseClimber(Robot.climber, ClimberOption.OFF_FRONT));
+    // JoystickButton lower1Button = operatorJoystick.lower1Button();
+    // lower1Button.whenPressed(new UseClimber(Robot.climber, ClimberOption.LOWER_FRONT));
+    // lower1Button.whenReleased(new UseClimber(Robot.climber, ClimberOption.OFF_FRONT));
 
-    JoystickButton lower2Button = operatorJoystick.lower2Button();
-    lower2Button.whenPressed(new UseClimber(Robot.climber, ClimberOption.LOWER_BACK));
-    lower2Button.whenReleased(new UseClimber(Robot.climber, ClimberOption.OFF_BACK));
+    // JoystickButton lower2Button = operatorJoystick.lower2Button();
+    // lower2Button.whenPressed(new UseClimber(Robot.climber, ClimberOption.LOWER_BACK));
+    // lower2Button.whenReleased(new UseClimber(Robot.climber, ClimberOption.OFF_BACK));
+
+    JoystickButton autoClimb = operatorJoystick.autoClimbButton();
+    autoClimb.whileHeld(new DoAutoClimb(Robot.climber));
 
     JoystickButton toggleArmButton = operatorJoystick.toggleArm();
     toggleArmButton.whenPressed(new ToggleArm(Robot.arm));

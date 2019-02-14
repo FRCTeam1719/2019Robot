@@ -33,7 +33,9 @@ public class Arm extends PIDSubsystem {
   
   Potentiometer pot;
 
-  public Arm(SpeedController _motor, DoubleSolenoid _piston, DigitalInput _upperLimitSwitch, DigitalInput _lowerLimitSwitch) {
+  Solenoid releaseValve;
+
+  public Arm(SpeedController _motor, DoubleSolenoid _piston, DigitalInput _upperLimitSwitch, DigitalInput _lowerLimitSwitch, Solenoid _releaseValve) {
     super("Arm", 2.0, 0, 0);
     setAbsoluteTolerance(0.05);
     getPIDController().setContinuous(false);
@@ -41,6 +43,7 @@ public class Arm extends PIDSubsystem {
     piston = _piston;
     upperLimitSwitch = _upperLimitSwitch;
     lowerLimitSwitch = _lowerLimitSwitch;
+    releaseValve = _releaseValve;
 
     setDefaultCommand(new UseArm(this));
   }
@@ -48,10 +51,18 @@ public class Arm extends PIDSubsystem {
   public void setMotor(double speed) {
     if (upperLimitSwitch.get())
       speed = Math.max(speed, 0);
-    // else if (lowerLimitSwitch.get())
-    //   speed = Math.min(speed, 0);
+    else if (lowerLimitSwitch.get())
+      speed = Math.min(speed, 0);
 
     motor.set(speed);
+  }
+
+  public void release() {
+    releaseValve.set(true);
+  }
+
+  public void suck() {
+    releaseValve.set(false);
   }
 
   /**
