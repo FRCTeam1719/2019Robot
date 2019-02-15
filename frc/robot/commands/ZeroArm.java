@@ -31,6 +31,7 @@ public class ZeroArm extends Command {
   protected void execute() {
     if(arm.GetUpperLimit()){
       arm.SetZero();
+      arm.setMotor(0);
       done = true;
     }
   }

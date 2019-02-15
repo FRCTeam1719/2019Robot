@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 
@@ -21,6 +22,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 import frc.robot.RobotMap;
 import frc.robot.commands.UseArm;
+import frc.robot.commands.UseArmPID;
 
 /**
  * Arm subsystem. The arm can hold balls and hatches, and has the ability to
@@ -40,6 +42,8 @@ public class Arm extends Subsystem {
   double targetPos;
   double currentPos;
   double zero;
+  
+  public CANPIDController armPID;
   public Arm(CANSparkMax _motor, DoubleSolenoid _piston, DigitalInput _upperLimitSwitch, DigitalInput _lowerLimitSwitch, Solenoid _releaseValve) {
     super("Arm");
 
@@ -48,12 +52,16 @@ public class Arm extends Subsystem {
     upperLimitSwitch = _upperLimitSwitch;
     lowerLimitSwitch = _lowerLimitSwitch;
     releaseValve = _releaseValve;
-    setDefaultCommand(new UseArm(this));
+    armPID = new CANPIDController(motor);
+
+    setDefaultCommand(new UseArmPID(this));
   }
 
   public void setMotor(double speed) {
-    if (upperLimitSwitch.get())
+    if (upperLimitSwitch.get()){
       speed = Math.max(speed, 0);
+      zero = motor.getEncoder().getPosition();
+  }
     else if (lowerLimitSwitch.get())
       speed = Math.min(speed, 0);
 
@@ -121,5 +129,8 @@ public class Arm extends Subsystem {
   }
   public void SetZero(){
     zero = motor.getEncoder().getPosition();
+  }
+  public CANEncoder GetEncoder(){
+    return motor.getEncoder();
   }
 }

@@ -15,7 +15,12 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import frc.robot.commands.UseDrive;
 import jdk.jfr.Percentage;
+
+import com.revrobotics.CANEncoder;
+import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.ControlType;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 /**
@@ -41,6 +46,15 @@ public class Drive extends Subsystem {
   // PID things
   float P, I, D = 1;
   float integral, previous_error, setpoint, error, derivative, rcw = 0;
+  public CANPIDController leftFrontPID;
+  public CANPIDController rightFrontPID;
+  public CANPIDController leftBackPID;
+  public CANPIDController rightBackPID;
+
+  public CANEncoder leftFrontEncoder;
+  public CANEncoder rightFrontEncoder;
+  public CANEncoder leftBackEncoder;
+  public CANEncoder rightBackEncoder;
 
   public Drive(CANSparkMax leftFrontMotor, CANSparkMax rightFrontMotor, CANSparkMax leftBackMotor,
       CANSparkMax rightBackMotor, AHRS _navX, DigitalInput _leftSensor, DigitalInput _centerSensor,
@@ -59,6 +73,17 @@ public class Drive extends Subsystem {
     rightSensor = _rightSensor;
 
     gyro = _gyro;
+
+    leftFrontPID = new CANPIDController(motors[0]);
+    rightFrontPID = new CANPIDController(motors[1]);
+    leftBackPID = new CANPIDController(motors[2]);
+    rightBackPID = new CANPIDController(motors[3]);
+
+    leftFrontEncoder = motors[0].getEncoder();
+    rightFrontEncoder = motors[1].getEncoder();
+    leftBackEncoder = motors[2].getEncoder();
+    rightBackEncoder = motors[3].getEncoder();
+
   }
 
   @Override
@@ -76,7 +101,7 @@ public class Drive extends Subsystem {
    */
   public void mecanum(double x, double y, double rot) {
     robotDrive.driveCartesian(-x, y, rot, gyro.getAngle());
-    //System.out.println("Dr" + gyro.getAngle());
+    // System.out.println("Dr" + gyro.getAngle());
 
     for (CANSparkMax motor : motors) {
       System.out.println(motor.get());
@@ -108,5 +133,55 @@ public class Drive extends Subsystem {
 
   public boolean getRightSensor() {
     return rightSensor.get();
+  }
+
+  public void BrakeMode(IdleMode mode) {
+    for (CANSparkMax motor : motors) {
+      motor.setIdleMode(mode);
+    }
+  }
+
+  public void setPID(double leftFront, double rightFront, double leftBack, double rightBack) {
+    leftFrontPID.setReference(leftFront, ControlType.kVelocity);
+    rightFrontPID.setReference(rightFront, ControlType.kVelocity);
+    leftBackPID.setReference(leftBack, ControlType.kVelocity);
+    rightBackPID.setReference(rightBack, ControlType.kVelocity);
+  }
+
+  public void setPIDConstants(double p, double i, double d, double f) {
+    setP(p);
+    setI(i);
+    setD(d);
+    setFF(f);
+  }
+
+  public void setP(double p) {
+    leftFrontPID.setP(p);
+    rightFrontPID.setP(p);
+    leftBackPID.setP(p);
+    rightBackPID.setP(p);
+  }
+
+  public void setI(double i) {
+    leftFrontPID.setI(i);
+    rightFrontPID.setI(i);
+    leftBackPID.setI(i);
+    rightBackPID.setI(i);
+
+  }
+
+  public void setD(double d) {
+    leftFrontPID.setD(d);
+    rightFrontPID.setD(d);
+    leftBackPID.setD(d);
+    rightBackPID.setD(d);
+  }
+
+  public void setFF(double f) {
+
+    leftFrontPID.setFF(f);
+    rightFrontPID.setFF(f);
+    leftBackPID.setFF(f);
+    rightBackPID.setFF(f);
   }
 }

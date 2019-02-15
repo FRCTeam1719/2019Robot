@@ -56,7 +56,7 @@ private double integral = 0.0D;
     }
         else { // joystick touched, reset integral and desired pos
           integral = 0;
-
+          Robot.arm.setTargetPos(Robot.arm.getArmAngle());
         //Apply control scaling
           if(Robot.arm.getArmAngle()<LOW_RANGE_THRESHOLD)
             if (joystickReading < 0) {
@@ -74,7 +74,7 @@ private double integral = 0.0D;
       else if (motorSpeed < -0.7) {
         motorSpeed = -0.7;
   }
-
+  arm.setMotor(motorSpeed);
   }
 
   // Make this return true when this Command no longer needs to run execute()

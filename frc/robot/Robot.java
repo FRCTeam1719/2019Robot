@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import com.revrobotics.CANSparkMax.IdleMode;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -56,7 +58,7 @@ public class Robot extends TimedRobot {
     arm = new Arm(RobotMap.arm, RobotMap.armSolenoid, RobotMap.lowerArmLimit, RobotMap.upperArmLimit, RobotMap.releaseValve);
 
     oi = new OI();
-
+    drive.BrakeMode(IdleMode.kBrake);
     lastClimb = false;
   }
 
