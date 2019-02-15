@@ -138,9 +138,9 @@ public class Robot extends TimedRobot {
       autonomousCommand.cancel();
     }
 
-    // Scheduler.getInstance().add(
-    //   new UseClimber(climber, ClimberOption.RAISE_BOTH)
-    // );
+     Scheduler.getInstance().add(
+       new UseClimber(climber, ClimberOption.RAISE_BOTH)
+    );
 
     RobotMap.compressor.setClosedLoopControl(true);
   }

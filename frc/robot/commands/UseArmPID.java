@@ -9,6 +9,7 @@ package frc.robot.commands;
 
 import com.revrobotics.CANPIDController;
 
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
@@ -28,11 +29,33 @@ private double integral = 0.0D;
     arm = _arm;
     requires(arm);
   }
-  CANPIDController _pidCont;
+  PIDController armPID;
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    _pidCont = arm.getPIDController();
+    armPID
+    drive.getEncoderL().setPIDSourceType(PIDSourceType.kRate);
+    drive.getEncoderR().setPIDSourceType(PIDSourceType.kRate);
+    
+    leftController.setOutputRange(-1, 1);
+    rightController.setOutputRange(-1, 1);
+    
+    double maxInput = maxSpeed * MAX_SPEED_SCALING_FACTOR;
+    leftController.setInputRange(-(maxInput), maxInput);
+    rightController.setInputRange(-(maxInput), maxInput);
+    
+    leftController.setContinuous(false);
+    rightController.setContinuous(false);
+    
+    leftController.setToleranceBuffer(20);
+    rightController.setToleranceBuffer(20);
+    
+    leftController.setPercentTolerance(5);
+    rightController.setPercentTolerance(5);
+    
+    
+    leftController.enable();
+rightController.enable();
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -59,7 +82,7 @@ private double integral = 0.0D;
           Robot.arm.setTargetPos(Robot.arm.getArmAngle());
         //Apply control scaling
           if(Robot.arm.getArmAngle()<LOW_RANGE_THRESHOLD)
-            if (joystickReading < 0) {
+            if (Math.abs(joystickReading) < 0) {
               motorSpeed = joystickReading *LOW_RANGE_CONTROL_SCALING;
             }
             else {

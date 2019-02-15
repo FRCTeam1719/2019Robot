@@ -22,7 +22,7 @@ public class ToggleArm extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    arm.toggle();
+    arm.togglePiston();
   }
 
   // Called repeatedly when this Command is scheduled to run

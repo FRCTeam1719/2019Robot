@@ -60,7 +60,9 @@ public class OI {
   DummyOperatorController operatorJoystick = new Attack3Controller(1);
 
   private int dpad;
-
+  public boolean getDriverLeftBumper(){
+    return driverJoystick.leftBumper().get();
+  }
   public double getDriverLeftX() {
     return driverJoystick.getLeftX();
   }
@@ -94,9 +96,9 @@ public class OI {
 
     releaseButton = operatorJoystick.releaseButton();
     releaseButton.whenPressed(new UseVacuum(Robot.vacuum, 0));
-    releaseButton.whenPressed(new UseReleaseValve(Robot.arm, true));
+   // releaseButton.whenPressed(new UseReleaseValve(Robot.arm, true));
     releaseButton.whenReleased(new UseVacuum(Robot.vacuum, .9F));
-    releaseButton.whenReleased(new UseReleaseValve(Robot.arm, false));
+    //releaseButton.whenReleased(new UseReleaseValve(Robot.arm, false));
 
     // JoystickButton lower1Button = operatorJoystick.lower1Button();
     // lower1Button.whenPressed(new UseClimber(Robot.climber, ClimberOption.LOWER_FRONT));
@@ -110,11 +112,13 @@ public class OI {
     autoClimb.whileHeld(new DoAutoClimb(Robot.climber));
 
     JoystickButton toggleArmButton = operatorJoystick.toggleArm();
-    toggleArmButton.whenPressed(new ToggleArm(Robot.arm));
-
+    //toggleArmButton.whenPressed(new ToggleArm(Robot.arm));
+    toggleArmButton.whenActive(new UseReleaseValve(Robot.arm, Robot.arm.ValveState() ));
     JoystickButton climbDrive = operatorJoystick.climberDriveButton();
     climbDrive.whenPressed(new ClimberDrive(Robot.climber, true));
     climbDrive.whenReleased(new ClimberDrive(Robot.climber, false));
+    JoystickButton upBack = operatorJoystick.raiseBack();
+    upBack.whenPressed(new UseClimber(Robot.climber, ClimberOption.RAISE_BACK));
 
     // Turn to angle
     dpad = driverJoystick.getDPAD();

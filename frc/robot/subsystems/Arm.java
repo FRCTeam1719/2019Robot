@@ -54,7 +54,7 @@ public class Arm extends Subsystem {
     releaseValve = _releaseValve;
     armPID = new CANPIDController(motor);
 
-    setDefaultCommand(new UseArmPID(this));
+    setDefaultCommand(new UseArm(this));
   }
 
   public void setMotor(double speed) {
@@ -67,7 +67,9 @@ public class Arm extends Subsystem {
 
     motor.set(speed);
   }
-  
+  public boolean ValveState(){
+    return releaseValve.get();
+  }
   public CANPIDController getPIDController(){
     return motor.getPIDController();
   }
@@ -94,7 +96,7 @@ public class Arm extends Subsystem {
     piston.set(Value.kReverse);
   }
 
-  public void toggle() {
+  public void togglePiston() {
     if (piston.get() == Value.kReverse) {
       putUp();
     } else if (piston.get() == Value.kForward) {

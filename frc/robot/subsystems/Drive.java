@@ -13,7 +13,9 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.UseDrive;
+import frc.robot.commands.UseDrivePID;
 import jdk.jfr.Percentage;
 
 import com.revrobotics.CANEncoder;
@@ -88,7 +90,7 @@ public class Drive extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
-    setDefaultCommand(new UseDrive(this));
+    setDefaultCommand(new UseDrivePID(this));
   }
 
   /**
@@ -100,16 +102,30 @@ public class Drive extends Subsystem {
    * @return an array of motor speeds ([x][y])
    */
   public void mecanum(double x, double y, double rot) {
-    robotDrive.driveCartesian(-x, y, rot, gyro.getAngle());
+    robotDrive.driveCartesian(x, y, rot, gyro.getAngle());
     // System.out.println("Dr" + gyro.getAngle());
 
+    SmartDashboard.putNumber("wheel", motors[0].getEncoder().getVelocity());
+    SmartDashboard.putNumber("wheel2", motors[1].getEncoder().getVelocity());
+    SmartDashboard.putNumber("wheel3", motors[2].getEncoder().getVelocity());
+    SmartDashboard.putNumber("wheel4", motors[3].getEncoder().getVelocity());
+
+    SmartDashboard.putNumber("iwheel", motors[0].get());
+    SmartDashboard.putNumber("iwheel2", motors[1].get());
+    SmartDashboard.putNumber("iwheel3", motors[2].get());
+    SmartDashboard.putNumber("iwheel4", motors[3].get());
+
+    SmartDashboard.putNumber("vwheel", motors[0].getAppliedOutput());
+    SmartDashboard.putNumber("vwheel2", motors[1].getAppliedOutput());
+    SmartDashboard.putNumber("vwheel3", motors[2].getAppliedOutput());
+    SmartDashboard.putNumber("vwheel4", motors[3].getAppliedOutput());
+
+    SmartDashboard.putNumber("Gyro", gyro.getAngle());
+
+    SmartDashboard.putNumber("Gyro2", navX.getAngle());
     for (CANSparkMax motor : motors) {
       System.out.println(motor.get());
     }
-  }
-
-  public void setAngleSetpoint(float angle) {
-    this.setpoint = angle;
   }
 
   public float getAngleError() {
@@ -117,7 +133,7 @@ public class Drive extends Subsystem {
   }
 
   public void doPID() {
-    error = setpoint - (float) navX.getAngle();
+    error = setpoint - (float) gyro.getAngle();
     integral += (error * 0.2);
     derivative = (error - previous_error) / .02F;
     rcw = P * error + I * integral + D * derivative;

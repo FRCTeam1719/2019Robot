@@ -27,11 +27,11 @@ public class UseDrivePID extends Command {
         requires(drive);
 
         // display PID coefficients on SmartDashboard
-        SmartDashboard.putNumber("Arm steady kP", 0);
-        SmartDashboard.putNumber("Arm steady kI", 0);
-        SmartDashboard.putNumber("Arm steady kD", 0);
-        SmartDashboard.putNumber("Feed Forward", 0);
-        SmartDashboard.putNumber("Target speed", 0);
+        SmartDashboard.putNumber("Drive kP", 0);
+        SmartDashboard.putNumber("Drive kI", 0);
+        SmartDashboard.putNumber("Drive kD", 0);
+        SmartDashboard.putNumber("Drive Feed Forward", 0);
+        SmartDashboard.putNumber("Drive Target speed", 0);
     }
 
     protected void initialize() {
@@ -39,42 +39,45 @@ public class UseDrivePID extends Command {
     }
 
     protected void execute() {
-        double p = SmartDashboard.getNumber("Arm steady kP", 0);
-        double i = SmartDashboard.getNumber("Arm steady kI", 0);
-        double d = SmartDashboard.getNumber("Arm steady kD", 0);
-        double ff = SmartDashboard.getNumber("Feed Forward", 0);
-        double _rng = SmartDashboard.getNumber("Arm steady integral range", 0);
+        double p = SmartDashboard.getNumber("Drive kP", 0);
+        double i = SmartDashboard.getNumber("Drive kI", 0);
+        double d = SmartDashboard.getNumber("Drive kD", 0);
+        double ff = SmartDashboard.getNumber("Drive Feed Forward", 0);
+        //double _rng = SmartDashboard.getNumber("Arm steady integral range", 0);
 
         if((p != kP)) { drive.setP(p); kP = p; }
         if((i != kI)) { drive.setI(i); kI = i; }
         if((d != kD)) { drive.setD(d); kD = d; }
         //if((iz != kIz)) { m_pidController.setIZone(iz); kIz = iz; }
-    if((ff != kFF)) { m_pidController.setFF(ff); kFF = ff; }
+        if((ff != kFF)) { drive.setFF(ff); kFF = ff; }
 
         double x = Robot.oi.getDriverLeftX();
-        if (x > DEADZONE) {
+        if (Math.abs(x) > DEADZONE) {
             x = -Math.pow(x, 3);
         } else {
             x = 0;
         }
         double y = Robot.oi.getDriverLeftY();
-        if (y > DEADZONE) {
+        if (Math.abs(y) > DEADZONE) {
             y = -Math.pow(y, 3);
         } else {
             y = 0;
         }
         double rot = Robot.oi.getDriverRightX();
-        if (rot > DEADZONE) {
+        if (Math.abs(rot) > DEADZONE) {
             rot = Math.pow(rot, 3);
         } else {
             rot = 0;
-        }
+        }   
 
         /* Smooth curving */
         x = x * Math.abs(x);
         y = y * Math.abs(y);
         rot = rot * Math.abs(rot);
 
+        if(Robot.oi.getDriverLeftBumper()){
+        x = 1;
+        }
         drive.mecanum(x, y, rot);
     }
 
