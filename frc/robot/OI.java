@@ -1,3 +1,4 @@
+
 /*----------------------------------------------------------------------------*/
 /* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
@@ -113,13 +114,13 @@ public class OI {
 
     JoystickButton toggleArmButton = operatorJoystick.toggleArm();
     //toggleArmButton.whenPressed(new ToggleArm(Robot.arm));
-    toggleArmButton.whenActive(new UseReleaseValve(Robot.arm, Robot.arm.ValveState() ));
+    toggleArmButton.whenPressed(new UseReleaseValve(Robot.arm, !Robot.arm.ValveState() ));
     JoystickButton climbDrive = operatorJoystick.climberDriveButton();
     climbDrive.whenPressed(new ClimberDrive(Robot.climber, true));
     climbDrive.whenReleased(new ClimberDrive(Robot.climber, false));
+    
     JoystickButton upBack = operatorJoystick.raiseBack();
-    upBack.whenPressed(new UseClimber(Robot.climber, ClimberOption.RAISE_BACK));
-
+    upBack.whenPressed(new UseClimber(Robot.climber, ClimberOption.RAISE_BOTH));  
     // Turn to angle
     dpad = driverJoystick.getDPAD();
     double angleUnit = 45; // 360/8

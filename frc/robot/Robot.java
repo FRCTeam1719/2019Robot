@@ -73,7 +73,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-
+    System.out.println(RobotMap.frontTilt.get());
+    System.out.println(RobotMap.backTilt.get());
   }
 
   /**

@@ -33,29 +33,7 @@ private double integral = 0.0D;
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    armPID
-    drive.getEncoderL().setPIDSourceType(PIDSourceType.kRate);
-    drive.getEncoderR().setPIDSourceType(PIDSourceType.kRate);
-    
-    leftController.setOutputRange(-1, 1);
-    rightController.setOutputRange(-1, 1);
-    
-    double maxInput = maxSpeed * MAX_SPEED_SCALING_FACTOR;
-    leftController.setInputRange(-(maxInput), maxInput);
-    rightController.setInputRange(-(maxInput), maxInput);
-    
-    leftController.setContinuous(false);
-    rightController.setContinuous(false);
-    
-    leftController.setToleranceBuffer(20);
-    rightController.setToleranceBuffer(20);
-    
-    leftController.setPercentTolerance(5);
-    rightController.setPercentTolerance(5);
-    
-    
-    leftController.enable();
-rightController.enable();
+    //_pidCont = arm.getPIDController();
   }
 
   // Called repeatedly when this Command is scheduled to run

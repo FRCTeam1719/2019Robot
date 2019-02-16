@@ -56,17 +56,17 @@ public class Climber extends Subsystem {
   }
 
   public void raiseBoth() {
-    // frontSolenoid.set(Value.kReverse);
+    frontSolenoid.set(Value.kReverse);
     backSolenoid.set(Value.kReverse);
   }
 
   public void lowerBoth() {
-    // frontSolenoid.set(Value.kForward);
+    frontSolenoid.set(Value.kForward);
     backSolenoid.set(Value.kForward);
   }
 
   public void raiseFront() {
-    // frontSolenoid.set(Value.kReverse);
+    frontSolenoid.set(Value.kReverse);
   }
 
   public void raiseBack() {
@@ -74,12 +74,12 @@ public class Climber extends Subsystem {
   }
 
   public void kill() {
-    // frontSolenoid.set(Value.kOff);
+     frontSolenoid.set(Value.kOff);
     backSolenoid.set(Value.kOff);
   }
 
   public void offFront() {
-    // frontSolenoid.set(Value.kOff);
+     frontSolenoid.set(Value.kOff);
   }
 
   public void offBack() {
@@ -91,6 +91,6 @@ public void lowerBack() {
 }
 
 public void lowerFront() {
-  // frontSolenoid.set(Value.kForward);
+  frontSolenoid.set(Value.kForward);
 }
 }

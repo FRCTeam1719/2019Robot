@@ -90,7 +90,7 @@ public class Drive extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
-    setDefaultCommand(new UseDrivePID(this));
+    setDefaultCommand(new UseDrive(this));
   }
 
   /**
@@ -105,21 +105,6 @@ public class Drive extends Subsystem {
     robotDrive.driveCartesian(x, y, rot, gyro.getAngle());
     // System.out.println("Dr" + gyro.getAngle());
 
-    SmartDashboard.putNumber("wheel", motors[0].getEncoder().getVelocity());
-    SmartDashboard.putNumber("wheel2", motors[1].getEncoder().getVelocity());
-    SmartDashboard.putNumber("wheel3", motors[2].getEncoder().getVelocity());
-    SmartDashboard.putNumber("wheel4", motors[3].getEncoder().getVelocity());
-
-    SmartDashboard.putNumber("iwheel", motors[0].get());
-    SmartDashboard.putNumber("iwheel2", motors[1].get());
-    SmartDashboard.putNumber("iwheel3", motors[2].get());
-    SmartDashboard.putNumber("iwheel4", motors[3].get());
-
-    SmartDashboard.putNumber("vwheel", motors[0].getAppliedOutput());
-    SmartDashboard.putNumber("vwheel2", motors[1].getAppliedOutput());
-    SmartDashboard.putNumber("vwheel3", motors[2].getAppliedOutput());
-    SmartDashboard.putNumber("vwheel4", motors[3].getAppliedOutput());
-
     SmartDashboard.putNumber("Gyro", gyro.getAngle());
 
     SmartDashboard.putNumber("Gyro2", navX.getAngle());
@@ -131,12 +116,11 @@ public class Drive extends Subsystem {
   public float getAngleError() {
     return error;
   }
-
-  public void doPID() {
-    error = setpoint - (float) gyro.getAngle();
-    integral += (error * 0.2);
-    derivative = (error - previous_error) / .02F;
-    rcw = P * error + I * integral + D * derivative;
+  public void manual(double lf, double rf, double lb, double rb){
+    motors[0].set(lf);
+    motors[1].set(rf);
+    motors[2].set(lb);
+    motors[3].set(rb);
   }
 
   public boolean getLeftSensor() {
@@ -155,49 +139,5 @@ public class Drive extends Subsystem {
     for (CANSparkMax motor : motors) {
       motor.setIdleMode(mode);
     }
-  }
-
-  public void setPID(double leftFront, double rightFront, double leftBack, double rightBack) {
-    leftFrontPID.setReference(leftFront, ControlType.kVelocity);
-    rightFrontPID.setReference(rightFront, ControlType.kVelocity);
-    leftBackPID.setReference(leftBack, ControlType.kVelocity);
-    rightBackPID.setReference(rightBack, ControlType.kVelocity);
-  }
-
-  public void setPIDConstants(double p, double i, double d, double f) {
-    setP(p);
-    setI(i);
-    setD(d);
-    setFF(f);
-  }
-
-  public void setP(double p) {
-    leftFrontPID.setP(p);
-    rightFrontPID.setP(p);
-    leftBackPID.setP(p);
-    rightBackPID.setP(p);
-  }
-
-  public void setI(double i) {
-    leftFrontPID.setI(i);
-    rightFrontPID.setI(i);
-    leftBackPID.setI(i);
-    rightBackPID.setI(i);
-
-  }
-
-  public void setD(double d) {
-    leftFrontPID.setD(d);
-    rightFrontPID.setD(d);
-    leftBackPID.setD(d);
-    rightBackPID.setD(d);
-  }
-
-  public void setFF(double f) {
-
-    leftFrontPID.setFF(f);
-    rightFrontPID.setFF(f);
-    leftBackPID.setFF(f);
-    rightBackPID.setFF(f);
   }
 }
