@@ -5,6 +5,7 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.MotorSafety;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.drive.Vector2d;
@@ -34,7 +35,46 @@ public class UseDrivePID extends Command {
     double kI;
     double kD;
     double kFF = 1 / maxSpeed;
+    double leftFrontMotorOutput = 0;
+    double rightFrontMotorOutput = 0;
+    double leftBackMotorOutput = 0;
+    double rightBackMotorOutput = 0;
 
+    private class leftFrontDrivePIDOut implements PIDOutput {
+
+        @Override
+        public void pidWrite(double output) {
+            leftFrontMotorOutput = output;
+        }
+
+    }
+
+    private class rightFrontDrivePIDOutput implements PIDOutput {
+
+        @Override
+        public void pidWrite(double output) {
+            rightFrontMotorOutput = output;
+        }
+
+    }
+
+    private class leftBackDrivePIDOut implements PIDOutput {
+
+        @Override
+        public void pidWrite(double output) {
+            leftBackMotorOutput = output;
+        }
+
+    }
+
+    private class rightBackDrivePIDOutput implements PIDOutput {
+
+        @Override
+        public void pidWrite(double output) {
+            rightBackMotorOutput = output;
+        }
+
+    }
     public UseDrivePID(Drive _drive) {
         super("Drive");
         drive = _drive;
@@ -46,6 +86,12 @@ public class UseDrivePID extends Command {
         SmartDashboard.putNumber("Drive kD", 0);
         SmartDashboard.putNumber("Drive Feed Forward", 0);
         SmartDashboard.putNumber("Drive Target speed", 0);
+        leftFrontController = new PIDController(kP, kI, kD, (PIDSource) drive.motors[0].getEncoder(), new leftFrontDrivePIDOut());  
+        leftBackController = new PIDController(kP, kI, kD, (PIDSource) drive.motors[1].getEncoder(), new leftBackDrivePIDOut()); 
+        rightFrontController = new PIDController(kP, kI, kD, (PIDSource) drive.motors[2].getEncoder(),
+                new rightFrontDrivePIDOutput());
+        rightBackController = new PIDController(kP, kI, kD, (PIDSource) drive.motors[3].getEncoder(),
+                new rightBackDrivePIDOutput());
     }
 
     protected void initialize() {
@@ -93,46 +139,7 @@ public class UseDrivePID extends Command {
          */
     }
 
-    double leftFrontMotorOutput = 0;
-    double rightFrontMotorOutput = 0;
-    double leftBackMotorOutput = 0;
-    double rightBackMotorOutput = 0;
 
-    private class leftFrontDrivePIDOut implements PIDOutput {
-
-        @Override
-        public void pidWrite(double output) {
-            leftFrontMotorOutput = output;
-        }
-
-    }
-
-    private class rightFrontDrivePIDOutput implements PIDOutput {
-
-        @Override
-        public void pidWrite(double output) {
-            rightFrontMotorOutput = output;
-        }
-
-    }
-
-    private class leftBackDrivePIDOut implements PIDOutput {
-
-        @Override
-        public void pidWrite(double output) {
-            leftBackMotorOutput = output;
-        }
-
-    }
-
-    private class rightBackDrivePIDOutput implements PIDOutput {
-
-        @Override
-        public void pidWrite(double output) {
-            rightBackMotorOutput = output;
-        }
-
-    }
 
     protected void execute() {
 
@@ -175,7 +182,7 @@ public class UseDrivePID extends Command {
         if (y > DEADBAND) {
             x = 0;
         }
-        Vector2d input = new Vector2d(y, x);
+        Vector2d input = new Vector2d(x, y);
         input.rotate(-drive.gyro.getAngle());
 
         double[] wheelSpeeds = new double[4];

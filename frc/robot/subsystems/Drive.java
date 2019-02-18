@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.UseDrive;
+import frc.robot.commands.UseDriveCANPID;
 import frc.robot.commands.UseDrivePID;
 import jdk.jfr.Percentage;
 
@@ -86,6 +87,8 @@ public class Drive extends Subsystem {
     leftBackEncoder = motors[2].getEncoder();
     rightBackEncoder = motors[3].getEncoder();
 
+    SmartDashboard.putNumber("TEM", leftFrontPID.getI());
+
   }
 
   @Override
@@ -102,7 +105,7 @@ public class Drive extends Subsystem {
    * @return an array of motor speeds ([x][y])
    */
   public void mecanum(double x, double y, double rot) {
-    robotDrive.driveCartesian(x, y, rot, gyro.getAngle());
+    robotDrive.driveCartesian(x, y, rot);
     // System.out.println("Dr" + gyro.getAngle());
 
     SmartDashboard.putNumber("Gyro", gyro.getAngle());
@@ -116,7 +119,8 @@ public class Drive extends Subsystem {
   public float getAngleError() {
     return error;
   }
-  public void manual(double lf, double rf, double lb, double rb){
+
+  public void manual(double lf, double rf, double lb, double rb) {
     motors[0].set(lf);
     motors[1].set(rf);
     motors[2].set(lb);

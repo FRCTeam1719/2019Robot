@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.commands.SimpleSpinMotor;
@@ -21,9 +22,11 @@ public class Vacuum extends Subsystem {
 
   SpeedController motor;
   double rampSpeed = 0;
-  public Vacuum(SpeedController _motor) {
+  Solenoid releaseValve;
+  public Vacuum(SpeedController _motor, Solenoid _releaseValve) {
     super();
     motor = _motor;
+    releaseValve = _releaseValve;
   }
 
   @Override
@@ -31,7 +34,13 @@ public class Vacuum extends Subsystem {
     // Set the default command for a subsystem here.
     setDefaultCommand(new UseVacuum(this, 0F));
   }
+  public void release() {
+    releaseValve.set(true);
+  }
 
+  public void suck() {
+    releaseValve.set(false);
+  }
   public void spin(float speed) {
     if (motor.get() < speed){
       rampSpeed += speed - rampSpeed / 2;
@@ -46,5 +55,8 @@ public class Vacuum extends Subsystem {
 
   public void stop() {
     motor.stopMotor();
+  }
+  public boolean ValveState(){
+    return releaseValve.get();
   }
 }

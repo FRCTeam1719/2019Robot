@@ -50,4 +50,8 @@ public class Attack3Controller extends DummyOperatorController {
     public JoystickButton autoClimbButton() {
         return new JoystickButton(controller, 11);
     }
+    @Override
+    public JoystickButton armGoUp(){
+        return new JoystickButton(controller, 3);
+    }
 }

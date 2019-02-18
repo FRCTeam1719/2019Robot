@@ -8,11 +8,13 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.Robot;
 import frc.robot.subsystems.Climber;
 
 public class DoAutoClimb extends Command {
   Climber climber;
-
+  float frontTiltRange = 15;
+  float backTiltRange = 15;
   public DoAutoClimb(Climber climber) {
     // Use requires() here to declare subsystem dependencies
     requires(climber);
@@ -28,9 +30,11 @@ public class DoAutoClimb extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    boolean frontTilt = (Robot.navX.getPitch() < frontTiltRange);
+    boolean backTilt = (Robot.navX.getPitch() < -backTiltRange);
       climber.lowerFront();
 
-      if (climber.backTilt())
+      if (backTilt)
         climber.lowerBack();
       else
         climber.offBack();

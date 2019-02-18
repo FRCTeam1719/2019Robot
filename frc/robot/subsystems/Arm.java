@@ -37,24 +37,24 @@ public class Arm extends Subsystem {
   DigitalInput upperLimitSwitch;
   DigitalInput lowerLimitSwitch;
   
-  Solenoid releaseValve;
-
   double targetPos;
   double currentPos;
   double zero;
+
+  public Potentiometer armPot;
   
   public CANPIDController armPID;
-  public Arm(CANSparkMax _motor, DoubleSolenoid _piston, DigitalInput _upperLimitSwitch, DigitalInput _lowerLimitSwitch, Solenoid _releaseValve) {
+  public Arm(CANSparkMax _motor, DoubleSolenoid _piston, DigitalInput _upperLimitSwitch, DigitalInput _lowerLimitSwitch, Potentiometer _armPot) {
     super("Arm");
 
     motor = _motor;
     piston = _piston;
     upperLimitSwitch = _upperLimitSwitch;
     lowerLimitSwitch = _lowerLimitSwitch;
-    releaseValve = _releaseValve;
-    armPID = new CANPIDController(motor);
+        armPID = new CANPIDController(motor);
 
     setDefaultCommand(new UseArm(this));
+    armPot = _armPot;
   }
 
   public void setMotor(double speed) {
@@ -67,21 +67,13 @@ public class Arm extends Subsystem {
 
     motor.set(speed);
   }
-  public boolean ValveState(){
-    return releaseValve.get();
-  }
+
   public CANPIDController getPIDController(){
     return motor.getPIDController();
   }
 
 
-  public void release() {
-    releaseValve.set(true);
-  }
 
-  public void suck() {
-    releaseValve.set(false);
-  }
 
   /**
    * Put the arm up to reach the higher levels
@@ -100,6 +92,9 @@ public class Arm extends Subsystem {
     if (piston.get() == Value.kReverse) {
       putUp();
     } else if (piston.get() == Value.kForward) {
+      putDown();
+    }
+    else{
       putDown();
     }
   }

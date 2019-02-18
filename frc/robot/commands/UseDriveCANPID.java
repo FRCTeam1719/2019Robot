@@ -90,13 +90,13 @@ public class UseDriveCANPID extends Command {
 
         SetPIDFromDashboard();
 
-        double x = Robot.oi.getDriverLeftX();
+        double x = Robot.oi.getDriverLeftY();
         if (Math.abs(x) > DEADZONE) {
             x = -Math.pow(x, 3);
         } else {
             x = 0;
         }
-        double y = Robot.oi.getDriverLeftY();
+        double y = Robot.oi.getDriverLeftX();
         if (Math.abs(y) > DEADZONE) {
             y = -Math.pow(y, 3);
         } else {
@@ -127,8 +127,8 @@ public class UseDriveCANPID extends Command {
         if (y > DEADBAND) {
             x = 0;
         }
-        Vector2d input = new Vector2d(y, x);
-        input.rotate(-drive.gyro.getAngle());
+        Vector2d input = new Vector2d(x, y);
+        //input.rotate(-drive.gyro.getAngle());
 
         double[] wheelSpeeds = new double[4];
         wheelSpeeds[MotorType.kFrontLeft.value] = input.x + input.y + rot;
@@ -138,16 +138,21 @@ public class UseDriveCANPID extends Command {
 
         normalize(wheelSpeeds);
 
-        leftFrontController.setReference(wheelSpeeds[MotorType.kFrontLeft.value] * maxSpeed, ControlType.kVelocity);
-        rightFrontController.setReference(
-                wheelSpeeds[MotorType.kFrontRight.value] * maxSpeed * m_rightSideInvertMultiplier,
+        leftFrontMotorOutput = wheelSpeeds[MotorType.kFrontLeft.value];
+        rightFrontMotorOutput = wheelSpeeds[MotorType.kFrontRight.value];
+        leftBackMotorOutput = wheelSpeeds[MotorType.kRearLeft.value];
+        rightBackMotorOutput = wheelSpeeds[MotorType.kRearRight.value];
+        leftFrontController.setReference(leftFrontMotorOutput * maxSpeed, ControlType.kVelocity);
+        rightFrontController.setReference(rightFrontMotorOutput
+                 * maxSpeed * m_rightSideInvertMultiplier,
                 ControlType.kVelocity);
-        leftBackController.setReference(wheelSpeeds[MotorType.kRearLeft.value] * maxSpeed, ControlType.kVelocity);
-        rightBackController.setReference(
-                wheelSpeeds[MotorType.kRearRight.value] * maxSpeed * m_rightSideInvertMultiplier,
+        leftBackController.setReference(leftBackMotorOutput * maxSpeed, ControlType.kVelocity);
+        rightBackController.setReference(rightBackMotorOutput
+                 * maxSpeed * m_rightSideInvertMultiplier,
                 ControlType.kVelocity);
 
         drive.manual(leftFrontMotorOutput, rightFrontMotorOutput, leftBackMotorOutput, rightBackMotorOutput);
+
     }
 
     protected boolean isFinished() {

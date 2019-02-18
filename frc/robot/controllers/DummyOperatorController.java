@@ -31,4 +31,6 @@ public abstract class DummyOperatorController {
     public abstract JoystickButton climberDriveButton();
 
     public abstract JoystickButton autoClimbButton();
+
+    public abstract JoystickButton armGoUp();
 }

@@ -9,25 +9,20 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Vacuum;
 
 public class UseReleaseValve extends Command {
-  Arm arm;
-  boolean release;
+  Vacuum vacuum;
+  public UseReleaseValve(Vacuum vacuum) {
+    requires(vacuum);
 
-  public UseReleaseValve(Arm arm, boolean release) {
-    requires(arm);
-
-    this.arm = arm;
-    this.release = release;
-  }
+    this.vacuum = vacuum;
+    }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    if (release)
-      arm.release();
-    else
-      arm.suck();
+    vacuum.release();
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -44,11 +39,13 @@ public class UseReleaseValve extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    vacuum.suck();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    vacuum.suck();
   }
 }

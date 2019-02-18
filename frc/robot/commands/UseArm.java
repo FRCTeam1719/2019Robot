@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.subsystems.Arm;
 
@@ -28,6 +29,7 @@ public class UseArm extends Command {
   @Override
   protected void execute() {
     arm.setMotor(Robot.oi.getOperatorY() / 7.5);
+    SmartDashboard.putNumber("ARm", arm.armPot.get());
   }
 
   // Make this return true when this Command no longer needs to run execute()

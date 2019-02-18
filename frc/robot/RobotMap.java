@@ -12,6 +12,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -19,6 +20,7 @@ import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -62,8 +64,10 @@ public class RobotMap {
 
   public static DigitalInput upperArmLimit = new DigitalInput(6);
   public static DigitalInput lowerArmLimit = new DigitalInput(5);
-  public static Solenoid releaseValve = new Solenoid(6);
+  public static Solenoid releaseValve = new Solenoid(7);
 
-  public static DigitalInput frontTilt = new DigitalInput(7);
-  public static DigitalInput backTilt = new DigitalInput(8);
+  public static DigitalInput frontTilt = new DigitalInput(8);
+  public static DigitalInput backTilt = new DigitalInput(7);
+
+  public static Potentiometer armPot = new AnalogPotentiometer(1);
 } 

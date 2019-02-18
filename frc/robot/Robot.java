@@ -7,12 +7,14 @@
 
 package frc.robot;
 
+import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.UseClimber;
 import frc.robot.commands.UseClimber.ClimberOption;
 import frc.robot.subsystems.Arm;
@@ -32,6 +34,7 @@ public class Robot extends TimedRobot {
   public static Climber climber;
   public static Vacuum vacuum;
   public static Arm arm;
+  public static AHRS navX;
 
   public static OI oi;
 
@@ -50,12 +53,13 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    navX = RobotMap.navX;
     drive = new Drive(RobotMap.leftFrontMotor, RobotMap.rightFrontMotor, RobotMap.leftBackMotor,
         RobotMap.rightBackMotor, RobotMap.navX, RobotMap.leftSensor, RobotMap.centerSensor, RobotMap.rightSensor, RobotMap.gyro);
     climber = new Climber(RobotMap.frontPiston, RobotMap.backPiston, RobotMap.climbDrive, RobotMap.frontTilt, RobotMap.backTilt);
     state = RobotMode.DRIVING;
-    vacuum = new Vacuum(RobotMap.vacuum);
-    arm = new Arm(RobotMap.arm, RobotMap.armSolenoid, RobotMap.lowerArmLimit, RobotMap.upperArmLimit, RobotMap.releaseValve);
+    vacuum = new Vacuum(RobotMap.vacuum, RobotMap.releaseValve);
+    arm = new Arm(RobotMap.arm, RobotMap.armSolenoid, RobotMap.lowerArmLimit, RobotMap.upperArmLimit, RobotMap.armPot);
 
     oi = new OI();
     drive.BrakeMode(IdleMode.kBrake);
@@ -85,10 +89,14 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     climber.kill();
+    
   }
 
   @Override
   public void disabledPeriodic() {
+    SmartDashboard.putNumber("Pitch", drive.navX.getPitch());
+    SmartDashboard.putNumber("Roll", drive.navX.getRoll());
+    SmartDashboard.putNumber("Yaw", drive.navX.getYaw());
     Scheduler.getInstance().run();
   }
 

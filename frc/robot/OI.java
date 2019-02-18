@@ -114,11 +114,12 @@ public class OI {
 
     JoystickButton toggleArmButton = operatorJoystick.toggleArm();
     //toggleArmButton.whenPressed(new ToggleArm(Robot.arm));
-    toggleArmButton.whenPressed(new UseReleaseValve(Robot.arm, !Robot.arm.ValveState() ));
+    toggleArmButton.whileHeld(new UseReleaseValve(Robot.vacuum));
     JoystickButton climbDrive = operatorJoystick.climberDriveButton();
     climbDrive.whenPressed(new ClimberDrive(Robot.climber, true));
     climbDrive.whenReleased(new ClimberDrive(Robot.climber, false));
-    
+    JoystickButton armGoUp = operatorJoystick.armGoUp();
+    armGoUp.whenPressed(new ToggleArm(Robot.arm));
     JoystickButton upBack = operatorJoystick.raiseBack();
     upBack.whenPressed(new UseClimber(Robot.climber, ClimberOption.RAISE_BOTH));  
     // Turn to angle
