@@ -13,7 +13,7 @@ import frc.robot.subsystems.Climber;
 
 public class UseClimber extends Command {
   public enum ClimberOption {
-    LOWER_BOTH, LOWER_FRONT, LOWER_BACK, RAISE_BOTH, RAISE_FRONT, RAISE_BACK, OFF_FRONT, OFF_BACK
+    LOWER_BOTH, LOWER_FRONT, LOWER_BACK, RAISE_BOTH, RAISE_FRONT, RAISE_BACK, OFF_FRONT, OFF_BACK, OFF_BOTH
   }
 
   Climber climber;
@@ -50,6 +50,8 @@ public class UseClimber extends Command {
       climber.offFront();
     } else if (option == ClimberOption.OFF_BACK) {
       climber.offBack();
+    } else if (option == ClimberOption.OFF_BOTH) {
+      climber.kill();
     }
   }
 

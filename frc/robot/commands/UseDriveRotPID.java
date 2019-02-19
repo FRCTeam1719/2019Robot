@@ -2,6 +2,9 @@
 
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.drive.Vector2d;
 import edu.wpi.first.wpilibj.drive.RobotDriveBase.MotorType;
@@ -12,52 +15,68 @@ import frc.robot.subsystems.Drive;
 /**
  * UseDrive
  */
-public class UseDrive extends Command {
+public class UseDriveRotPID extends Command {
     private Drive drive;
 
-    public UseDrive(Drive _drive) {
+    private PIDController anglePID;
+    private double Kp, Ki, Kd = 0;
+    private double TOLERANCE = 5;
+
+    private double stickTolerance = .1;
+    double pidOut;
+
+    private class AnglePIDOUT implements PIDOutput {
+
+		@Override
+		public void pidWrite(double output) {
+			pidOut = output;
+		}
+    	
+}
+
+    public UseDriveRotPID(Drive _drive) {
         super("Drive");
         drive = _drive;
         requires(drive);
         SmartDashboard.putNumber("Strafe correction: ", 0.115);
-
+        drive.gyro.setPIDSourceType(PIDSourceType.kDisplacement);
+        anglePID = new PIDController(Kp, Ki, Kd, drive.gyro, new AnglePIDOUT());
+        SmartDashboard.putData(anglePID);
     }
 
     protected void initialize() {
-
+        anglePID.setOutputRange(-1D, 1D);
+        anglePID.setSetpoint(drive.gyro.getAngle());
+        anglePID.setPercentTolerance(TOLERANCE);
+        anglePID.enable();
+        SmartDashboard.putData("Angle PID", anglePID);
     }
 
     protected void execute() {
+        SetPIDFromDashboard();
         double x = -Robot.oi.getDriverLeftX();
         double y = -Robot.oi.getDriverLeftY();
         double rot = Robot.oi.getDriverRightX();
+        if(Math.abs(rot) > stickTolerance){
+            //Manual rotation
+            anglePID.disable();
+            anglePID.setSetpoint(drive.gyro.getAngle());
+            rot = rot * Math.abs(rot);
+        }else{
+            //Else pid take the wheel
+            anglePID.enable();
+            rot = pidOut;
+        }
+
+
         /* Smooth curving */
         x = x * Math.abs(x);
         y = y * Math.abs(y);
-        rot = rot * Math.abs(rot);
+        
         double strafeCorrect = SmartDashboard.getNumber("Strafe correction: ", .115);
         x = x * (1 + strafeCorrect);
         drive.mecanum(x, y, rot);
-
-        /*SmartDashboard.putNumber("X", x);
-        SmartDashboard.putNumber("y", y);
-        SmartDashboard.putNumber("rot", rot);
-
-        Vector2d input = new Vector2d(y, x);
-        //input.rotate(-drive.gyro.getAngle());
-
-        double[] wheelSpeeds = new double[4];
-        wheelSpeeds[MotorType.kFrontLeft.value] = input.x + input.y + rot;
-        wheelSpeeds[MotorType.kFrontRight.value] = -input.x + input.y - rot;
-        wheelSpeeds[MotorType.kRearLeft.value] = -input.x + input.y + rot;
-        wheelSpeeds[MotorType.kRearRight.value] = input.x + input.y - rot;
-
-        normalize(wheelSpeeds);
-        drive.manual(wheelSpeeds[MotorType.kFrontLeft.value],
-                     wheelSpeeds[MotorType.kFrontRight.value] * (-1),
-                     wheelSpeeds[MotorType.kRearLeft.value],
-                     wheelSpeeds[MotorType.kRearRight.value] * (-1));
-    */ }
+    }
 
     protected boolean isFinished() {
         return false;
@@ -77,4 +96,8 @@ public class UseDrive extends Command {
             }
         }
     }
+
+    protected void SetPIDFromDashboard() {
+        anglePID = (PIDController)SmartDashboard.getData("Angle PID");
+      }
 }

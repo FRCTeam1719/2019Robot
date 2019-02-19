@@ -111,6 +111,13 @@ public class OI {
 
     JoystickButton autoClimb = operatorJoystick.autoClimbButton();
     autoClimb.whileHeld(new DoAutoClimb(Robot.climber));
+    //autoClimb.whenPressed(new UseClimber(Robot.climber, ClimberOption.LOWER_BOTH));
+
+    JoystickButton raiseFront = operatorJoystick.lower1Button();
+    raiseFront.whenPressed(new UseClimber(Robot.climber, ClimberOption.RAISE_FRONT));
+    
+    JoystickButton raiseBack = operatorJoystick.lower2Button();
+    raiseBack.whenPressed(new UseClimber(Robot.climber, ClimberOption.RAISE_BACK));
 
     JoystickButton toggleArmButton = operatorJoystick.toggleArm();
     //toggleArmButton.whenPressed(new ToggleArm(Robot.arm));

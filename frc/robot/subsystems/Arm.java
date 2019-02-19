@@ -102,8 +102,10 @@ public class Arm extends Subsystem {
   public Value getState() {
     return piston.get();
   }
+  //.836
+//.875
   public double getArmAngle(){
-    return motor.getEncoder().getPosition() - zero;
+    return (armPot.get() - .8358) * 360;
   }
   public double getTargetPos(){
     return targetPos;

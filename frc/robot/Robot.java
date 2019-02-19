@@ -94,10 +94,19 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
-    SmartDashboard.putNumber("Pitch", drive.navX.getPitch());
-    SmartDashboard.putNumber("Roll", drive.navX.getRoll());
-    SmartDashboard.putNumber("Yaw", drive.navX.getYaw());
-    Scheduler.getInstance().run();
+  float frontTiltRange = 2;
+  float backTiltRange = 3;
+  float TOLERANCE = .5F;
+    boolean frontTilt = (navX.getPitch() > frontTiltRange);
+    boolean backTilt = (navX.getPitch() < -backTiltRange);
+    
+    boolean closeEnough = Math.abs(navX.getPitch()) < TOLERANCE;
+
+    SmartDashboard.putBoolean("closeEnough", closeEnough);
+    SmartDashboard.putBoolean("backTilt", backTilt);
+    SmartDashboard.putBoolean("frontTilt", frontTilt);
+    SmartDashboard.putNumber("Pitch", navX.getPitch());
+
   }
 
   /**
@@ -136,13 +145,15 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {
     Scheduler.getInstance().run();
   }
-
+float zero;
   @Override
   public void teleopInit() {
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
+    zero = Robot.navX.getPitch();
+
     if (autonomousCommand != null) {
       autonomousCommand.cancel();
     }
@@ -161,6 +172,31 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
 
+    float frontTiltRange = 2;
+    float backTiltRange = 3;
+    float TOLERANCE = .5F;
+
+    boolean frontTilt = (Robot.navX.getPitch() + zero > frontTiltRange);
+    boolean backTilt = (Robot.navX.getPitch() + zero < -backTiltRange);
+    boolean closeEnough = Math.abs(Robot.navX.getPitch() + zero) < TOLERANCE;
+
+    SmartDashboard.putBoolean("closeEnough", closeEnough);
+    SmartDashboard.putBoolean("backTilt", backTilt);
+    SmartDashboard.putBoolean("frontTilt", frontTilt);
+    SmartDashboard.putNumber("Pitch", Robot.navX.getPitch());
+
+    /*float frontTiltRange = 5;
+    float backTiltRange = 7;
+    float TOLERANCE = 4;
+    SmartDashboard.putNumber("Pitch", navX.getPitch());
+    boolean frontTilt = (Robot.navX.getPitch() > frontTiltRange);
+    boolean backTilt = (Robot.navX.getPitch() < -backTiltRange);
+    boolean closeEnough = Math.abs(Robot.navX.getPitch()) < TOLERANCE;
+
+    SmartDashboard.putBoolean("closeEnough", closeEnough);
+    SmartDashboard.putBoolean("backTilt", backTilt);
+    SmartDashboard.putBoolean("frontTilt", frontTilt);
+    SmartDashboard.putNumber("Pitch", Robot.navX.getPitch());*/
     // System.out.println("Robot " + RobotMap.navX.getAngle());
     // if (oi.operatorJoystick.getClimb() && !lastClimb) {
     //   climber.lowerBoth();
