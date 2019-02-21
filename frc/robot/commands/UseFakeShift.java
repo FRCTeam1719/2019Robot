@@ -8,16 +8,17 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Robot;
-import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Drive;
+public class UseFakeShift extends Command {
+private  Drive drive;
+boolean set;
 
-public class UseArm extends Command {
-  Arm arm;
-
-  public UseArm(Arm _arm) {
-    arm = _arm;
-    requires(arm);
+  public UseFakeShift(Drive _drive, boolean _set) {
+    // Use requires() here to declare subsystem dependencies
+    // eg. requires(chassis);
+    drive = _drive;
+    set = _set;
   }
 
   // Called just before this Command runs the first time
@@ -28,17 +29,15 @@ public class UseArm extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    arm.setMotor(Robot.oi.getOperatorY() / 7.5);
-    SmartDashboard.putNumber("ARm", arm.getArmAngle());
+    drive.setShift(set);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return true;
   }
-//.836
-//.875
+
   // Called once after isFinished returns true
   @Override
   protected void end() {

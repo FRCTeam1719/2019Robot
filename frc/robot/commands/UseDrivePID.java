@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.drive.RobotDriveBase.MotorType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
+import frc.robot.sensors.CANEncoderPIDSource;
 import frc.robot.subsystems.Drive;
 
 /**
@@ -23,18 +24,28 @@ public class UseDrivePID extends Command {
     private float DEADZONE = 0.05F;
     private float DEADBAND = 0.05F;
 
+    public static final double kDefaultDeadband = 0.02;
+
+    protected double m_deadband = kDefaultDeadband;
+  
+
     PIDController leftFrontController;
     PIDController leftBackController;
     PIDController rightFrontController;
     PIDController rightBackController;
+    PIDController dummyPID;
 
-    private double maxSpeed = 4000D;
+    private double highMaxSpeed = 3500D;
+    private double lowMaxSpeed = 1800D;
+    private double maxSpeed = highMaxSpeed;
     private double m_rightSideInvertMultiplier = -1.0;
 
     double kP;
     double kI;
     double kD;
     double kFF = 1 / maxSpeed;
+
+
     double leftFrontMotorOutput = 0;
     double rightFrontMotorOutput = 0;
     double leftBackMotorOutput = 0;
@@ -75,23 +86,27 @@ public class UseDrivePID extends Command {
         }
 
     }
+
+    CANEncoderPIDSource leftFrontSource;
+    CANEncoderPIDSource rightFrontSource;
+    CANEncoderPIDSource rightBackSource;
+    CANEncoderPIDSource leftBackSource;
+
     public UseDrivePID(Drive _drive) {
         super("Drive");
         drive = _drive;
         requires(drive);
 
-        // display PID coefficients on SmartDashboard
-        SmartDashboard.putNumber("Drive kP", 0);
-        SmartDashboard.putNumber("Drive kI", 0);
-        SmartDashboard.putNumber("Drive kD", 0);
-        SmartDashboard.putNumber("Drive Feed Forward", 0);
-        SmartDashboard.putNumber("Drive Target speed", 0);
-        leftFrontController = new PIDController(kP, kI, kD, (PIDSource) drive.motors[0].getEncoder(), new leftFrontDrivePIDOut());  
-        leftBackController = new PIDController(kP, kI, kD, (PIDSource) drive.motors[1].getEncoder(), new leftBackDrivePIDOut()); 
-        rightFrontController = new PIDController(kP, kI, kD, (PIDSource) drive.motors[2].getEncoder(),
-                new rightFrontDrivePIDOutput());
-        rightBackController = new PIDController(kP, kI, kD, (PIDSource) drive.motors[3].getEncoder(),
-                new rightBackDrivePIDOutput());
+        leftFrontSource = new CANEncoderPIDSource(drive.motors[0].getEncoder());
+        rightFrontSource = new CANEncoderPIDSource(drive.motors[1].getEncoder());
+        rightBackSource = new CANEncoderPIDSource(drive.motors[2].getEncoder());
+        leftBackSource = new CANEncoderPIDSource(drive.motors[3].getEncoder());
+
+        leftFrontController = new PIDController(kP, kI, kD, leftFrontSource, new leftFrontDrivePIDOut());
+        leftBackController = new PIDController(kP, kI, kD, leftBackSource, new leftBackDrivePIDOut());
+        rightFrontController = new PIDController(kP, kI, kD, rightFrontSource, new rightFrontDrivePIDOutput());
+        rightBackController = new PIDController(kP, kI, kD, rightBackSource, new rightBackDrivePIDOutput());
+        dummyPID = new PIDController(kP, kI, kD, null, null);
     }
 
     protected void initialize() {
@@ -119,6 +134,9 @@ public class UseDrivePID extends Command {
         leftBackController.enable();
         rightFrontController.enable();
         rightBackController.enable();
+
+        SmartDashboard.putData(leftBackController);
+
         /*
          * double maxInput = maxSpeed * MAX_SPEED_SCALING_FACTOR;
          * leftFrontController.setInputRange(-(maxInput), maxInput);
@@ -139,11 +157,15 @@ public class UseDrivePID extends Command {
          */
     }
 
-
-
     protected void execute() {
 
         SetPIDFromDashboard();
+
+        if(drive.getShift()){
+            maxSpeed = lowMaxSpeed;
+        }else{
+            maxSpeed = highMaxSpeed;
+        }
 
         double x = Robot.oi.getDriverLeftX();
         if (Math.abs(x) > DEADZONE) {
@@ -174,16 +196,14 @@ public class UseDrivePID extends Command {
         }
 
         // drive.mecanum(x, y, rot);
+        y = limit(y);
+        y = applyDeadband(y, m_deadband);
 
-        // Compensate for gyro angle.
-        if (x > DEADBAND) {
-            x = 0;
-        }
-        if (y > DEADBAND) {
-            x = 0;
-        }
+        x = limit(x);
+        x = applyDeadband(x, m_deadband);
+
         Vector2d input = new Vector2d(x, y);
-        input.rotate(-drive.gyro.getAngle());
+        //input.rotate(-drive.gyro.getAngle());
 
         double[] wheelSpeeds = new double[4];
         wheelSpeeds[MotorType.kFrontLeft.value] = input.x + input.y + rot;
@@ -223,10 +243,12 @@ public class UseDrivePID extends Command {
     }
 
     protected void SetPIDFromDashboard() {
-        double p = SmartDashboard.getNumber("Drive kP", 0);
-        double i = SmartDashboard.getNumber("Drive kI", 0);
-        double d = SmartDashboard.getNumber("Drive kD", 0);
-        double ff = SmartDashboard.getNumber("Drive Feed Forward", 0);
+        PIDController pid = (PIDController) SmartDashboard.getData("DrivePID");
+
+        double p = pid.getP();
+        double i = pid.getI();
+        double d = pid.getD();
+        double ff = pid.getF();
 
         if ((p != kP)) {
             kP = p;
@@ -241,10 +263,41 @@ public class UseDrivePID extends Command {
             kFF = ff;
         }
 
-
         leftFrontController.setPID(kP, kI, kD, kFF);
         rightFrontController.setPID(kP, kI, kD, kFF);
         leftBackController.setPID(kP, kI, kD, kFF);
         rightBackController.setPID(kP, kI, kD, kFF);
+    }
+
+    /**
+     * Limit motor values to the -1.0 to +1.0 range.
+     */
+    protected double limit(double value) {
+        if (value > 1.0) {
+            return 1.0;
+        }
+        if (value < -1.0) {
+            return -1.0;
+        }
+        return value;
+    }
+
+    /**
+     * Returns 0.0 if the given value is within the specified range around zero. The
+     * remaining range between the deadband and 1.0 is scaled from 0.0 to 1.0.
+     *
+     * @param value    value to clip
+     * @param deadband range around zero
+     */
+    protected double applyDeadband(double value, double deadband) {
+        if (Math.abs(value) > deadband) {
+            if (value > 0.0) {
+                return (value - deadband) / (1.0 - deadband);
+            } else {
+                return (value + deadband) / (1.0 - deadband);
+            }
+        } else {
+            return 0.0;
+        }
     }
 }

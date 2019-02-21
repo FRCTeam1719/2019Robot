@@ -62,12 +62,12 @@ public class ChineseController extends DummyDriverController {
 
     @Override
     public JoystickButton rightBumper() {
-        return new JoystickButton(controller, 1);
+        return new JoystickButton(controller, 5);
     }
 
     @Override
     public JoystickButton leftBumper() {
-        return new JoystickButton(controller, 4);
+        return new JoystickButton(controller, 6);
     }
 
     public int getDPAD() {

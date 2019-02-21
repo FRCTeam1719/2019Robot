@@ -32,7 +32,7 @@ public class Vacuum extends Subsystem {
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
-    setDefaultCommand(new UseVacuum(this, 0F));
+    setDefaultCommand(new UseVacuum(this, .9F));
   }
   public void release() {
     releaseValve.set(true);

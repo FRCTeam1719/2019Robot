@@ -13,12 +13,12 @@ public class Attack3Controller extends DummyOperatorController {
 
     @Override
     public JoystickButton raiseFront() {
-        return new JoystickButton(controller, 5);
+        return new JoystickButton(controller, 6);
     }
 
     @Override
     public JoystickButton raiseBack() {
-        return new JoystickButton(controller, 6);
+        return new JoystickButton(controller, 7);
     }
 
     @Override
@@ -32,18 +32,18 @@ public class Attack3Controller extends DummyOperatorController {
     }
     
     @Override
-    public JoystickButton lower1Button() {
+    public JoystickButton lowerFront() {
+        return new JoystickButton(controller, 11);
+    }
+
+    @Override
+    public JoystickButton lowerBack() {
         return new JoystickButton(controller, 10);
     }
 
     @Override
-    public JoystickButton lower2Button() {
-        return new JoystickButton(controller, 9);
-    }
-
-    @Override
     public JoystickButton climberDriveButton() {
-        return new JoystickButton(controller, 7);
+        return new JoystickButton(controller, 8);
     }
 
     @Override
@@ -53,5 +53,10 @@ public class Attack3Controller extends DummyOperatorController {
     @Override
     public JoystickButton armGoUp(){
         return new JoystickButton(controller, 3);
+    }
+
+    @Override
+    public JoystickButton reZeroButton() {
+        return new JoystickButton(controller, 8);
     }
 }

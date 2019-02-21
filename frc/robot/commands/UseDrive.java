@@ -37,6 +37,12 @@ public class UseDrive extends Command {
         rot = rot * Math.abs(rot);
         double strafeCorrect = SmartDashboard.getNumber("Strafe correction: ", .115);
         x = x * (1 + strafeCorrect);
+
+        if(drive.getShift()){
+            x = x / 2;
+            y = y / 2;
+        }
+
         drive.mecanum(x, y, rot);
 
         /*SmartDashboard.putNumber("X", x);

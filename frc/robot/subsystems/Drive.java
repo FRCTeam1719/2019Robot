@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.UseDrive;
 import frc.robot.commands.UseDriveCANPID;
 import frc.robot.commands.UseDrivePID;
+import frc.robot.commands.UseDriveRotPID;
 import jdk.jfr.Percentage;
 
 import com.revrobotics.CANEncoder;
@@ -58,6 +59,7 @@ public class Drive extends Subsystem {
   public CANEncoder rightFrontEncoder;
   public CANEncoder leftBackEncoder;
   public CANEncoder rightBackEncoder;
+  private boolean shift;
 
   public Drive(CANSparkMax leftFrontMotor, CANSparkMax rightFrontMotor, CANSparkMax leftBackMotor,
       CANSparkMax rightBackMotor, AHRS _navX, DigitalInput _leftSensor, DigitalInput _centerSensor,
@@ -115,6 +117,20 @@ public class Drive extends Subsystem {
       System.out.println(motor.get());
     }
   }
+  public void mecanumGyro(double x, double y, double rot, double gyroAngle) {
+    robotDrive.driveCartesian(x, y, rot, gyroAngle);
+    // System.out.println("Dr" + gyro.getAngle());
+    for (CANSparkMax motor : motors) {
+      System.out.println(motor.get());
+    }
+  }
+
+public boolean getShift(){
+return shift;
+}
+public void setShift(boolean toShift){
+  shift = toShift;
+}
 
   public float getAngleError() {
     return error;

@@ -20,9 +20,9 @@ public class UseDriveRotPID extends Command {
 
     private PIDController anglePID;
     private double Kp, Ki, Kd = 0;
-    private double TOLERANCE = 5;
+    private double TOLERANCE = 10;
 
-    private double stickTolerance = .1;
+    private double stickTolerance = .01;
     double pidOut;
 
     private class AnglePIDOUT implements PIDOutput {
@@ -45,9 +45,10 @@ public class UseDriveRotPID extends Command {
     }
 
     protected void initialize() {
-        anglePID.setOutputRange(-1D, 1D);
+        anglePID.setOutputRange(-.5D, .5D);
         anglePID.setSetpoint(drive.gyro.getAngle());
-        anglePID.setPercentTolerance(TOLERANCE);
+        
+        anglePID.setAbsoluteTolerance(TOLERANCE);
         anglePID.enable();
         SmartDashboard.putData("Angle PID", anglePID);
     }

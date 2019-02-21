@@ -24,13 +24,15 @@ public abstract class DummyOperatorController {
 
     public abstract JoystickButton toggleArm();
 
-    public abstract JoystickButton lower1Button();
+    public abstract JoystickButton lowerFront();
 
-    public abstract JoystickButton lower2Button();
+    public abstract JoystickButton lowerBack();
 
     public abstract JoystickButton climberDriveButton();
 
     public abstract JoystickButton autoClimbButton();
 
     public abstract JoystickButton armGoUp();
+
+    public abstract JoystickButton reZeroButton();
 }

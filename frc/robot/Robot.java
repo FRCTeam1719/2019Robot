@@ -13,9 +13,11 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.UseClimber;
+import frc.robot.commands.UseVacuum;
 import frc.robot.commands.UseClimber.ClimberOption;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Climber;
@@ -89,23 +91,26 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     climber.kill();
-    
+    zero = 0F;    
   }
 
   @Override
   public void disabledPeriodic() {
-  float frontTiltRange = 2;
-  float backTiltRange = 3;
-  float TOLERANCE = .5F;
-    boolean frontTilt = (navX.getPitch() > frontTiltRange);
-    boolean backTilt = (navX.getPitch() < -backTiltRange);
-    
-    boolean closeEnough = Math.abs(navX.getPitch()) < TOLERANCE;
+    float frontTiltRange = 2;
+    float backTiltRange = 3;
+    float TOLERANCE = 1.5F;
+    float adjustedPitch = Robot.navX.getPitch() - zero;
 
-    SmartDashboard.putBoolean("closeEnough", closeEnough);
-    SmartDashboard.putBoolean("backTilt", backTilt);
-    SmartDashboard.putBoolean("frontTilt", frontTilt);
-    SmartDashboard.putNumber("Pitch", navX.getPitch());
+  if (zero == 0) zero = Robot.navX.getPitch();
+
+  boolean frontTilted = (adjustedPitch > frontTiltRange) && !(adjustedPitch < -TOLERANCE);
+  boolean backTilted = (adjustedPitch < -backTiltRange) && !(adjustedPitch > TOLERANCE);
+  boolean closeEnough = Math.abs(adjustedPitch) < TOLERANCE;
+
+  SmartDashboard.putBoolean("closeEnough", closeEnough);
+  SmartDashboard.putBoolean("backTilted", backTilted);
+  SmartDashboard.putBoolean("frontTilted", frontTilted);
+  SmartDashboard.putNumber("Adjusted Pitch", adjustedPitch);
 
   }
 
@@ -158,9 +163,9 @@ float zero;
       autonomousCommand.cancel();
     }
 
-     Scheduler.getInstance().add(
+    /* Scheduler.getInstance().add(
        new UseClimber(climber, ClimberOption.RAISE_BOTH)
-    );
+    );*/
 
     RobotMap.compressor.setClosedLoopControl(true);
   }
