@@ -58,13 +58,13 @@ public class Arm extends Subsystem {
   }
 
   public void setMotor(double speed) {
-    if (upperLimitSwitch.get()){
-      speed = Math.max(speed, 0);
-      zero = motor.getEncoder().getPosition();
-  }
-    else if (lowerLimitSwitch.get())
-      speed = Math.min(speed, 0);
-
+  //   if (true){
+  //     speed = speed;
+  //     zero = motor.getEncoder().getPosition();
+  // }
+  // if (!lowerLimitSwitch.get()){
+  //     speed = Math.min(speed, 0);
+  // }
     motor.set(speed);
   }
 
@@ -80,14 +80,16 @@ public class Arm extends Subsystem {
    */
   public void putUp() {
     piston.set(Value.kForward);
+    // piston.set(true);
   }
   /**
    * Put the arm back down to reach lower levels
    */
   public void putDown() {
     piston.set(Value.kReverse);
+   // piston.set(false);
   }
-
+//TODO convert this back into a double Solenoid for real roboot
   public void togglePiston() {
     if (piston.get() == Value.kReverse) {
       putUp();
@@ -97,6 +99,7 @@ public class Arm extends Subsystem {
     else{
       putDown();
     }
+    //piston.set(!piston.get());
   }
 
   public Value getState() {

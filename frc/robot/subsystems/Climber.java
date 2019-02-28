@@ -47,8 +47,8 @@ public class Climber extends Subsystem {
     return backTilt.get();
   }
 
-  public void drive() {
-    climbDrive.set(0.35);
+  public void drive(double speed) {
+    climbDrive.set(speed);
   }
 
   public void stopDriving() {

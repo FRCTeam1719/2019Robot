@@ -39,7 +39,7 @@ public class RobotMap {
   // public static int rangefinderPort = 1;
   // public static int rangefinderModule = 1;
 
-  public static CANSparkMax leftFrontMotor = new CANSparkMax(2, MotorType.kBrushless);
+public static CANSparkMax leftFrontMotor = new CANSparkMax(2, MotorType.kBrushless);
   public static CANSparkMax rightFrontMotor = new CANSparkMax(1, MotorType.kBrushless);
   public static CANSparkMax leftBackMotor = new CANSparkMax(3, MotorType.kBrushless);
   public static CANSparkMax rightBackMotor = new CANSparkMax(4, MotorType.kBrushless);
@@ -69,5 +69,5 @@ public class RobotMap {
   public static DigitalInput frontTilt = new DigitalInput(8);
   public static DigitalInput backTilt = new DigitalInput(7);
 
-  public static Potentiometer armPot = new AnalogPotentiometer(1);
+public static Potentiometer armPot = new AnalogPotentiometer(1);
 } 

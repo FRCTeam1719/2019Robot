@@ -8,17 +8,16 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.Climber;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class ClimberDrive extends Command {
-  Climber climber;
-  double speed;
+public class SwitchCamera extends Command {
+  public enum SwitchMode {
+    NEXT, PREV, TOGGLE
+  }
 
-  public ClimberDrive(Climber _climber, double _speed) {
-    // Use requires() here to declare subsystem dependencies
-    requires(_climber);
-    climber = _climber;
-    speed = _speed;
+  SwitchMode mode;
+
+  public SwitchCamera() {
   }
 
   // Called just before this Command runs the first time
@@ -29,8 +28,18 @@ public class ClimberDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    climber.drive(speed);
-  }
+    String incoming = (String) SmartDashboard.getString("Camera", "0");
+    int tmp = Integer.parseInt(incoming);
+    System.out.println("donba" + tmp);
+    int outgoing = -1;
+    if(tmp == 1){
+      outgoing = 0;
+    }else if (tmp == 0){
+      outgoing = 1;
+    }
+    SmartDashboard.putString("Camera", Integer.toString(outgoing));
+    System.out.println("donbe" + tmp);
+    } 
 
   // Make this return true when this Command no longer needs to run execute()
   @Override

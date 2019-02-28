@@ -40,4 +40,6 @@ public abstract class DummyDriverController {
 
     public abstract int getDPAD();
 
+    public abstract JoystickButton cameraSwitch();
+
 }

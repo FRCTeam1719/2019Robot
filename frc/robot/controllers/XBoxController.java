@@ -73,4 +73,9 @@ public class XBoxController extends DummyDriverController {
 		return 0;
 	}
 
+    @Override
+    public JoystickButton cameraSwitch() {
+        return null;
+    }
+
 }

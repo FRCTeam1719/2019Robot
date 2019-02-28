@@ -70,5 +70,7 @@ public class UseClimber extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    climber.offBack();
+    climber.offFront();
   }
 }

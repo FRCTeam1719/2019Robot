@@ -16,8 +16,10 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.SwitchCamera;
 import frc.robot.commands.UseClimber;
 import frc.robot.commands.UseVacuum;
+import frc.robot.commands.SwitchCamera.SwitchMode;
 import frc.robot.commands.UseClimber.ClimberOption;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Climber;
@@ -66,6 +68,7 @@ public class Robot extends TimedRobot {
     oi = new OI();
     drive.BrakeMode(IdleMode.kBrake);
     lastClimb = false;
+    SmartDashboard.putString("Camera", "0");
   }
 
   /**
@@ -79,8 +82,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    System.out.println(RobotMap.frontTilt.get());
-    System.out.println(RobotMap.backTilt.get());
+    // System.out.println(RobotMap.frontTilt.get());
+    // System.out.println(RobotMap.backTilt.get());
   }
 
   /**
@@ -163,9 +166,9 @@ float zero;
       autonomousCommand.cancel();
     }
 
-    /* Scheduler.getInstance().add(
+     Scheduler.getInstance().add(
        new UseClimber(climber, ClimberOption.RAISE_BOTH)
-    );*/
+    );
 
     RobotMap.compressor.setClosedLoopControl(true);
   }
@@ -173,6 +176,7 @@ float zero;
   /**
    * This function is called periodically during operator control.
    */
+  boolean cameraOnce = false;
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();

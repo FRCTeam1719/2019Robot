@@ -30,7 +30,11 @@ public class UseArm extends Command {
   protected void execute() {
     arm.setMotor(Robot.oi.getOperatorY() / 7.5);
     SmartDashboard.putNumber("ARm", arm.getArmAngle());
+
+    // System.out.println(arm.GetUpperLimit()  + " upper");
+    // System.out.println(arm.GetLowerLimit() + " lower");
   }
+
 
   // Make this return true when this Command no longer needs to run execute()
   @Override

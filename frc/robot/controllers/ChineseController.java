@@ -42,7 +42,7 @@ public class ChineseController extends DummyDriverController {
 
     @Override
     public JoystickButton getX() {
-        return new JoystickButton(controller, 1);
+        return new JoystickButton(controller, 3);
     }
 
     @Override
@@ -72,6 +72,11 @@ public class ChineseController extends DummyDriverController {
 
     public int getDPAD() {
         return controller.getPOV(0);
+    }
+
+    @Override
+    public JoystickButton cameraSwitch() {
+        return new JoystickButton(controller, 3);
     }
     
 

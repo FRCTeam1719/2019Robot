@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.BreakMode;
 import frc.robot.commands.ClimberDrive;
 import frc.robot.commands.DoAutoClimb;
+import frc.robot.commands.SwitchCamera;
 import frc.robot.commands.ToggleArm;
 import frc.robot.commands.UseClimber;
 import frc.robot.commands.UseFakeShift;
@@ -133,18 +134,23 @@ public class OI {
     // toggleArmButton.whenPressed(new ToggleArm(Robot.arm));
     toggleArmButton.whileHeld(new UseReleaseValve(Robot.vacuum));
     JoystickButton climbDrive = operatorJoystick.climberDriveButton();
-    climbDrive.whenPressed(new ClimberDrive(Robot.climber, true));
-    climbDrive.whenReleased(new ClimberDrive(Robot.climber, false));
+    climbDrive.whenPressed(new ClimberDrive(Robot.climber, .35));
+    climbDrive.whenReleased(new ClimberDrive(Robot.climber, 0));
 
     JoystickButton armGoUp = operatorJoystick.armGoUp();
     armGoUp.whenPressed(new ToggleArm(Robot.arm));
 
     JoystickButton upBack = operatorJoystick.raiseBack();
     upBack.whenPressed(new UseClimber(Robot.climber, ClimberOption.RAISE_BACK));
+    upBack.whenReleased(new UseClimber(Robot.climber, ClimberOption.OFF_BACK));
 
     JoystickButton upFront = operatorJoystick.raiseFront();
     upFront.whenPressed(new UseClimber(Robot.climber, ClimberOption.RAISE_FRONT));
+    upFront.whenReleased(new UseClimber(Robot.climber, ClimberOption.OFF_FRONT));
 
+    JoystickButton backClimb = operatorJoystick.climbBackButton();
+    backClimb.whenPressed(new ClimberDrive(Robot.climber, -.35));
+    backClimb.whenReleased(new ClimberDrive(Robot.climber, 0));
 
 
     JoystickButton shiftDown = driverJoystick.leftBumper();
@@ -152,6 +158,11 @@ public class OI {
 
     shiftDown.whenPressed(new UseFakeShift(Robot.drive, true));
     shiftUp.whenPressed(new UseFakeShift(Robot.drive, false));
+
+
+    JoystickButton cameraButton = driverJoystick.cameraSwitch();
+    cameraButton.whenPressed(new SwitchCamera());
+
 
     // Turn to angle
     dpad = driverJoystick.getDPAD();

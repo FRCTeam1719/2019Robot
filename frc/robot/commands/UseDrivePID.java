@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import com.kauailabs.navx.frc.AHRS;
+import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.wpilibj.MotorSafety;
 import edu.wpi.first.wpilibj.PIDController;
@@ -99,14 +100,19 @@ public class UseDrivePID extends Command {
 
         leftFrontSource = new CANEncoderPIDSource(drive.motors[0].getEncoder());
         rightFrontSource = new CANEncoderPIDSource(drive.motors[1].getEncoder());
-        rightBackSource = new CANEncoderPIDSource(drive.motors[2].getEncoder());
-        leftBackSource = new CANEncoderPIDSource(drive.motors[3].getEncoder());
+        rightBackSource = new CANEncoderPIDSource(drive.motors[3].getEncoder());
+        leftBackSource = new CANEncoderPIDSource(drive.motors[2].getEncoder());
 
+        leftFrontSource.setPIDSourceType(PIDSourceType.kRate);
+        rightFrontSource.setPIDSourceType(PIDSourceType.kRate);
+        leftBackSource.setPIDSourceType(PIDSourceType.kRate);
+        rightBackSource.setPIDSourceType(PIDSourceType.kRate);
+        
         leftFrontController = new PIDController(kP, kI, kD, leftFrontSource, new leftFrontDrivePIDOut());
         leftBackController = new PIDController(kP, kI, kD, leftBackSource, new leftBackDrivePIDOut());
         rightFrontController = new PIDController(kP, kI, kD, rightFrontSource, new rightFrontDrivePIDOutput());
         rightBackController = new PIDController(kP, kI, kD, rightBackSource, new rightBackDrivePIDOutput());
-        dummyPID = new PIDController(kP, kI, kD, null, null);
+        
     }
 
     protected void initialize() {
@@ -130,12 +136,19 @@ public class UseDrivePID extends Command {
         rightFrontController.setPercentTolerance(5);
         rightBackController.setPercentTolerance(5);
 
+
+
         leftFrontController.enable();
         leftBackController.enable();
         rightFrontController.enable();
         rightBackController.enable();
 
-        SmartDashboard.putData(leftBackController);
+        SmartDashboard.putData("lfPID", leftFrontController);
+        SmartDashboard.putData("lbPID", leftBackController);
+        SmartDashboard.putData("rbPID", rightBackController);
+        SmartDashboard.putData("rfPID", rightFrontController);
+        
+        drive.BrakeMode(IdleMode.kCoast);
 
         /*
          * double maxInput = maxSpeed * MAX_SPEED_SCALING_FACTOR;
@@ -243,30 +256,20 @@ public class UseDrivePID extends Command {
     }
 
     protected void SetPIDFromDashboard() {
-        PIDController pid = (PIDController) SmartDashboard.getData("DrivePID");
+        PIDController lfPid = (PIDController) SmartDashboard.getData("lfPID");
+        PIDController lbPid = (PIDController) SmartDashboard.getData("lbPID");
+        PIDController rfPid = (PIDController) SmartDashboard.getData("rfPID");
+        PIDController rbPid = (PIDController) SmartDashboard.getData("rbPID");
+        
+        SmartDashboard.putNumber("LF Rate", drive.motors[0].getEncoder().getVelocity());
+        SmartDashboard.putNumber("RF Rate", drive.motors[1].getEncoder().getVelocity());
+        SmartDashboard.putNumber("RB Rate", drive.motors[3].getEncoder().getVelocity());
+        SmartDashboard.putNumber("LB Rate", drive.motors[2].getEncoder().getVelocity());
 
-        double p = pid.getP();
-        double i = pid.getI();
-        double d = pid.getD();
-        double ff = pid.getF();
-
-        if ((p != kP)) {
-            kP = p;
-        }
-        if ((i != kI)) {
-            kI = i;
-        }
-        if ((d != kD)) {
-            kD = d;
-        }
-        if ((ff != kFF)) {
-            kFF = ff;
-        }
-
-        leftFrontController.setPID(kP, kI, kD, kFF);
-        rightFrontController.setPID(kP, kI, kD, kFF);
-        leftBackController.setPID(kP, kI, kD, kFF);
-        rightBackController.setPID(kP, kI, kD, kFF);
+        leftFrontController.setPID(lfPid.getP(), lfPid.getI(), lfPid.getD(), lfPid.getF());
+        leftBackController.setPID(lbPid.getP(), lbPid.getI(), lbPid.getD(), lbPid.getF());
+        rightFrontController.setPID(rfPid.getP(), rfPid.getI(), rfPid.getD(), rfPid.getF());
+        rightBackController.setPID(rbPid.getP(), rbPid.getI(), rbPid.getD(), rbPid.getF());
     }
 
     /**

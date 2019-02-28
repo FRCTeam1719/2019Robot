@@ -1,5 +1,7 @@
 package frc.robot.controllers;
 
+import javax.swing.JToggleButton;
+
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 public class Attack3Controller extends DummyOperatorController {
@@ -58,5 +60,14 @@ public class Attack3Controller extends DummyOperatorController {
     @Override
     public JoystickButton reZeroButton() {
         return new JoystickButton(controller, 8);
+    }
+    @Override
+    public JoystickButton climbBackButton(){
+        return new JoystickButton(controller, 9);
+    }
+
+    @Override
+    public JoystickButton cameraSwitch() {
+        return new JoystickButton(controller, 4);
     }
 }

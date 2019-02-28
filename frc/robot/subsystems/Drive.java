@@ -114,14 +114,14 @@ public class Drive extends Subsystem {
 
     SmartDashboard.putNumber("Gyro2", navX.getAngle());
     for (CANSparkMax motor : motors) {
-      System.out.println(motor.get());
+      // System.out.println(motor.get());
     }
   }
   public void mecanumGyro(double x, double y, double rot, double gyroAngle) {
     robotDrive.driveCartesian(x, y, rot, gyroAngle);
     // System.out.println("Dr" + gyro.getAngle());
     for (CANSparkMax motor : motors) {
-      System.out.println(motor.get());
+      // System.out.println(motor.get());
     }
   }
 
