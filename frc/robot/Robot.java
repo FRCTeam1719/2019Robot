@@ -131,19 +131,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    autonomousCommand = chooser.getSelected();
-
-    /*
-     * String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
-     * switch(autoSelected) { case "My Auto": autonomousCommand = new
-     * MyAutoCommand(); break; case "Default Auto": default: autonomousCommand = new
-     * ExampleCommand(); break; }
-     */
-
-    // schedule the autonomous command (example)
-    if (autonomousCommand != null) {
-      autonomousCommand.start();
-    }
+teleopInit();
   }
 
   /**
@@ -151,7 +139,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    Scheduler.getInstance().run();
+    teleopPeriodic();
   }
 float zero;
   @Override
@@ -193,6 +181,7 @@ float zero;
     SmartDashboard.putBoolean("backTilt", backTilt);
     SmartDashboard.putBoolean("frontTilt", frontTilt);
     SmartDashboard.putNumber("Pitch", Robot.navX.getPitch());
+    SmartDashboard.putBoolean("Compressing", RobotMap.compressor.enabled());
 
     /*float frontTiltRange = 5;
     float backTiltRange = 7;

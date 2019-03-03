@@ -36,44 +36,46 @@ public class Arm extends Subsystem {
 
   DigitalInput upperLimitSwitch;
   DigitalInput lowerLimitSwitch;
-  
+
   double targetPos;
   double currentPos;
   double zero;
 
   public Potentiometer armPot;
-  
+
   public CANPIDController armPID;
-  public Arm(CANSparkMax _motor, DoubleSolenoid _piston, DigitalInput _upperLimitSwitch, DigitalInput _lowerLimitSwitch, Potentiometer _armPot) {
+
+  public Arm(CANSparkMax _motor, DoubleSolenoid _piston, DigitalInput _upperLimitSwitch, DigitalInput _lowerLimitSwitch,
+      Potentiometer _armPot) {
     super("Arm");
 
     motor = _motor;
     piston = _piston;
     upperLimitSwitch = _upperLimitSwitch;
     lowerLimitSwitch = _lowerLimitSwitch;
-        armPID = new CANPIDController(motor);
+    armPID = new CANPIDController(motor);
 
     setDefaultCommand(new UseArm(this));
     armPot = _armPot;
   }
 
   public void setMotor(double speed) {
-  //   if (true){
-  //     speed = speed;
-  //     zero = motor.getEncoder().getPosition();
-  // }
-  // if (!lowerLimitSwitch.get()){
-  //     speed = Math.min(speed, 0);
-  // }
+    if (true) {
+      speed = speed;
+      zero = motor.getEncoder().getPosition();
+    }
+    if (lowerLimitSwitch.get()) {
+      speed = Math.min(speed, 0);
+    }
+    else if (upperLimitSwitch.get()) {
+      speed = Math.max(speed, 0);
+    }
     motor.set(speed);
   }
 
-  public CANPIDController getPIDController(){
+  public CANPIDController getPIDController() {
     return motor.getPIDController();
   }
-
-
-
 
   /**
    * Put the arm up to reach the higher levels
@@ -82,57 +84,66 @@ public class Arm extends Subsystem {
     piston.set(Value.kForward);
     // piston.set(true);
   }
+
   /**
    * Put the arm back down to reach lower levels
    */
   public void putDown() {
     piston.set(Value.kReverse);
-   // piston.set(false);
+    // piston.set(false);
   }
-//TODO convert this back into a double Solenoid for real roboot
+
+  // TODO convert this back into a double Solenoid for real roboot
   public void togglePiston() {
     if (piston.get() == Value.kReverse) {
       putUp();
     } else if (piston.get() == Value.kForward) {
       putDown();
-    }
-    else{
+    } else {
       putDown();
     }
-    //piston.set(!piston.get());
+    // piston.set(!piston.get());
   }
 
   public Value getState() {
     return piston.get();
   }
-  //.836
-//.875
-  public double getArmAngle(){
+
+  // .836
+  // .875
+  public double getArmAngle() {
     return (armPot.get() - .8358) * 360;
   }
-  public double getTargetPos(){
+
+  public double getTargetPos() {
     return targetPos;
   }
+
   /*
    * @param targetPos the targetPos to set
    */
   public void setTargetPos(double targetPos) {
     this.targetPos = targetPos;
   }
+
   @Override
   protected void initDefaultCommand() {
-    
+
   }
-  public boolean GetUpperLimit(){
+
+  public boolean GetUpperLimit() {
     return upperLimitSwitch.get();
   }
-    public boolean GetLowerLimit(){
+
+  public boolean GetLowerLimit() {
     return lowerLimitSwitch.get();
   }
-  public void SetZero(){
+
+  public void SetZero() {
     zero = motor.getEncoder().getPosition();
   }
-  public CANEncoder GetEncoder(){
+
+  public CANEncoder GetEncoder() {
     return motor.getEncoder();
   }
 }

@@ -23,8 +23,10 @@ import frc.robot.commands.UseVacuum;
 import frc.robot.commands.UseClimber.ClimberOption;
 import frc.robot.controllers.Attack3Controller;
 import frc.robot.controllers.ChineseController;
+import frc.robot.controllers.XBoxControllerBindings;
 import frc.robot.controllers.DummyDriverController;
 import frc.robot.controllers.DummyOperatorController;
+import frc.robot.controllers.FinalController;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -60,7 +62,7 @@ public class OI {
   // button.whenReleased(new ExampleCommand());
 
   DummyDriverController driverJoystick = new ChineseController(0);
-  DummyOperatorController operatorJoystick = new Attack3Controller(1);
+  DummyOperatorController operatorJoystick = new FinalController(1);
 
   private int dpad;
 
@@ -85,7 +87,7 @@ public class OI {
   }
 
   public double getOperatorY() {
-    return operatorJoystick.controller.getY();
+    return operatorJoystick.getY();
   }
 
   public JoystickButton breakButton;

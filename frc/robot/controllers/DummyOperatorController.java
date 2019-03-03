@@ -37,7 +37,10 @@ public abstract class DummyOperatorController {
     public abstract JoystickButton reZeroButton();
 
     public abstract JoystickButton climbBackButton();
+
     public abstract JoystickButton cameraSwitch();
+
+    public abstract double getY();
 }
 
 

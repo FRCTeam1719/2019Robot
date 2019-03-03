@@ -4,8 +4,8 @@ import javax.swing.JToggleButton;
 
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
-public class Attack3Controller extends DummyOperatorController {
-    public Attack3Controller(int port) {
+public class ExtremeController extends DummyOperatorController {
+    public ExtremeController(int port) {
         super(port);
     }
 
@@ -15,12 +15,12 @@ public class Attack3Controller extends DummyOperatorController {
 
     @Override
     public JoystickButton raiseFront() {
-        return new JoystickButton(controller, 6);
+        return new JoystickButton(controller, 9);
     }
 
     @Override
     public JoystickButton raiseBack() {
-        return new JoystickButton(controller, 7);
+        return new JoystickButton(controller, 10);
     }
 
     @Override
@@ -35,17 +35,17 @@ public class Attack3Controller extends DummyOperatorController {
     
     @Override
     public JoystickButton lowerFront() {
-        return new JoystickButton(controller, 11);
+        return new JoystickButton(controller, 7);
     }
 
     @Override
     public JoystickButton lowerBack() {
-        return new JoystickButton(controller, 10);
+        return new JoystickButton(controller, 8);
     }
 
     @Override
     public JoystickButton climberDriveButton() {
-        return new JoystickButton(controller, 8);
+        return new JoystickButton(controller, 11);
     }
 
     @Override
@@ -63,7 +63,7 @@ public class Attack3Controller extends DummyOperatorController {
     }
     @Override
     public JoystickButton climbBackButton(){
-        return new JoystickButton(controller, 9);
+        return new JoystickButton(controller, 12);
     }
 
     @Override
