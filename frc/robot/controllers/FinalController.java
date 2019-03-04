@@ -79,4 +79,5 @@ public class FinalController extends DummyOperatorController{
     public double getY() {
         return controller.getY(Hand.kLeft);
     }
+    
 }

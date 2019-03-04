@@ -117,6 +117,10 @@ public class Drive extends Subsystem {
       // System.out.println(motor.get());
     }
   }
+
+  public void mecanumPolar(double magnitude, double angle, double rotation){
+    robotDrive.drivePolar(magnitude, angle, rotation);
+  }
   public void mecanumGyro(double x, double y, double rot, double gyroAngle) {
     robotDrive.driveCartesian(x, y, rot, gyroAngle);
     // System.out.println("Dr" + gyro.getAngle());
@@ -158,6 +162,11 @@ public void setShift(boolean toShift){
   public void BrakeMode(IdleMode mode) {
     for (CANSparkMax motor : motors) {
       motor.setIdleMode(mode);
+    }
+  }
+  public void Stop(){
+    for (CANSparkMax motor : motors){
+      motor.set(0);
     }
   }
 }
