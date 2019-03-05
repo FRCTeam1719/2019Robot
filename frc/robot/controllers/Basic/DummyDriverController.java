@@ -1,4 +1,4 @@
-package frc.robot.controllers;
+package frc.robot.controllers.Basic;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -41,5 +41,7 @@ public abstract class DummyDriverController {
     public abstract int getDPAD();
 
     public abstract JoystickButton cameraSwitch();
+
+    public abstract JoystickButton alignButton();
 
 }

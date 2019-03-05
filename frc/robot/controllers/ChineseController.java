@@ -1,6 +1,7 @@
 package frc.robot.controllers;
 
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.controllers.Basic.DummyDriverController;
 
 /**
  * This is a preset for the chinese knock-off playstation controller, and all of
@@ -77,6 +78,11 @@ public class ChineseController extends DummyDriverController {
     @Override
     public JoystickButton cameraSwitch() {
         return new JoystickButton(controller, 3);
+    }
+
+    @Override
+    public JoystickButton alignButton() {
+        return null;
     }
     
 

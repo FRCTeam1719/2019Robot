@@ -3,6 +3,7 @@ package frc.robot.controllers;
 import javax.swing.JToggleButton;
 
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.controllers.Basic.DummyOperatorController;
 
 public class ExtremeController extends DummyOperatorController {
     public ExtremeController(int port) {

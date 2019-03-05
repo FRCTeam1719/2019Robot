@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.controllers.Basic.DummyOperatorController;
 
 public class FinalController extends DummyOperatorController{
 

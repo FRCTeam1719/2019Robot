@@ -9,11 +9,15 @@
 package frc.robot;
 
 import com.revrobotics.CANSparkMax.IdleMode;
+
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.AlignOnLine;
 import frc.robot.commands.BreakMode;
 import frc.robot.commands.ClimberDrive;
 import frc.robot.commands.DoAutoClimb;
+import frc.robot.commands.SetArmPiston;
 import frc.robot.commands.SwitchCamera;
 import frc.robot.commands.ToggleArm;
 import frc.robot.commands.UseClimber;
@@ -24,8 +28,8 @@ import frc.robot.commands.UseClimber.ClimberOption;
 import frc.robot.controllers.Attack3Controller;
 import frc.robot.controllers.ChineseController;
 import frc.robot.controllers.XBoxControllerBindings;
-import frc.robot.controllers.DummyDriverController;
-import frc.robot.controllers.DummyOperatorController;
+import frc.robot.controllers.Basic.DummyDriverController;
+import frc.robot.controllers.Basic.DummyOperatorController;
 import frc.robot.controllers.FinalController;
 
 /**
@@ -127,6 +131,7 @@ public class OI {
     JoystickButton raiseFront = operatorJoystick.lowerFront();
     raiseFront.whenPressed(new UseClimber(Robot.climber, ClimberOption.LOWER_FRONT));
     raiseFront.whenReleased(new UseClimber(Robot.climber, ClimberOption.OFF_FRONT));
+    raiseFront.whenPressed(new SetArmPiston(Robot.arm, DoubleSolenoid.Value.kReverse));
    
     JoystickButton raiseBack = operatorJoystick.lowerBack();
     raiseBack.whenPressed(new UseClimber(Robot.climber, ClimberOption.LOWER_BACK));
@@ -164,6 +169,9 @@ public class OI {
 
     JoystickButton cameraButton = driverJoystick.cameraSwitch();
     cameraButton.whenPressed(new SwitchCamera());
+
+    JoystickButton alignButton = driverJoystick.alignButton();
+    alignButton.whileHeld(new AlignOnLine(Robot.drive, RobotMap.ultrasonic));
 
 
     // Turn to angle

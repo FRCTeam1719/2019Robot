@@ -7,65 +7,50 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.Drive;
+import edu.wpi.first.wpilibj.interfaces.Potentiometer;
+import frc.robot.subsystems.Arm;
 
-public class AlignOnLine extends Command {
-  Drive drive;
-  double rotSpeed;
+/**
+ * move arm to predesignated height
+ */
+public class MoveArmToPos extends Command {
+  Arm arm;
+  String location;
+  int P, I, D = 1;
+  double error, rcw, derivative;
+  int integral, previous_error, setpoint = 0;
+  Potentiometer pot;
 
+  public MoveArmToPos(Arm _arm, String _location, Potentiometer _pot) {
+    arm = _arm;
+    pot = _pot;
+    location = _location;
+  }
 
-  double ySpeed = 0.5;
+  public void setSetpoint(int setpoint) {
+    this.setpoint = setpoint;
+  }
 
-  double correction = 0.3;
-
-  double pDistance = 0.15;
-
-  Ultrasonic ultrasonic;
-
-  public AlignOnLine(Drive _drive, Ultrasonic _ultrasonic) {
-    // Use requires() here to declare subsystem dependencies
-    requires(_drive);
-    ultrasonic = _ultrasonic;
-    drive = _drive;
+  public void PID() {
+    error = setpoint - pot.get(); // Error = Target - Actual
+    this.integral += (error * .02); // Integral is increased by the error*time (which is .02 seconds using normal
+                                    // IterativeRobot)
+    derivative = (error - this.previous_error) / .02;
+    this.rcw = P * error + I * this.integral + D * derivative;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    rotSpeed = 0;
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if(!drive.getRightSensor() && !drive.getLeftSensor()){
-    
-    if(drive.getCenterSensor()){
-      rotSpeed = 0;
-    }
-    if(drive.getLeftSensor()){
-      rotSpeed = -correction;
-    }
-    else if(drive.getRightSensor()){
-      rotSpeed = correction;
-    }
-    else{
-      rotSpeed = 0;
-    }
-    ySpeed = ultrasonic.getRangeInches() * pDistance; //P Loop!
-    
-    drive.mecanum(ySpeed, 0, rotSpeed);
+    PID();
+    arm.setMotor(rcw);
   }
-  else{
-    rotSpeed = 0;
-    ySpeed = 0;
-    drive.Stop();
-  }
-}
-
-  
 
   // Make this return true when this Command no longer needs to run execute()
   @Override

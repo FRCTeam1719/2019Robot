@@ -146,4 +146,7 @@ public class Arm extends Subsystem {
   public CANEncoder GetEncoder() {
     return motor.getEncoder();
   }
+  public void setPiston(DoubleSolenoid.Value value){
+    piston.set(value);
+  }
 }

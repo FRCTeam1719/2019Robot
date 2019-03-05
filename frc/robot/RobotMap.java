@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 
 /**
@@ -70,4 +71,6 @@ public static CANSparkMax leftFrontMotor = new CANSparkMax(2, MotorType.kBrushle
   public static DigitalInput backTilt = new DigitalInput(7);
 
 public static Potentiometer armPot = new AnalogPotentiometer(1);
+
+public static Ultrasonic ultrasonic = new Ultrasonic(null, null);
 } 
