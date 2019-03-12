@@ -1,4 +1,4 @@
-package frc.robot.controllers;
+package frc.robot.controllers.Driver;
 
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.controllers.Basic.DummyDriverController;

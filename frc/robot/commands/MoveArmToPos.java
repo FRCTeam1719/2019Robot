@@ -19,8 +19,11 @@ public class MoveArmToPos extends Command {
   String location;
   int P, I, D = 1;
   double error, rcw, derivative;
-  int integral, previous_error, setpoint = 0;
+  double setpoint  = 0;
+  int integral, previous_error = 0;
   Potentiometer pot;
+
+  double TOLERANCE = 5;
 
   public MoveArmToPos(Arm _arm, String _location, Potentiometer _pot) {
     arm = _arm;
@@ -55,7 +58,7 @@ public class MoveArmToPos extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return Math.abs(arm.getArmAngle() - setpoint) < TOLERANCE;
   }
 
   // Called once after isFinished returns true

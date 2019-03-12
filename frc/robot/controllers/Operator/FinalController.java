@@ -1,4 +1,4 @@
-package frc.robot.controllers;
+package frc.robot.controllers.Operator;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.GenericHID.Hand;

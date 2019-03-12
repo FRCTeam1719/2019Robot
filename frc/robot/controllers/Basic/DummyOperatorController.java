@@ -1,6 +1,7 @@
 package frc.robot.controllers.Basic;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /*
@@ -16,29 +17,29 @@ public abstract class DummyOperatorController {
 
     public abstract boolean getClimb();
 
-    public abstract JoystickButton raiseFront();
+    public abstract Button raiseFront();
 
-    public abstract JoystickButton raiseBack();
+    public abstract Button raiseBack();
 
-    public abstract JoystickButton releaseButton();
+    public abstract Button releaseButton();
 
-    public abstract JoystickButton toggleArm();
+    public abstract Button toggleArm();
 
     public abstract JoystickButton lowerFront();
 
-    public abstract JoystickButton lowerBack();
+    public abstract Button lowerBack();
 
-    public abstract JoystickButton climberDriveButton();
+    public abstract Button climberDriveButton();
 
-    public abstract JoystickButton autoClimbButton();
+    public abstract Button autoClimbButton();
 
-    public abstract JoystickButton armGoUp();
+    public abstract Button armGoUp();
 
-    public abstract JoystickButton reZeroButton();
+    public abstract Button reZeroButton();
 
-    public abstract JoystickButton climbBackButton();
+    public abstract Button climbBackButton();
 
-    public abstract JoystickButton cameraSwitch();
+    public abstract Button cameraSwitch();
 
     public abstract double getY();
 }

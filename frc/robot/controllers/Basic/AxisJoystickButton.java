@@ -4,19 +4,19 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
-public class VirtualJoystickButton extends Button {
+public class AxisJoystickButton extends Button {
     GenericHID joystick;
     int axisNumber;
     double threshold;
     boolean invert;
 
-    public VirtualJoystickButton(GenericHID _joystick, int _axisNumber, double _threshold, boolean _invert) {
+    public AxisJoystickButton(GenericHID _joystick, int _axisNumber, double _threshold, boolean _invert) {
         joystick = _joystick;
         axisNumber = _axisNumber;
         threshold = _threshold;
         invert = _invert;
     }
-    public VirtualJoystickButton(GenericHID _joystick, int _axisNumber, double _threshold) {
+    public AxisJoystickButton(GenericHID _joystick, int _axisNumber, double _threshold) {
         this(_joystick,_axisNumber,_threshold,false);
     }
 

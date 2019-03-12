@@ -12,7 +12,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.buttons.Button;
 import frc.robot.commands.AlignOnLine;
 import frc.robot.commands.BreakMode;
 import frc.robot.commands.ClimberDrive;
@@ -25,12 +25,12 @@ import frc.robot.commands.UseFakeShift;
 import frc.robot.commands.UseReleaseValve;
 import frc.robot.commands.UseVacuum;
 import frc.robot.commands.UseClimber.ClimberOption;
-import frc.robot.controllers.Attack3Controller;
-import frc.robot.controllers.ChineseController;
-import frc.robot.controllers.XBoxControllerBindings;
+import frc.robot.controllers.Operator.Attack3Controller;
+import frc.robot.controllers.Driver.ChineseController;
+import frc.robot.controllers.Driver.XBoxControllerBindings;
 import frc.robot.controllers.Basic.DummyDriverController;
 import frc.robot.controllers.Basic.DummyOperatorController;
-import frc.robot.controllers.FinalController;
+import frc.robot.controllers.Operator.FinalController;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -43,7 +43,7 @@ public class OI {
   // You create one by telling it which joystick it's on and which button
   // number it is.
   // Joystick stick = new Joystick(port);
-  // Button button = new JoystickButton(stick, buttonNumber);
+  // Button button = new Button(stick, buttonNumber);
 
   // There are a few additional built in buttons you can use. Additionally,
   // by subclassing Button you can create custom triggers and bind those to
@@ -94,10 +94,10 @@ public class OI {
     return operatorJoystick.getY();
   }
 
-  public JoystickButton breakButton;
-  public JoystickButton coastButton;
+  public Button breakButton;
+  public Button coastButton;
 
-  public JoystickButton releaseButton;
+  public Button releaseButton;
 
   public OI() {
     // breakButton = driverJoystick.leftBumper();
@@ -111,66 +111,66 @@ public class OI {
     // releaseButton.whenReleased(new UseVacuum(Robot.vacuum, .9F));
     // releaseButton.whenReleased(new UseReleaseValve(Robot.arm, false));
 
-    // JoystickButton lower1Button = operatorJoystick.lower1Button();
+    // Button lower1Button = operatorJoystick.lower1Button();
     // lower1Button.whenPressed(new UseClimber(Robot.climber,
     // ClimberOption.LOWER_FRONT));
     // lower1Button.whenReleased(new UseClimber(Robot.climber,
     // ClimberOption.OFF_FRONT));
 
-    // JoystickButton lower2Button = operatorJoystick.lower2Button();
+    // Button lower2Button = operatorJoystick.lower2Button();
     // lower2Button.whenPressed(new UseClimber(Robot.climber,
     // ClimberOption.LOWER_BACK));
     // lower2Button.whenReleased(new UseClimber(Robot.climber,
     // ClimberOption.OFF_BACK));
 
-    //JoystickButton autoClimb = operatorJoystick.autoClimbButton();
+    //Button autoClimb = operatorJoystick.autoClimbButton();
     //autoClimb.whileHeld(new DoAutoClimb(Robot.climber));
     // autoClimb.whenPressed(new UseClimber(Robot.climber,
     // ClimberOption.LOWER_BOTH));
 
-    JoystickButton raiseFront = operatorJoystick.lowerFront();
+    Button raiseFront = operatorJoystick.lowerFront();
     raiseFront.whenPressed(new UseClimber(Robot.climber, ClimberOption.LOWER_FRONT));
     raiseFront.whenReleased(new UseClimber(Robot.climber, ClimberOption.OFF_FRONT));
     raiseFront.whenPressed(new SetArmPiston(Robot.arm, DoubleSolenoid.Value.kReverse));
    
-    JoystickButton raiseBack = operatorJoystick.lowerBack();
+    Button raiseBack = operatorJoystick.lowerBack();
     raiseBack.whenPressed(new UseClimber(Robot.climber, ClimberOption.LOWER_BACK));
     raiseBack.whenReleased(new UseClimber(Robot.climber, ClimberOption.OFF_BACK));
 
-    JoystickButton toggleArmButton = operatorJoystick.toggleArm();
+    Button toggleArmButton = operatorJoystick.toggleArm();
     // toggleArmButton.whenPressed(new ToggleArm(Robot.arm));
     toggleArmButton.whileHeld(new UseReleaseValve(Robot.vacuum));
-    JoystickButton climbDrive = operatorJoystick.climberDriveButton();
+    Button climbDrive = operatorJoystick.climberDriveButton();
     climbDrive.whenPressed(new ClimberDrive(Robot.climber, .35));
     climbDrive.whenReleased(new ClimberDrive(Robot.climber, 0));
 
-    JoystickButton armGoUp = operatorJoystick.armGoUp();
+    Button armGoUp = operatorJoystick.armGoUp();
     armGoUp.whenPressed(new ToggleArm(Robot.arm));
 
-    JoystickButton upBack = operatorJoystick.raiseBack();
+    Button upBack = operatorJoystick.raiseBack();
     upBack.whenPressed(new UseClimber(Robot.climber, ClimberOption.RAISE_BACK));
     upBack.whenReleased(new UseClimber(Robot.climber, ClimberOption.OFF_BACK));
 
-    JoystickButton upFront = operatorJoystick.raiseFront();
+    Button upFront = operatorJoystick.raiseFront();
     upFront.whenPressed(new UseClimber(Robot.climber, ClimberOption.RAISE_FRONT));
     upFront.whenReleased(new UseClimber(Robot.climber, ClimberOption.OFF_FRONT));
 
-    JoystickButton backClimb = operatorJoystick.climbBackButton();
+    Button backClimb = operatorJoystick.climbBackButton();
     backClimb.whenPressed(new ClimberDrive(Robot.climber, -.35));
     backClimb.whenReleased(new ClimberDrive(Robot.climber, 0));
 
 
-    JoystickButton shiftDown = driverJoystick.leftBumper();
-    JoystickButton shiftUp = driverJoystick.rightBumper();
+    Button shiftDown = driverJoystick.leftBumper();
+    Button shiftUp = driverJoystick.rightBumper();
 
     shiftDown.whenPressed(new UseFakeShift(Robot.drive, true));
     shiftUp.whenPressed(new UseFakeShift(Robot.drive, false));
 
 
-    JoystickButton cameraButton = driverJoystick.cameraSwitch();
+    Button cameraButton = driverJoystick.cameraSwitch();
     cameraButton.whenPressed(new SwitchCamera());
 
-    JoystickButton alignButton = driverJoystick.alignButton();
+    Button alignButton = driverJoystick.alignButton();
     alignButton.whileHeld(new AlignOnLine(Robot.drive, RobotMap.ultrasonic));
 
 

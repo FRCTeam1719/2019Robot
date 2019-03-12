@@ -1,21 +1,12 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
+package frc.robot.controllers.Driver;
 
-package frc.robot.controllers;
-
-import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.controllers.Basic.DummyOperatorController;
 
-/**
- * Add your docs here.
- */
-public class WingmanController extends DummyOperatorController {
-    public WingmanController(int port) {
+public class XBoxControllerBindings extends DummyOperatorController {
+
+    public XBoxControllerBindings(int port){
         super(port);
     }
 
@@ -26,12 +17,12 @@ public class WingmanController extends DummyOperatorController {
 
     @Override
     public JoystickButton raiseFront() {
-        return new JoystickButton(controller, 1);
+        return new JoystickButton(controller, 4);
     }
 
     @Override
     public JoystickButton raiseBack() {
-        return new JoystickButton(controller, 2);
+        return new JoystickButton(controller, 3);
     }
 
     @Override
@@ -41,22 +32,22 @@ public class WingmanController extends DummyOperatorController {
 
     @Override
     public JoystickButton toggleArm() {
-        return null;
+        return new JoystickButton(controller, 7);
     }
 
     @Override
     public JoystickButton lowerFront() {
-        return null;
+        return new JoystickButton(controller, 2);
     }
 
     @Override
     public JoystickButton lowerBack() {
-        return null;
+        return new JoystickButton(controller, 1);
     }
 
     @Override
     public JoystickButton climberDriveButton() {
-        return null;
+        return new JoystickButton(controller, 8);
     }
 
     @Override
@@ -76,17 +67,16 @@ public class WingmanController extends DummyOperatorController {
 
     @Override
     public JoystickButton climbBackButton() {
-        return null;
+        return new JoystickButton(controller, 9);
     }
 
     @Override
     public JoystickButton cameraSwitch() {
-		return null;
-	}
+        return null;
+    }
 
     @Override
     public double getY() {
-        return 0;
+        return controller.getY(Hand.kLeft);
     }
-
 }

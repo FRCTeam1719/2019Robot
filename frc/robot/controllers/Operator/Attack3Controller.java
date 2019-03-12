@@ -1,8 +1,9 @@
-package frc.robot.controllers;
+package frc.robot.controllers.Operator;
 
 import javax.swing.JToggleButton;
 
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.controllers.Basic.DummyOperatorController;
 
 public class Attack3Controller extends DummyOperatorController {
     public Attack3Controller(int port) {

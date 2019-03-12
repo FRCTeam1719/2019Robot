@@ -1,12 +1,21 @@
-package frc.robot.controllers;
+/*----------------------------------------------------------------------------*/
+/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
+/* Open Source Software - may be modified and shared by FRC teams. The code   */
+/* must be accompanied by the FIRST BSD license file in the root directory of */
+/* the project.                                                               */
+/*----------------------------------------------------------------------------*/
 
-import edu.wpi.first.wpilibj.GenericHID.Hand;
+package frc.robot.controllers.Operator;
+
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.controllers.Basic.DummyOperatorController;
 
-public class XBoxControllerBindings extends DummyOperatorController {
-
-    public XBoxControllerBindings(int port){
+/**
+ * Add your docs here.
+ */
+public class WingmanController extends DummyOperatorController {
+    public WingmanController(int port) {
         super(port);
     }
 
@@ -17,12 +26,12 @@ public class XBoxControllerBindings extends DummyOperatorController {
 
     @Override
     public JoystickButton raiseFront() {
-        return new JoystickButton(controller, 4);
+        return new JoystickButton(controller, 1);
     }
 
     @Override
     public JoystickButton raiseBack() {
-        return new JoystickButton(controller, 3);
+        return new JoystickButton(controller, 2);
     }
 
     @Override
@@ -32,22 +41,22 @@ public class XBoxControllerBindings extends DummyOperatorController {
 
     @Override
     public JoystickButton toggleArm() {
-        return new JoystickButton(controller, 7);
+        return null;
     }
 
     @Override
     public JoystickButton lowerFront() {
-        return new JoystickButton(controller, 2);
+        return null;
     }
 
     @Override
     public JoystickButton lowerBack() {
-        return new JoystickButton(controller, 1);
+        return null;
     }
 
     @Override
     public JoystickButton climberDriveButton() {
-        return new JoystickButton(controller, 8);
+        return null;
     }
 
     @Override
@@ -67,16 +76,17 @@ public class XBoxControllerBindings extends DummyOperatorController {
 
     @Override
     public JoystickButton climbBackButton() {
-        return new JoystickButton(controller, 9);
-    }
-
-    @Override
-    public JoystickButton cameraSwitch() {
         return null;
     }
 
     @Override
+    public JoystickButton cameraSwitch() {
+		return null;
+	}
+
+    @Override
     public double getY() {
-        return controller.getY(Hand.kLeft);
+        return 0;
     }
+
 }

@@ -39,8 +39,8 @@ public class UseDrive extends Command {
         x = x * (1 + strafeCorrect);
 
         if(drive.getShift()){
-            x = x / 2;
-            y = y / 2;
+            x = x / 4;
+            y = y / 4;
         }
 
         drive.mecanum(x, y, rot);

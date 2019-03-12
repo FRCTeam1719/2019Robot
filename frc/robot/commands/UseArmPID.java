@@ -51,7 +51,7 @@ public class UseArmPID extends Command {
   protected void initialize() {
     // _pidCont = arm.getPIDController();
     armPID.setInputRange(0D, 110D);
-    armPID.setOutputRange(-1D, 1D);
+    armPID.setOutputRange(-.7D, .7D);
     armPID.setSetpoint(arm.armPot.get());
     armPID.setPercentTolerance(TOLERANCE);
     armPID.enable();
