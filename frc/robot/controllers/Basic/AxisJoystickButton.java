@@ -9,7 +9,13 @@ public class AxisJoystickButton extends Button {
     int axisNumber;
     double threshold;
     boolean invert;
-
+/**
+ * Wrapper for making a fake button that presses after a joystick threshold
+ * @param _joystick - listening jostick
+ * @param _axisNumber - axis on joystick
+ * @param _threshold - when should button gets pressed
+ * @param _invert - invert the threshold
+ */
     public AxisJoystickButton(GenericHID _joystick, int _axisNumber, double _threshold, boolean _invert) {
         joystick = _joystick;
         axisNumber = _axisNumber;

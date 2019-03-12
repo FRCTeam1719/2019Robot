@@ -13,6 +13,10 @@ import frc.robot.subsystems.Vacuum;
 
 public class UseReleaseValve extends Command {
   Vacuum vacuum;
+  /**
+   * Actuates a solenoid to flood the vacuum w/ air to release things
+   * @param vacuum
+   */
   public UseReleaseValve(Vacuum vacuum) {
     requires(vacuum);
 

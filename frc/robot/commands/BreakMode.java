@@ -9,7 +9,11 @@ import frc.robot.subsystems.Drive;
 public class BreakMode extends Command {
     Drive drive;
     IdleMode idleMode;
-
+/**
+ * Set the break mode of all of the drive wheels
+ * @param _drive
+ * @param _idleMode
+ */
     public BreakMode(Drive _drive, IdleMode _idleMode){
         drive = _drive;
         idleMode = _idleMode;

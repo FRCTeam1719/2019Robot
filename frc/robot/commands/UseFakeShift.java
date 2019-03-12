@@ -13,7 +13,11 @@ import frc.robot.subsystems.Drive;
 public class UseFakeShift extends Command {
 private  Drive drive;
 boolean set;
-
+/**
+ * Divides the drive speed
+ * @param _drive
+ * @param _set
+ */
   public UseFakeShift(Drive _drive, boolean _set) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);

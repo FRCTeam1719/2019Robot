@@ -12,7 +12,10 @@ import frc.robot.subsystems.Arm;
 
 public class ActuateArm extends Command {
   Arm arm;
-
+/**
+ * See Toggle arm.
+ * @param _arm - The arm to take
+ */
   public ActuateArm(Arm _arm) {
     arm = _arm;
     requires(arm);

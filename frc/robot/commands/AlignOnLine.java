@@ -23,7 +23,11 @@ public class AlignOnLine extends Command {
   double pDistance = 0.15;
 
   Ultrasonic ultrasonic;
-
+/**
+ * A "Simple" Command to allign a robot with the alignment line.
+ * @param _drive
+ * @param _ultrasonic
+ */
   public AlignOnLine(Drive _drive, Ultrasonic _ultrasonic) {
     // Use requires() here to declare subsystem dependencies
     requires(_drive);
@@ -70,7 +74,7 @@ public class AlignOnLine extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return false; //Please use this is a while held
   }
 
   // Called once after isFinished returns true

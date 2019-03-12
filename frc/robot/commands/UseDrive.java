@@ -14,7 +14,10 @@ import frc.robot.subsystems.Drive;
  */
 public class UseDrive extends Command {
     private Drive drive;
-
+/**
+ * Simple drive
+ * @param _drive
+ */
     public UseDrive(Drive _drive) {
         super("Drive");
         drive = _drive;

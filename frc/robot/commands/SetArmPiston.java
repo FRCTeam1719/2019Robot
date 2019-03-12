@@ -14,6 +14,12 @@ import frc.robot.subsystems.Arm;
 public class SetArmPiston extends Command {
   Arm arm;
   DoubleSolenoid.Value value;
+
+  /**
+   * Set the arm piston to an expicit value
+   * @param _arm
+   * @param _value
+   */
   public SetArmPiston(Arm _arm, DoubleSolenoid.Value _value) {
     // Use requires() here to declare subsystem dependencies
     arm = _arm;

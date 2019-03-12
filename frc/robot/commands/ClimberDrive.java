@@ -13,7 +13,11 @@ import frc.robot.subsystems.Climber;
 public class ClimberDrive extends Command {
   Climber climber;
   double speed;
-
+/**
+ * set drive speed for the climber wheels
+ * @param _climber
+ * @param _speed
+ */
   public ClimberDrive(Climber _climber, double _speed) {
     // Use requires() here to declare subsystem dependencies
     requires(_climber);

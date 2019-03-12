@@ -142,10 +142,16 @@ public class Arm extends Subsystem {
   public void SetZero() {
     zero = motor.getEncoder().getPosition();
   }
-
+/**
+ * returns the encoder of the arm motor
+ */
   public CANEncoder GetEncoder() {
     return motor.getEncoder();
   }
+  /**
+   * set the elevator of the arm
+   * @param value
+   */
   public void setPiston(DoubleSolenoid.Value value){
     piston.set(value);
   }

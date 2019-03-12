@@ -16,7 +16,9 @@ import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.commands.UseClimber.ClimberOption;
 import frc.robot.subsystems.Climber;
-
+/**
+ * DEPRICATED
+ */
 public class DoAutoClimb extends Command {
   Climber climber;
   float frontTiltRange = 2;

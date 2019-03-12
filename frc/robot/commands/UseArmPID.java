@@ -37,6 +37,10 @@ public class UseArmPID extends Command {
     	
 }
 
+/**
+ * Pid controlled arm
+ * @param _arm
+ */
 
   public UseArmPID(Arm _arm) {
     arm = _arm;

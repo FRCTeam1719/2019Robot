@@ -26,7 +26,10 @@ public class AutoAlign extends Command {
 
   NetworkTableInstance instance;
   NetworkTable chickenVision;
-
+  /**
+   * A "Very Simple" command for aligning with the output of chicken vision.
+   * @param _drive
+   */
   public AutoAlign(Drive _drive) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
@@ -37,11 +40,11 @@ public class AutoAlign extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    chickenVision = instance.getTable("ChickenVision");
+    chickenVision = instance.getTable("ChickenVision"); //Set up chicken vision varrables
 
     tapeDetected = chickenVision.getEntry("tapeDetected");
     cargoDetected = chickenVision.getEntry("cargoDetected");
-    tapeYaw = chickenVision.getEntry("tapeYaw");
+    tapeYaw = chickenVision.getEntry("tapeYaw"); // The one we care about
     cargoYaw = chickenVision.getEntry("cargoYaw");
 
     driveWanted = chickenVision.getEntry("Driver");
@@ -50,7 +53,7 @@ public class AutoAlign extends Command {
 
     videoTimestamp = chickenVision.getEntry("VideoTimestamp");
 
-    driveWanted.setBoolean(false);
+    driveWanted.setBoolean(false); //Tell the chicken vision to look for tape
     tapeWanted.setBoolean(true);
     cargoWanted.setBoolean(false);
     // Checks if vision sees cargo or vision targets. This may not get called unless
@@ -62,7 +65,7 @@ public class AutoAlign extends Command {
   @Override
   protected void execute() {
     UpdateTables();
-    kP = SmartDashboard.getNumber("TTA Kp", kP);
+    kP = SmartDashboard.getNumber("TTA Kp", kP); // Kp is the magic number
     double y = -Robot.oi.getDriverLeftY();
 
     y = y * Math.abs(y);

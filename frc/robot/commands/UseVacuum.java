@@ -14,7 +14,11 @@ import frc.robot.subsystems.Vacuum;
 public class UseVacuum extends Command {
   float speed;
   Vacuum vacuum;
-
+/**
+ * Set vacuum to speed
+ * @param _vacuum
+ * @param _speed
+ */
   public UseVacuum(Vacuum _vacuum, float _speed) {
     // Use requires() here to declare subsystem dependencies
     vacuum = _vacuum;

@@ -9,7 +9,11 @@ public class POVJoystickButton extends Button {
     int povNumber;
     double threshold;
     boolean invert;
-
+/**
+ * Wrapper to make DPad behave like buttons
+ * @param _joystick - Joystick to listen to
+ * @param _povNumber - What number on the Dpad should we listen to
+ */
     public POVJoystickButton(GenericHID _joystick, int _povNumber) {
         joystick = _joystick;
         povNumber = _povNumber;

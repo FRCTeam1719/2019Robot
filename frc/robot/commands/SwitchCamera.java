@@ -16,7 +16,9 @@ public class SwitchCamera extends Command {
   }
 
   SwitchMode mode;
-
+/**
+ * Switch the camera please
+ */
   public SwitchCamera() {
   }
 

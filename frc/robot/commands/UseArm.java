@@ -14,7 +14,10 @@ import frc.robot.subsystems.Arm;
 
 public class UseArm extends Command {
   Arm arm;
-
+/**
+ * The command to use the arm w/o pid
+ * @param _arm
+ */
   public UseArm(Arm _arm) {
     arm = _arm;
     requires(arm);
