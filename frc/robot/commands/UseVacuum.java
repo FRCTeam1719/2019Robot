@@ -30,7 +30,7 @@ public class UseVacuum extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    vacuum.spin(speed);
+    vacuum.set(speed);
   }
 
   // Make this return true when this Command no longer needs to run execute()

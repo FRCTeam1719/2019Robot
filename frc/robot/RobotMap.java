@@ -11,7 +11,9 @@ import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.hal.sim.mockdata.AnalogOutDataJNI;
 import edu.wpi.first.wpilibj.AnalogGyro;
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -20,7 +22,9 @@ import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.interfaces.Potentiometer;
+import frc.robot.sensors.AnalogUltrasonic;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -70,4 +74,5 @@ public static CANSparkMax leftFrontMotor = new CANSparkMax(2, MotorType.kBrushle
   public static DigitalInput backTilt = new DigitalInput(7);
 
 public static Potentiometer armPot = new AnalogPotentiometer(1);
+public static AnalogUltrasonic ultrasonic = new AnalogUltrasonic(new AnalogInput(3));
 } 

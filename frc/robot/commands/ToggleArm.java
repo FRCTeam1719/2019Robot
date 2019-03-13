@@ -12,7 +12,10 @@ import frc.robot.subsystems.Arm;
 
 public class ToggleArm extends Command {
   Arm arm;
-
+/**
+ * See Actuate arm
+ * @param _arm
+ */
   public ToggleArm(Arm _arm) {
     // Use requires() here to declare subsystem dependencies
     arm = _arm;

@@ -95,25 +95,11 @@ public class Robot extends TimedRobot {
   public void disabledInit() {
     climber.kill();
     zero = 0F;    
+
   }
 
   @Override
   public void disabledPeriodic() {
-    float frontTiltRange = 2;
-    float backTiltRange = 3;
-    float TOLERANCE = 1.5F;
-    float adjustedPitch = Robot.navX.getPitch() - zero;
-
-  if (zero == 0) zero = Robot.navX.getPitch();
-
-  boolean frontTilted = (adjustedPitch > frontTiltRange) && !(adjustedPitch < -TOLERANCE);
-  boolean backTilted = (adjustedPitch < -backTiltRange) && !(adjustedPitch > TOLERANCE);
-  boolean closeEnough = Math.abs(adjustedPitch) < TOLERANCE;
-
-  SmartDashboard.putBoolean("closeEnough", closeEnough);
-  SmartDashboard.putBoolean("backTilted", backTilted);
-  SmartDashboard.putBoolean("frontTilted", frontTilted);
-  SmartDashboard.putNumber("Adjusted Pitch", adjustedPitch);
 
   }
 
@@ -168,19 +154,9 @@ float zero;
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
+    SmartDashboard.putNumber("Ultra Distance", RobotMap.ultrasonic.getCM());
 
-    float frontTiltRange = 2;
-    float backTiltRange = 3;
-    float TOLERANCE = .5F;
 
-    boolean frontTilt = (Robot.navX.getPitch() + zero > frontTiltRange);
-    boolean backTilt = (Robot.navX.getPitch() + zero < -backTiltRange);
-    boolean closeEnough = Math.abs(Robot.navX.getPitch() + zero) < TOLERANCE;
-
-    SmartDashboard.putBoolean("closeEnough", closeEnough);
-    SmartDashboard.putBoolean("backTilt", backTilt);
-    SmartDashboard.putBoolean("frontTilt", frontTilt);
-    SmartDashboard.putNumber("Pitch", Robot.navX.getPitch());
     SmartDashboard.putBoolean("Compressing", RobotMap.compressor.enabled());
 
     /*float frontTiltRange = 5;
