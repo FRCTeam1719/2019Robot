@@ -31,7 +31,7 @@ public class XBoxControllerBindings extends DummyOperatorController {
 
     @Override
     public JoystickButton toggleArm() {
-        return new JoystickButton(controller, 7);
+        return new JoystickButton(controller, 5);
     }
 
     @Override
@@ -56,7 +56,7 @@ public class XBoxControllerBindings extends DummyOperatorController {
 
     @Override
     public JoystickButton armGoUp() {
-        return null;
+        return new JoystickButton(controller, 6);
     }
 
     @Override

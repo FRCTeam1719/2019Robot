@@ -25,7 +25,7 @@ PIDSourceType source = PIDSourceType.kDisplacement;
      * multiply the raw by a found constant
      */
     public double getCM() {
-        return ultasonic.get * 255.608659214108; //This is just the slope that fits mesured distances well don't worry about it.
+        return ultrasonic.getVoltage() * 255.608659214108; //This is just the slope that fits mesured distances well don't worry about it.
     }
     
     @Override

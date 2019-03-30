@@ -13,7 +13,7 @@ import frc.robot.subsystems.Vacuum;
 
 public class UseReleaseValve extends Command {
   Vacuum vacuum;
-  int BURST
+  int BURST;
   public UseReleaseValve(Vacuum vacuum) {
     requires(vacuum);
     this.vacuum = vacuum;
@@ -24,13 +24,13 @@ public class UseReleaseValve extends Command {
   protected void initialize() {
     BURST = 500;
     vacuum.release();
-    vacuum.set(0F);
+    vacuum.spin(0F);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if!(BURST <= 0){
+    if (!(BURST <= 0)) {
       vacuum.release();
     }
     else {
@@ -48,7 +48,7 @@ public class UseReleaseValve extends Command {
   @Override
   protected void end() {
     vacuum.suck();
-    vacuum.set(.9F);
+    vacuum.spin(.9F);
   }
 
   // Called when another command which requires one or more of the same

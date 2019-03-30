@@ -62,7 +62,7 @@ public class OI {
   // button.whenReleased(new ExampleCommand());
 
   DummyDriverController driverJoystick = new ChineseController(0);
-  DummyOperatorController operatorJoystick = new FinalController(1);
+  DummyOperatorController operatorJoystick = new XBoxControllerBindings(1);
 
   private int dpad;
 
@@ -77,6 +77,7 @@ public class OI {
   public double getDriverLeftY() {
     return driverJoystick.getLeftY();
   }
+  
 
   public double getDriverRightX() {
     return driverJoystick.getRightX();
@@ -136,7 +137,7 @@ public class OI {
     // toggleArmButton.whenPressed(new ToggleArm(Robot.arm));
     toggleArmButton.whileHeld(new UseReleaseValve(Robot.vacuum));
     JoystickButton climbDrive = operatorJoystick.climberDriveButton();
-    climbDrive.whenPressed(new ClimberDrive(Robot.climber, .35));
+    climbDrive.whenPressed(new ClimberDrive(Robot.climber, .45));
     climbDrive.whenReleased(new ClimberDrive(Robot.climber, 0));
 
     JoystickButton armGoUp = operatorJoystick.armGoUp();
