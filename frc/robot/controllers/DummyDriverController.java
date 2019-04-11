@@ -42,4 +42,6 @@ public abstract class DummyDriverController {
 
     public abstract JoystickButton cameraSwitch();
 
+    public abstract JoystickButton lightButton();
+
 }

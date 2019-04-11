@@ -64,12 +64,12 @@ public class Arm extends Subsystem {
       speed = speed;
       zero = motor.getEncoder().getPosition();
     }
-    if (lowerLimitSwitch.get()) {
+    /*if (lowerLimitSwitch.get()) {
       speed = Math.min(speed, 0);
     }
     else if (upperLimitSwitch.get()) {
       speed = Math.max(speed, 0);
-    }
+    }*/
     motor.set(speed);
   }
 

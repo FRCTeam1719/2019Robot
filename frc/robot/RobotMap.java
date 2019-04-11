@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -73,6 +74,7 @@ public static CANSparkMax leftFrontMotor = new CANSparkMax(2, MotorType.kBrushle
   public static DigitalInput frontTilt = new DigitalInput(8);
   public static DigitalInput backTilt = new DigitalInput(7);
 
+  public static Relay photonCannon = new Relay(0);
 public static Potentiometer armPot = new AnalogPotentiometer(1);
 public static AnalogUltrasonic ultrasonic = new AnalogUltrasonic(new AnalogInput(3));
 } 

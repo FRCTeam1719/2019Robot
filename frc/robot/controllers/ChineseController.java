@@ -78,6 +78,11 @@ public class ChineseController extends DummyDriverController {
     public JoystickButton cameraSwitch() {
         return new JoystickButton(controller, 3);
     }
+
+    @Override
+    public JoystickButton lightButton() {
+        return new JoystickButton(controller, 4);
+    }
     
 
 }

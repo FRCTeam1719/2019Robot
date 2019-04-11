@@ -14,9 +14,12 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.BreakMode;
 import frc.robot.commands.ClimberDrive;
 import frc.robot.commands.DoAutoClimb;
+import frc.robot.commands.SetPhotonCannon;
 import frc.robot.commands.SwitchCamera;
 import frc.robot.commands.ToggleArm;
+import frc.robot.commands.TrackTarget;
 import frc.robot.commands.UseClimber;
+import frc.robot.commands.UseDriveRotPID;
 import frc.robot.commands.UseFakeShift;
 import frc.robot.commands.UseReleaseValve;
 import frc.robot.commands.UseVacuum;
@@ -166,7 +169,10 @@ public class OI {
     JoystickButton cameraButton = driverJoystick.cameraSwitch();
     cameraButton.whenPressed(new SwitchCamera());
 
-
+    JoystickButton lightButton = driverJoystick.lightButton();
+    lightButton.whenPressed(new SetPhotonCannon(Robot.photonCannon, true));
+    lightButton.whenReleased(new SetPhotonCannon(Robot.photonCannon, false));
+    lightButton.whileHeld(new TrackTarget(Robot.drive));
     // Turn to angle
     dpad = driverJoystick.getDPAD();
     double angleUnit = 45; // 360/8

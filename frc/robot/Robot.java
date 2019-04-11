@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.SetPhotonCannon;
 import frc.robot.commands.SwitchCamera;
 import frc.robot.commands.UseClimber;
 import frc.robot.commands.UseVacuum;
@@ -24,6 +25,7 @@ import frc.robot.commands.UseClimber.ClimberOption;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.PhotonCannon;
 import frc.robot.subsystems.Vacuum;
 
 /**
@@ -39,6 +41,7 @@ public class Robot extends TimedRobot {
   public static Vacuum vacuum;
   public static Arm arm;
   public static AHRS navX;
+  public static PhotonCannon photonCannon;
 
   public static OI oi;
 
@@ -57,6 +60,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    photonCannon = new PhotonCannon(RobotMap.photonCannon);
     navX = RobotMap.navX;
     drive = new Drive(RobotMap.leftFrontMotor, RobotMap.rightFrontMotor, RobotMap.leftBackMotor,
         RobotMap.rightBackMotor, RobotMap.navX, RobotMap.leftSensor, RobotMap.centerSensor, RobotMap.rightSensor, RobotMap.gyro);
@@ -68,7 +72,7 @@ public class Robot extends TimedRobot {
     oi = new OI();
     drive.BrakeMode(IdleMode.kBrake);
     lastClimb = false;
-    SmartDashboard.putString("Camera", "0");
+    SmartDashboard.putString("Camera", "1");
   }
 
   /**
@@ -100,7 +104,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
-
+    SmartDashboard.putNumber("Arm", arm.armPot.get());
+    SmartDashboard.putNumber("Gyro", drive.gyro.getAngle());
   }
 
   /**

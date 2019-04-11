@@ -78,4 +78,8 @@ public class XBoxControllerBindings extends DummyOperatorController {
     public double getY() {
         return controller.getY(Hand.kLeft);
     }
+    public JoystickButton lightButton(){
+        return new JoystickButton(controller, 4);
+
+    }
 }
