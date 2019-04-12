@@ -33,8 +33,8 @@ public class SwitchCamera extends Command {
     System.out.println("donba" + tmp);
     int outgoing = -1;
     if(tmp == 1){
-      outgoing = 0;
-    }else if (tmp == 0){
+      outgoing = 2;
+    }else if (tmp == 2){
       outgoing = 1;
     }
     SmartDashboard.putString("Camera", Integer.toString(outgoing));

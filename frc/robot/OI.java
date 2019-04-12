@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.BreakMode;
 import frc.robot.commands.ClimberDrive;
+import frc.robot.commands.CompVisionSwitch;
 import frc.robot.commands.DoAutoClimb;
 import frc.robot.commands.SetPhotonCannon;
 import frc.robot.commands.SwitchCamera;
@@ -167,7 +168,7 @@ public class OI {
 
 
     JoystickButton cameraButton = driverJoystick.cameraSwitch();
-    cameraButton.whenPressed(new SwitchCamera());
+    cameraButton.whenPressed(new CompVisionSwitch());
 
     JoystickButton lightButton = driverJoystick.lightButton();
     lightButton.whenPressed(new SetPhotonCannon(Robot.photonCannon, true));

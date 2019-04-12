@@ -22,7 +22,8 @@ public class TrackTarget extends Command {
     private Drive drive;
 
     private PIDController anglePID;
-    private double Kp, Ki, Kd = 0;
+    private double Ki, Kd = 0;
+    private double Kp = 0.045;
     private double TOLERANCE = 10;
 
     private double stickTolerance = .01;
