@@ -11,10 +11,10 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Vacuum;
 
-public class UseReleaseValve extends Command {
+public class UseReleaseValveTime extends Command {
   Vacuum vacuum;
   int BURST;
-  public UseReleaseValve(Vacuum vacuum) {
+  public UseReleaseValveTime(Vacuum vacuum) {
     requires(vacuum);
     this.vacuum = vacuum;
     }

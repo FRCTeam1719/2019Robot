@@ -159,6 +159,8 @@ float zero;
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
+        SmartDashboard.putNumber("Arm", arm.armPot.get());
+
     SmartDashboard.putNumber("Ultra Distance", RobotMap.ultrasonic.getCM());
 
 

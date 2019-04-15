@@ -49,7 +49,7 @@ public class Arm extends Subsystem {
       Potentiometer _armPot) {
     super("Arm");
 
-    motor = _motor;
+    motor = _motor;  
     piston = _piston;
     upperLimitSwitch = _upperLimitSwitch;
     lowerLimitSwitch = _lowerLimitSwitch;

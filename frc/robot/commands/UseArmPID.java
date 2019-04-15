@@ -15,17 +15,19 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
+import frc.robot.sensors.PotentiometerPIDSource;
 import frc.robot.subsystems.Arm;
 
 public class UseArmPID extends Command {
   Arm arm;
 
-  final double TOLERANCE = 1;
-  final double CONTROL_SCALING = .75;
+  final double TOLERANCE = .001;
+  final double CONTROL_SCALING = .1;
   final double LOW_RANGE_CONTROL_SCALING = .25;
   final double LOW_RANGE_THRESHOLD = -60;
   private double kP, kI, kD, kFF = 0;
   PIDController armPID;
+  PotentiometerPIDSource pidSource;
   private double pidOut;
 
   private class ArmPIDOutput implements PIDOutput {
@@ -41,8 +43,9 @@ public class UseArmPID extends Command {
   public UseArmPID(Arm _arm) {
     arm = _arm;
     requires(arm);
-    arm.armPot.setPIDSourceType(PIDSourceType.kDisplacement);
-    armPID = new PIDController(kP, kI, kD, arm.armPot , new ArmPIDOutput());
+    pidSource = new PotentiometerPIDSource(arm.armPot);
+    pidSource.setPIDSourceType(PIDSourceType.kDisplacement);
+    armPID = new PIDController(kP, kI, kD, pidSource , new ArmPIDOutput());
   }
 
 
@@ -51,7 +54,7 @@ public class UseArmPID extends Command {
   protected void initialize() {
     // _pidCont = arm.getPIDController();
     armPID.setInputRange(0D, 110D);
-    armPID.setOutputRange(-1D, 1D);
+    armPID.setOutputRange(-.5D, .5D);
     armPID.setSetpoint(arm.armPot.get());
     armPID.setPercentTolerance(TOLERANCE);
     armPID.enable();
@@ -67,16 +70,16 @@ public class UseArmPID extends Command {
 
     SetPIDFromDashboard();
 
-    arm.setMotor(Robot.oi.getOperatorY() / 7.5);
+    //arm.setMotor(Robot.oi.getOperatorY() / 7.5);
 
-    if (Math.abs(joystickReading) < TOLERANCE) { // joystick not used, hold arm steady with PID + sinusoidally varing force
+    if (Math.abs(joystickReading) < .25) { // joystick not used, hold arm steady with PID + sinusoidally varing force
       armPID.enable();
       arm.setMotor(pidOut);
     } else { // joystick touched, reset integral and desired pos
       armPID.disable();
-      armPID.setSetpoint(Robot.arm.getArmAngle());
+      armPID.setSetpoint(Robot.arm.armPot.get());
       // Apply control scaling
-      if (Robot.arm.getArmAngle() < LOW_RANGE_THRESHOLD)
+      if (Robot.arm.armPot.get() < LOW_RANGE_THRESHOLD)
         if (Math.abs(joystickReading) < 0) {
           motorSpeed = joystickReading * LOW_RANGE_CONTROL_SCALING;
         } else {
